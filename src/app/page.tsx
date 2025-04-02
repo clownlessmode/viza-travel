@@ -1,3 +1,5 @@
+import About from "@/components/blocks/about";
+import Advantages from "@/components/blocks/advantages";
 import Header from "@/components/blocks/header";
 import Hero from "@/components/blocks/hero";
 import HowToGetInvitation from "@/components/blocks/how-to-get-invitation";
@@ -10,6 +12,8 @@ export default function Home() {
         <Hero />
       </div>
       <HowToGetInvitation />
+      <About />
+      <Advantages />
     </div>
   );
 }
