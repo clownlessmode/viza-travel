@@ -3,6 +3,7 @@ import { H1, H2 } from "../ui/texts";
 import Text from "../ui/texts/Text";
 
 import Image from "next/image";
+import H3 from "../ui/texts/H3";
 
 const cards: CardProps[] = [
   {
@@ -35,7 +36,7 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ image, title, description }) => {
   return (
-    <div className="bg-white p-[24px] flex flex-col justify-between h-[345px] rounded-[24px] w-full">
+    <div className=" bg-white p-[24px] flex flex-col justify-between h-[345px] rounded-[24px] w-full">
       <Image
         alt={title}
         src={`/blocks/advantages/${image}`}
@@ -44,7 +45,8 @@ const Card: FC<CardProps> = ({ image, title, description }) => {
         className="aspect-auto w-full max-w-[200px] self-center"
       />
       <div className="flex flex-col gap-[12px] text-center">
-        <H2>{title}</H2>
+        <H2 className="block sm:hidden">{title}</H2>
+        <H3 className="hidden sm:block">{title}</H3>
         <Text>{description}</Text>
       </div>
     </div>
@@ -53,9 +55,10 @@ const Card: FC<CardProps> = ({ image, title, description }) => {
 
 const Advantages: FC = () => {
   return (
-    <div className="flex flex-col gap-[24px]">
-      <H1 className="text-center">Наши преимущества</H1>
-      <div className="grid gap-[20px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
+    <div className="flex flex-col gap-[24px] w-full">
+      <H1 className="block sm:hidden text-center">Наши преимущества</H1>
+      <H2 className="hidden sm:block text-center">Наши преимущества</H2>
+      <div className="grid gap-[20px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(449px,1fr))] 2xl:grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
         {cards.map((item, index) => (
           <Card {...item} key={index} />
         ))}

@@ -17,7 +17,7 @@ const H2: FC<HTMLAttributes<HTMLHeadingElement>> = ({
     <h2
       className={cn(
         ...Object.values(headingStyles),
-        "[&>span]:font-sub [&>span]:italic", // стиль для span внутри
+        "[&>span]:text-primary",
         className
       )}
     >

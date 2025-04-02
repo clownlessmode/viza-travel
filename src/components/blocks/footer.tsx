@@ -7,7 +7,7 @@ const Footer: FC = () => {
   return (
     <footer className="flex flex-col rounded-t-[24px] p-[20px] gap-[48px] bg-white">
       <Logotype />
-      <div className="flex flex-row flex-wrap gap-[40px]">
+      <div className="flex flex-row flex-wrap gap-[40px] md:justify-between">
         <nav className="flex flex-col gap-[12px]">
           <NavigationText>
             <Link href={"#"}>Процесс</Link>
@@ -38,7 +38,7 @@ const Footer: FC = () => {
             </Link>
           </NavigationText>
         </nav>
-        <nav className="flex flex-col gap-[12px]">
+        <nav className="flex flex-col gap-[12px] max-w-[400px]">
           <NavigationText>
             <Link href={"#"}>
               Юр.адрес : Нижегородская область, М.О. Дивеевский, д. Маевка, ул
@@ -53,18 +53,18 @@ const Footer: FC = () => {
             </Link>
           </NavigationText>
         </nav>
-        <nav className="flex flex-col gap-[12px] opacity-50">
-          <NavigationText>
-            <Link href={"#"}>Пользовательское соглашение</Link>
-          </NavigationText>
-          <NavigationText>
-            <Link href={"#"}>Политика о конфиденциальности</Link>
-          </NavigationText>
-          <NavigationText>
-            <Link href={"#"}>Оферта </Link>
-          </NavigationText>
-        </nav>
       </div>
+      <nav className="flex flex-col md:flex-row gap-[12px] opacity-50 md:justify-between md: max-w-[600px]">
+        <NavigationText>
+          <Link href={"#"}>Пользовательское соглашение</Link>
+        </NavigationText>
+        <NavigationText>
+          <Link href={"#"}>Политика о конфиденциальности</Link>
+        </NavigationText>
+        <NavigationText>
+          <Link href={"#"}>Оферта </Link>
+        </NavigationText>
+      </nav>
     </footer>
   );
 };

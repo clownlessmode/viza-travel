@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { H1 } from "../ui/texts";
+import { H1, H2 } from "../ui/texts";
 import Text from "../ui/texts/Text";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -8,20 +8,26 @@ import LinkText from "../ui/texts/link-text";
 
 const Ready: FC = () => {
   return (
-    <div className="flex flex-col bg-white rounded-[48px]">
+    <div className="flex flex-col bg-white rounded-[48px] xl:flex-row">
       <div
-        className="rounded-[48px] bg-cover bg-center w-full h-[557px]"
+        className="rounded-[48px] bg-cover bg-center w-full h-[557px] xl:w-1/2 xl:h-[850px]"
         style={{
           backgroundImage: "url('/blocks/ready/girl.webp')",
         }}
       ></div>
 
       <div className="flex flex-col p-[24px] gap-[48px]">
-        <H1>Готовы получить визу в Россию? Начните с приглашения.</H1>
+        <H1></H1>
+        <H1 className="block sm:hidden">
+          Готовы получить визу в Россию? <br /> Начните с приглашения.
+        </H1>
+        <H2 className="hidden sm:block">
+          Готовы получить визу в Россию? <br /> Начните с приглашения.
+        </H2>
         <form className="flex flex-col gap-[32px]">
           <Text>
-            Заполните короткую форму — и получите официальный документ уже
-            сегодня.
+            Заполните короткую форму <br /> — и получите официальный документ
+            уже сегодня.
           </Text>
           <div className="flex flex-col gap-[40px]">
             <div className="flex flex-col gap-[24px]">

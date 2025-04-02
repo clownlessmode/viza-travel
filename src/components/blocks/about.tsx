@@ -29,14 +29,14 @@ const About: FC = () => {
             src={"/blocks/about/city1.webp"}
             width={1740}
             height={1600}
-            className="aspect-auto w-full rounded-[24px]"
+            className="aspect-square w-full rounded-[24px] "
           />
           <Image
             alt="russian cities"
             src={"/blocks/about/city2.webp"}
             width={1740}
             height={1600}
-            className="aspect-auto w-full rounded-[24px]"
+            className="aspect-square w-full rounded-[24px]"
           />
         </div>
       </div>
