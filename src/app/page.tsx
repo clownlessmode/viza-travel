@@ -3,6 +3,10 @@ import Advantages from "@/components/blocks/advantages";
 import Header from "@/components/blocks/header";
 import Hero from "@/components/blocks/hero";
 import HowToGetInvitation from "@/components/blocks/how-to-get-invitation";
+import Ready from "@/components/blocks/ready";
+import Faq from "@/components/blocks/faq";
+import Full from "@/components/blocks/full";
+import Footer from "@/components/blocks/footer";
 
 export default function Home() {
   return (
@@ -14,6 +18,10 @@ export default function Home() {
       <HowToGetInvitation />
       <About />
       <Advantages />
+      <Ready />
+      <Faq />
+      <Full />
+      <Footer />
     </div>
   );
 }

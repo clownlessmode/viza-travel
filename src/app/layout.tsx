@@ -29,7 +29,6 @@ export default function RootLayout({
         className={`${font.variable} ${subfont.variable} antialiased bg-[#F4F6FB]`}
       >
         {children}
-        <div className="mt-[100px]"></div>
       </body>
     </html>
   );
