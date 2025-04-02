@@ -67,7 +67,7 @@ const HowToGetInvitation: FC = () => {
       </div>
       <Image
         alt="russian cities"
-        src={"/blocks/invitation/cities.png"}
+        src={"/blocks/invitation/cities.webp"}
         width={1740}
         height={1600}
         className="aspect-auto w-[320px]"

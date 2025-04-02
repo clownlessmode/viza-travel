@@ -8,7 +8,7 @@ const Hero: FC = () => {
     <div
       className="rounded-[48px] px-[20px] pt-[64px] pb-[20px] bg-cover bg-center w-full h-fit"
       style={{
-        backgroundImage: "url('/blocks/hero/background.png')",
+        backgroundImage: "url('/blocks/hero/background.webp')",
       }}
     >
       <H1 className="text-white text-center">

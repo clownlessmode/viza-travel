@@ -12,7 +12,7 @@ const Ready: FC = () => {
       <div
         className="rounded-[48px] bg-cover bg-center w-full h-[557px]"
         style={{
-          backgroundImage: "url('/blocks/ready/girl.png')",
+          backgroundImage: "url('/blocks/ready/girl.webp')",
         }}
       ></div>
 

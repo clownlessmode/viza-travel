@@ -26,14 +26,14 @@ const About: FC = () => {
         <div className="grid gap-[20px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
           <Image
             alt="russian cities"
-            src={"/blocks/about/city1.png"}
+            src={"/blocks/about/city1.webp"}
             width={1740}
             height={1600}
             className="aspect-auto w-full rounded-[24px]"
           />
           <Image
             alt="russian cities"
-            src={"/blocks/about/city2.png"}
+            src={"/blocks/about/city2.webp"}
             width={1740}
             height={1600}
             className="aspect-auto w-full rounded-[24px]"

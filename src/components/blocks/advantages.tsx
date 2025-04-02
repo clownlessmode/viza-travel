@@ -6,22 +6,22 @@ import Image from "next/image";
 
 const cards: CardProps[] = [
   {
-    image: "speed.png",
+    image: "speed.webp",
     title: "Скорость",
     description: "оформление от 5 минут",
   },
   {
-    image: "official.png",
+    image: "official.webp",
     title: "Официальность",
     description: "документы проходят все проверки",
   },
   {
-    image: "accessable.png",
+    image: "accessable.webp",
     title: "Доступность",
     description: "без посредников и переплат",
   },
   {
-    image: "online.png",
+    image: "online.webp",
     title: "Онлайн-сервис",
     description: "всё в цифровом формате, без визита в офис",
   },
