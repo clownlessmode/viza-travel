@@ -6,29 +6,7 @@ import Text from "../ui/texts/Text";
 import ButtonText from "../ui/texts/ButtonText";
 import Image from "next/image";
 import H3 from "../ui/texts/H3";
-
-const cards = [
-  {
-    title: "Оставьте заявку",
-    description:
-      "Выберите тип визы, укажите страну, загрузите паспортные данные и контактную информацию.",
-  },
-  {
-    title: "Подготовка приглашения",
-    description:
-      "Оформляем документ в соответствии с требованиями МВД РФ и консульств.",
-  },
-  {
-    title: "Получение приглашения",
-    description:
-      "Готовое приглашение придет вам на email. Подайте его в консульство и получите визу.",
-  },
-  {
-    title: "Добро пожаловать в Россию!",
-    description:
-      "Путешествуйте, работайте, встречайтесь с партнёрами — без лишних преград.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 interface CardProps {
   index: number;
@@ -52,14 +30,35 @@ const Card: FC<CardProps> = ({ index, title, description }) => {
 };
 
 const HowToGetInvitation: FC = () => {
+  const t = useTranslations("HowToGetInvitation");
+  const cards = [
+    {
+      title: t("zayavka.title"),
+      description: t("zayavka.description"),
+    },
+    {
+      title: t("priglashenie.title"),
+      description: t("priglashenie.description"),
+    },
+    {
+      title: t("poluchenie.title"),
+      description: t("poluchenie.description"),
+    },
+    {
+      title: t("dobro.title"),
+      description: t("dobro.description"),
+    },
+  ];
   return (
-    <div className="flex flex-col xl:flex-row gap-[64px] justify-center items-center xl:justify-between xl:w-full">
+    <div className="flex flex-col xl:flex-row gap-[64px] justify-center items-center xl:items-start xl:justify-between xl:w-full">
       <div className="flex flex-col gap-[24px] sm:gap-[40px]">
         <H1Blue className="block sm:hidden">
-          Как <span>получить</span> приглашение? <br /> Всё просто:
+          {t("heading.left")} <span>{t("heading.span")}</span>{" "}
+          {t("heading.right")} <br /> {t("heading.br")}
         </H1Blue>
         <H2 className="hidden sm:block">
-          Как <span>получить</span> приглашение? <br /> Всё просто:
+          {t("heading.left")} <span>{t("heading.span")}</span>{" "}
+          {t("heading.right")} <br /> {t("heading.br")}{" "}
         </H2>
         <div className="flex flex-col gap-[24px]">
           <div className="grid gap-[20px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] xl:max-w-[939px]">
@@ -67,7 +66,7 @@ const HowToGetInvitation: FC = () => {
               <Card index={index + 1} {...item} key={index} />
             ))}
           </div>
-          <Button>Начать оформление</Button>
+          <Button>{t("button")}</Button>
         </div>
       </div>
       <Image
@@ -75,7 +74,7 @@ const HowToGetInvitation: FC = () => {
         src={"/blocks/invitation/cities.webp"}
         width={1740}
         height={1600}
-        className="aspect-auto w-[320px] sm:w-full xl:max-w-[500px] 2xl:max-w-[600px] xl:w-full xl:h-fit"
+        className="aspect-auto w-[320px] sm:w-full xl:sticky xl:top-[50px] lg:max-w-[720px] xl:max-w-[500px] 2xl:max-w-[600px] xl:w-full xl:h-fit"
       />
     </div>
   );

@@ -4,29 +4,7 @@ import Text from "../ui/texts/Text";
 
 import Image from "next/image";
 import H3 from "../ui/texts/H3";
-
-const cards: CardProps[] = [
-  {
-    image: "speed.webp",
-    title: "Скорость",
-    description: "оформление от 5 минут",
-  },
-  {
-    image: "official.webp",
-    title: "Официальность",
-    description: "документы проходят все проверки",
-  },
-  {
-    image: "accessable.webp",
-    title: "Доступность",
-    description: "без посредников и переплат",
-  },
-  {
-    image: "online.webp",
-    title: "Онлайн-сервис",
-    description: "всё в цифровом формате, без визита в офис",
-  },
-];
+import { useTranslations } from "next-intl";
 
 interface CardProps {
   image: string;
@@ -54,10 +32,33 @@ const Card: FC<CardProps> = ({ image, title, description }) => {
 };
 
 const Advantages: FC = () => {
+  const t = useTranslations("advantages");
+  const cards: CardProps[] = [
+    {
+      image: "speed.webp",
+      title: t("skorost.title"),
+      description: t("skorost.description"),
+    },
+    {
+      image: "official.webp",
+      title: t("official.title"),
+      description: t("skorost.description"),
+    },
+    {
+      image: "accessable.webp",
+      title: t("dost.title"),
+      description: t("dost.description"),
+    },
+    {
+      image: "online.webp",
+      title: t("online.title"),
+      description: t("online.description"),
+    },
+  ];
   return (
     <div className="flex flex-col gap-[24px] w-full">
-      <H1 className="block sm:hidden text-center">Наши преимущества</H1>
-      <H2 className="hidden sm:block text-center">Наши преимущества</H2>
+      <H1 className="block sm:hidden text-center">{t("heading")}</H1>
+      <H2 className="hidden sm:block text-center">{t("heading")}</H2>
       <div className="grid gap-[20px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(449px,1fr))] 2xl:grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
         {cards.map((item, index) => (
           <Card {...item} key={index} />

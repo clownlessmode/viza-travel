@@ -4,6 +4,8 @@ import React, { FC, HTMLAttributes } from "react";
 const paragraphStyle = {
   xs: "text-[14px] leading-[16px] tracking-[0px] font-medium",
 
+  md: "md:text-[16] md:leading-[18px] md:font-normal",
+
   "2xl":
     "2xl:text-[18px] 2xl:leading-[20.2px] 2xl:tracking-[-0px] 2xl:font-normal",
 };

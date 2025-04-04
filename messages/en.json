@@ -1,0 +1,151 @@
+{
+  "header": {
+    "process": "Process",
+    "okompanii": "About",
+    "preimushestva": "Advantages",
+    "faq": "FAQ",
+    "button": "Leave a request"
+  },
+  "hero": {
+    "heading": {
+      "left": "Formalize",
+      "span": "invitation",
+      "right": "to Russia online in 5 minutes"
+    },
+    "desc": "Tourist, business and business visa invitations - no intermediaries, no paperwork. Simple process, official documents, 100% compliance with consulate requirements.",
+    "button": "Get an invitation"
+  },
+  "HowToGetInvitation": {
+    "heading": {
+      "left": "How do",
+      "span": "I get",
+      "right": "an invitation",
+      "br": "It's simple:"
+    },
+    "zayavka": {
+      "title": "Leave a request",
+      "description": "Select your visa type, specify your country, upload your passport details and contact information."
+    },
+    "priglashenie": {
+      "title": "Preparing the invitation",
+      "description": "We formalize the document in accordance with the requirements of the Ministry of Internal Affairs of the Russian Federation and consulates."
+    },
+    "poluchenie": {
+      "title": "Receiving an invitation",
+      "description": "The invitation will be sent to your email. Submit it to the consulate and get your visa."
+    },
+    "dobro": {
+      "title": "Welcome to Russia!",
+      "description": "Travel, work, meet partners - without too many obstacles."
+    },
+    "button": "Start registration"
+  },
+  "about": {
+    "heading": "About",
+    "text1": "We are a professional Russian tour operator specializing in visa support for foreign citizens. Our mission is to simplify the process of entering Russia for tourists, entrepreneurs and business partners.",
+    "text2": "We work with clients from Europe, Asia, Middle East, Africa and other regions. Our documents meet all requirements, pass official checks and are accepted in all Russian consulates. In addition to visa support, we also offer the organization of individual and group tours in Russia."
+  },
+  "advantages": {
+    "heading": "Our advantages",
+    "skorost": {
+      "title": "Speed",
+      "description": "processing from 5 minutes"
+    },
+    "official": {
+      "title": "Officialdom",
+      "description": "documents pass all checks"
+    },
+
+    "dost": {
+      "title": "Accessibility",
+      "description": "without intermediaries and overpayments"
+    },
+
+    "online": {
+      "title": "Online service",
+      "description": "all digitally, no office visits required"
+    }
+  },
+  "form": {
+    "heading": {
+      "text": "Ready to get your visa to Russia?",
+      "br": "Start with an invitation."
+    },
+    "desk": {
+      "text": "Fill out the short form",
+      "br": "— and get an official document today."
+    },
+    "inp": {
+      "name": "Name",
+      "tel": "Phone",
+      "mail": "E-Mail"
+    },
+    "checkbox": {
+      "text1": "By clicking on the button, you agree to the policy regarding the processing of personal data",
+      "text2": "By clicking on the button, you consent to the processing of personal data",
+      "text3": "Memo on Staying of Foreign Citizens and Stateless Persons in the Russian Federation"
+    },
+    "button": "Write to us"
+  },
+  "faq": {
+    "button": "Write to us",
+    "heading": {
+      "text": "Answers to all your questions",
+      "br": "— plain and simple!"
+    },
+    "text": "We have collected the most popular questions about invitations to Russia. Find out how to draw up the documents, how much it costs and how quickly you will receive an invitation. If you still have questions, write to us!",
+    "text1": {
+      "title": "Do I have to list the hotel and its address if the tourist is staying at a private address?",
+      "description": "Yes, you must include the hotel and its address in order to issue a tourist invitation."
+    },
+    "text2": {
+      "title": "What is the difference between tourist and business invitations?",
+      "description": "Tourist invitation - is issued for guests who come to Russia as tourists (sightseeing, acquaintance with Russian culture, etc.). Business invitation (business invitation) - is issued for foreign citizens who come to Russia for the purpose of conducting business negotiations, meetings."
+    },
+    "text3": {
+      "title": "In what cases is it necessary to register foreign citizens?",
+      "description": "A foreign citizen must register if he/she stays on the territory of the Russian Federation for more than 7 days."
+    },
+    "text4": {
+      "title": "What documents are required for registration?",
+      "description": "Passport of a foreign citizen; Russian visa; Migration card (to be filled out by the tourist upon arrival in Russia)."
+    },
+    "text5": {
+      "title": "How to make a tourist invitation online?",
+      "description": "On our website click on the “Visa/Invitation” tab - “Make a visa invitation online”. Or follow the link “Link to the form” Fill out the invitation form according to the instructions (be sure to specify the hotel and its address)."
+    },
+    "text6": {
+      "title": "Is it possible to make changes to an invitation if information about travel dates, name, etc. has been entered incorrectly?",
+      "description": "Yes, we can make changes. You will not need to order a new invitation if you have made mistakes when filling out the online form. Please send your request with corrections to our e-mail address - rossitour@gmail.com."
+    },
+    "text7": {
+      "title": "Will I need a hard copy of the invitation, or will a scan be sufficient?",
+      "description": "This information should be checked with the Consulate of the Russian Federation. Since we do not interact with consulates, we cannot answer this question."
+    },
+    "text8": {
+      "title": "What is the maximum validity period for a tourist visa?",
+      "description": "A tourist visa is issued for a period of up to 30 days with the right for one or two entries. If you have any questions, please contact us at support@visarussia24.ru."
+    },
+    "text9": {
+      "title": "Rules for the stay of a foreign citizen in the Russian Federation",
+      "description": "Dear guest! In order to make your stay comfortable and safe, please read this handbook. It contains important information about the rules of stay in the Russian Federation."
+    }
+  },
+  "full": {
+    "left": "Full Service Package:",
+    "span": "select a",
+    "right": "turnkey tour",
+    "button": "Find a tour"
+  },
+  "footer": {
+    "privacy": "User Agreement",
+    "policy": "Privacy Policy",
+    "oferta": "Offer",
+    "pamyatka": "Leaflet on the stay of foreign citizens",
+    "ws": "Write in WhatsApp",
+    "ogrn": "OGRN",
+    "inn": "INN",
+    "reestr": "Tour operator registration number",
+    "adres": "Legal address : Nizhny Novgorod region, M.O. Diveyevsky, v. Maevka, Rodnikovaya str. 14"
+  }
+}

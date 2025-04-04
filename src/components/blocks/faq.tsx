@@ -8,72 +8,62 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { Button } from "../ui/button";
-const faqs = [
-  {
-    title:
-      "Обязательно указывать гостиницу и ее адрес, если турист останавливается на частном адресе?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title: "В чем различие между туристическим и бизнес приглашениями?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title:
-      "В каких случаях необходимо оформлять регистрацию иностранных граждан?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title: "Какие документы требуются для оформления регистрации?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title: "Как оформить туристическое приглашение онлайн?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title:
-      "Возможно ли внести изменения в приглашение, если информация о сроках поездки, имени и др. была введена неправильно?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title:
-      "Понадобится ли мне бумажная копия приглашения, или скана будет достаточно?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title: "Какой максимальный срок действия туристической визы?",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-  {
-    title: "Правила пребывания иностранного гражданина в Российской Федерации",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus, nesciunt vero! Ipsum consequatur totam cumque non quidem ab atque dolorem tenetur ut, nesciunt harum vel? Veritatis accusantium dolores rem veniam?",
-  },
-];
+import { useTranslations } from "next-intl";
+
 const Faq: FC = () => {
+  const t = useTranslations("faq");
+  const faqs = [
+    {
+      title: t("text1.title"),
+      description: t("text1.description"),
+    },
+    {
+      title: t("text2.title"),
+      description: t("text2.description"),
+    },
+    {
+      title: t("text3.title"),
+      description: t("text3.description"),
+    },
+    {
+      title: t("text4.title"),
+      description: t("text4.description"),
+    },
+    {
+      title: t("text5.title"),
+      description: t("text5.description"),
+    },
+    {
+      title: t("text6.title"),
+      description: t("text6.description"),
+    },
+    {
+      title: t("text7.title"),
+      description: t("text7.description"),
+    },
+    {
+      title: t("text8.title"),
+      description: t("text8.description"),
+    },
+    {
+      title: t("text9.title"),
+      description: t("text9.description"),
+    },
+  ];
   return (
     <div className="flex flex-col gap-x-[24px] gap-y-[40px] w-full">
       <div className="flex flex-col xl:flex-row w-full">
-        <div className="flex flex-col gap-[12px]">
+        <div className="flex flex-col gap-[12px] xl:sticky xl:top-[40px] xl:h-fit">
           <H1 className="block sm:hidden">
-            Ответы на все ваши вопросы <br />— просто и понятно!
+            {t("heading.text")} <br />
+            {t("heading.br")}
           </H1>
           <H2 className="hidden sm:block">
-            Ответы на все ваши вопросы <br />— просто и понятно!
+            {t("heading.text")} <br />
+            {t("heading.br")}
           </H2>
           <Text className="max-w-[540px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
-            Мы собрали самые популярные вопросы о приглашениях в Россию.
-            Узнайте, как оформить документы, сколько это стоит и как быстро вы
-            получите приглашение. Если остались вопросы — напишите нам!
+            {t("text")}
           </Text>
         </div>
         <div className="w-full ">
@@ -95,7 +85,7 @@ const Faq: FC = () => {
           </Accordion>
         </div>
       </div>
-      <Button className="w-full">Написать нам</Button>
+      <Button className="w-full">{t("button")}</Button>
     </div>
   );
 };

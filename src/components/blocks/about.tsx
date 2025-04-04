@@ -2,26 +2,17 @@ import React, { FC } from "react";
 import { H1 } from "../ui/texts";
 import Text from "../ui/texts/Text";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const About: FC = () => {
+  const t = useTranslations("about");
   return (
     <div className="flex flex-col gap-[24px]">
-      <H1>О компании</H1>
+      <H1>{t("heading")}</H1>
       <div className="flex flex-row gap-[24px] flex-wrap">
         <div className="flex flex-col gap-[24px]">
-          <Text>
-            Мы — профессиональный российский туроператор, специализирующийся на
-            визовой поддержке для иностранных граждан. Наша миссия — упростить
-            процесс въезда в Россию для туристов, предпринимателей и деловых
-            партнёров.
-          </Text>
-          <Text>
-            Работаем с клиентами из Европы, Азии, Ближнего Востока, Африки и
-            других регионов. Наши документы соответствуют всем требованиям,
-            проходят официальные проверки и принимаются во всех консульствах РФ.
-            Кроме визовой поддержки, мы также предлагаем организацию
-            индивидуальных и групповых туров по России.
-          </Text>
+          <Text>{t("text1")}</Text>
+          <Text>{t("text2")}</Text>
         </div>
         <div className="grid gap-[20px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
           <Image
