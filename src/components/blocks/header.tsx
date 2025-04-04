@@ -4,6 +4,7 @@ import Image from "next/image";
 import NavigationText from "../ui/texts/navigation-text";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
+import LanguageSwitcher from "./locale-switcher";
 
 const Header: FC = () => {
   const t = useTranslations("header");
@@ -25,7 +26,8 @@ const Header: FC = () => {
           height={40}
         />
       </nav>
-      <nav className="hidden xl:flex">
+      <nav className="hidden xl:flex gap-2">
+        <LanguageSwitcher />
         <Button>{t("button")}</Button>
       </nav>
     </div>
