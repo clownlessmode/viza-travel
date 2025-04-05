@@ -3,6 +3,7 @@ import { H1Blue } from "../ui/texts/H1";
 import { Button } from "../ui/button";
 import { H2 } from "../ui/texts";
 import { useTranslations } from "next-intl";
+import ModalForm from "../modal-form/form";
 
 const Full = () => {
   const t = useTranslations("full");
@@ -22,9 +23,11 @@ const Full = () => {
         {t("left")}
         <br /> <span>{t("span")}</span> {t("right")}
       </H2>
-      <Button className="w-full max-w-[300px] md:max-w-[400px] lg:max-w-[600px]">
-        {t("button")}
-      </Button>
+      <ModalForm>
+        <Button className="w-full max-w-[300px] md:max-w-[400px] lg:max-w-[600px]">
+          {t("button")}
+        </Button>
+      </ModalForm>
     </div>
   );
 };

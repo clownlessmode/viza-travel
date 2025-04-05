@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
+import ModalForm from "../modal-form/form";
 
 const Faq: FC = () => {
   const t = useTranslations("faq");
@@ -85,7 +86,9 @@ const Faq: FC = () => {
           </Accordion>
         </div>
       </div>
-      <Button className="w-full">{t("button")}</Button>
+      <ModalForm>
+        <Button className="w-full">{t("button")}</Button>
+      </ModalForm>
     </div>
   );
 };

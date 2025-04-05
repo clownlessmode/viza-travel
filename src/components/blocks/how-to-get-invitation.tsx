@@ -7,6 +7,7 @@ import ButtonText from "../ui/texts/ButtonText";
 import Image from "next/image";
 import H3 from "../ui/texts/H3";
 import { useTranslations } from "next-intl";
+import ModalForm from "../modal-form/form";
 
 interface CardProps {
   index: number;
@@ -69,7 +70,9 @@ const HowToGetInvitation: FC = () => {
               <Card index={index + 1} {...item} key={index} />
             ))}
           </div>
-          <Button>{t("button")}</Button>
+          <ModalForm>
+            <Button>{t("button")}</Button>
+          </ModalForm>
         </div>
       </div>
       <Image

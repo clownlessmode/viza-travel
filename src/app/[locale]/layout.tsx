@@ -4,6 +4,7 @@ import "../globals.css";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { Toaster } from "@/components/ui/sonner";
 const font = Manrope({
   variable: "--font",
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export default async function RootLayout({
       <body
         className={`${font.variable} ${subfont.variable} antialiased bg-[#F4F6FB]`}
       >
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          {children} <Toaster />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

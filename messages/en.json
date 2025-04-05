@@ -71,6 +71,14 @@
       "text": "Ready to get your visa to Russia?",
       "br": "Start with an invitation."
     },
+    "errors": {
+      "required": "This field is required",
+      "email": "Invalid email address"
+    },
+    "toast": {
+      "title": "Application submitted",
+      "description": "You have successfully submitted the form. We will contact you soon!"
+    },
     "desk": {
       "text": "Fill out the short form",
       "br": "— and get an official document today."

@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./locale-switcher";
 import Link from "next/link";
+import ModalForm from "../modal-form/form";
 
 const Header: FC = () => {
   const t = useTranslations("header");
@@ -37,7 +38,9 @@ const Header: FC = () => {
       </nav>
       <nav className="hidden xl:flex gap-2">
         <LanguageSwitcher />
-        <Button>{t("button")}</Button>
+        <ModalForm>
+          <Button>{t("button")}</Button>
+        </ModalForm>
       </nav>
     </div>
   );

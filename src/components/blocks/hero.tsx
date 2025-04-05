@@ -3,6 +3,7 @@ import { H1 } from "../ui/texts";
 import Text from "../ui/texts/Text";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
+import ModalForm from "../modal-form/form";
 
 const Hero: FC = () => {
   const t = useTranslations("hero");
@@ -21,9 +22,11 @@ const Hero: FC = () => {
       <Text className="mt-[12px] text-center text-white max-w-[800px]">
         {t("desc")}
       </Text>
-      <Button className="mt-[200px] w-full max-w-[440px] sm:max-w-none md:max-w-[800px] 2xl:max-w-[870px]">
-        {t("button")}
-      </Button>
+      <ModalForm>
+        <Button className="mt-[200px] w-full max-w-[440px] sm:max-w-none md:max-w-[800px] 2xl:max-w-[870px]">
+          {t("button")}
+        </Button>
+      </ModalForm>
     </div>
   );
 };
