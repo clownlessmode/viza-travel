@@ -6,4 +6,5 @@ export const schema = z.object({
   vizaType: z.string(),
   peoples: z.string(),
   tourType: z.string(),
+  vizaTypeTwo: z.string().min(1, "Обязательное поле"),
 });

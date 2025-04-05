@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Тип одной опции
 export type ComboboxOption = {
@@ -33,6 +34,7 @@ interface ComboboxProps {
   searchPlaceholder?: string;
   emptyText?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 export function Combobox({
@@ -43,6 +45,7 @@ export function Combobox({
   searchPlaceholder = "Поиск...",
   emptyText = "Ничего не найдено",
   className,
+  disabled = false,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -50,7 +53,7 @@ export function Combobox({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className="w-full">
+      <PopoverTrigger asChild className="w-full" disabled={disabled}>
         <Button
           variant="outline"
           role="combobox"
@@ -71,34 +74,36 @@ export function Combobox({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-full p-0">
+      <PopoverContent className="p-0 popover-content-width-full" align="start">
         <Command className="w-full">
           <CommandInput className="w-full" placeholder={searchPlaceholder} />
           <CommandList className="w-full">
-            <CommandEmpty className="w-full">{emptyText}</CommandEmpty>
-            <CommandGroup className="w-full">
-              {options.map((option) => (
-                <CommandItem
-                  className="w-full"
-                  key={option.value + option.label + String(new Date())}
-                  value={option.value}
-                  onSelect={(currentValue) => {
-                    if (currentValue !== value) {
-                      onChange?.(currentValue);
-                    }
-                    setOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === option.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {option.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            <ScrollArea className="h-[300px]" type="auto">
+              <CommandEmpty className="w-full">{emptyText}</CommandEmpty>
+              <CommandGroup className="w-full">
+                {options.map((option) => (
+                  <CommandItem
+                    className="w-full"
+                    key={option.value + option.label + String(new Date())}
+                    value={option.value}
+                    onSelect={(currentValue) => {
+                      if (currentValue !== value) {
+                        onChange?.(currentValue);
+                      }
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === option.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {option.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </ScrollArea>
           </CommandList>
         </Command>
       </PopoverContent>

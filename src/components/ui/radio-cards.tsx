@@ -17,6 +17,7 @@ export interface RadioCardsProps extends RadioGroup.RadioGroupProps {
   options: Option[];
   className?: string;
   columns?: number;
+  disabled?: boolean;
 }
 
 const RadioCards: FC<RadioCardsProps> = ({
@@ -25,6 +26,8 @@ const RadioCards: FC<RadioCardsProps> = ({
   onValueChange,
   defaultValue,
   className,
+  disabled = false,
+
   ...props
 }) => {
   const [openCard, setOpenCard] = useState<string | null>(value ?? null);
@@ -40,6 +43,7 @@ const RadioCards: FC<RadioCardsProps> = ({
 
   return (
     <RadioGroup.Root
+      disabled={disabled}
       value={value}
       onValueChange={handleToggle}
       defaultValue={defaultValue ?? options[0]?.value}
@@ -65,9 +69,9 @@ const RadioCards: FC<RadioCardsProps> = ({
               <div className="size-5 border border-black group-data-[state=checked]:border-primary rounded-full flex items-center justify-center">
                 <RadioGroup.Indicator className="size-3 bg-primary rounded-full" />
               </div>
-              <div className="flex-1 flex flex-row pl-2 gap-[36px] text-[18px] ">
+              <div className="flex-1 flex flex-row pl-2 gap-x-[36px] gap-y-0 text-[18px] flex-wrap">
                 <p className="w-[90px]">{option.label}</p>
-                <p>{option.description}</p>
+                <p className="w-[133px]">{option.description}</p>
                 <p className="font-bold">{option.price}</p>
               </div>
               {option.table && (
