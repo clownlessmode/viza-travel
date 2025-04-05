@@ -50,7 +50,10 @@ const HowToGetInvitation: FC = () => {
     },
   ];
   return (
-    <div className="flex flex-col xl:flex-row gap-[64px] justify-center items-center xl:items-start xl:justify-between xl:w-full">
+    <div
+      id="process"
+      className="flex flex-col xl:flex-row gap-[64px] justify-center items-center xl:items-start xl:justify-between xl:w-full"
+    >
       <div className="flex flex-col gap-[24px] sm:gap-[40px]">
         <H1Blue className="block sm:hidden">
           {t("heading.left")} <span>{t("heading.span")}</span>{" "}

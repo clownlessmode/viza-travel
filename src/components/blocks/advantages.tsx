@@ -56,7 +56,7 @@ const Advantages: FC = () => {
     },
   ];
   return (
-    <div className="flex flex-col gap-[24px] w-full">
+    <div className="flex flex-col gap-[24px] w-full" id="advantages">
       <H1 className="block sm:hidden text-center">{t("heading")}</H1>
       <H2 className="hidden sm:block text-center">{t("heading")}</H2>
       <div className="grid gap-[20px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(449px,1fr))] 2xl:grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">

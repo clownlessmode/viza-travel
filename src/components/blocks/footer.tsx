@@ -14,19 +14,19 @@ const Footer: FC = () => {
       <div className="flex flex-row flex-wrap gap-[40px] md:justify-between">
         <nav className="flex flex-col gap-[12px]">
           <NavigationText>
-            <Link href={"#"}>{h("process")}</Link>
+            <Link href={"/#process"}>{h("process")}</Link>
           </NavigationText>
           <NavigationText>
-            <Link href={"#"}>{h("okompanii")}</Link>
+            <Link href={"/#about"}>{h("okompanii")}</Link>
           </NavigationText>
           <NavigationText>
-            <Link href={"#"}>{h("preimushestva")}</Link>
+            <Link href={"/#advantages"}>{h("preimushestva")}</Link>
           </NavigationText>
           <NavigationText>
-            <Link href={"#"}>{h("faq")}</Link>
+            <Link href={"/#faq"}>{h("faq")}</Link>
           </NavigationText>
           <NavigationText>
-            <Link href={"#"}>{t("pamyatka")}</Link>
+            <Link href={"jotting"}>{t("pamyatka")}</Link>
           </NavigationText>
         </nav>
         <nav className="flex flex-col gap-[12px]">
@@ -57,13 +57,13 @@ const Footer: FC = () => {
       </div>
       <nav className="flex flex-col md:flex-row gap-[12px] opacity-50 md:justify-between md: max-w-[600px]">
         <NavigationText>
-          <Link href={"#"}>{t("privacy")}</Link>
+          <Link href={"agreement"}>{t("privacy")}</Link>
         </NavigationText>
         <NavigationText>
-          <Link href={"#"}>{t("policy")}</Link>
+          <Link href={"policy"}>{t("policy")}</Link>
         </NavigationText>
         <NavigationText>
-          <Link href={"#"}>{t("oferta")}</Link>
+          <Link href={"offer"}>{t("oferta")}</Link>
         </NavigationText>
       </nav>
     </footer>

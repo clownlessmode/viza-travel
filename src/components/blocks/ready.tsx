@@ -40,24 +40,18 @@ const Ready: FC = () => {
               <div className="flex flex-row gap-[12px] items-center">
                 <Checkbox />
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href={"privacy-policy"}>
-                    {t("checkbox.text1")}
-                  </LinkText>
+                  <LinkText href={"policy"}>{t("checkbox.text1")}</LinkText>
                 </label>
               </div>
               <div className="flex flex-row gap-[12px] items-center">
                 <Checkbox />
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href={"privacy-policy"}>
-                    {t("checkbox.text2")}
-                  </LinkText>
+                  <LinkText href={"policy"}>{t("checkbox.text2")}</LinkText>
                 </label>
               </div>
               <div className="flex flex-row gap-[12px] items-center pl-[calc(24px+12px)]">
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href={"privacy-policy"}>
-                    {t("checkbox.text3")}
-                  </LinkText>
+                  <LinkText href={"policy"}>{t("checkbox.text3")}</LinkText>
                 </label>
               </div>
             </div>

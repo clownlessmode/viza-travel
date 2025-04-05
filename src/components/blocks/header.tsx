@@ -5,6 +5,7 @@ import NavigationText from "../ui/texts/navigation-text";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./locale-switcher";
+import Link from "next/link";
 
 const Header: FC = () => {
   const t = useTranslations("header");
@@ -13,10 +14,18 @@ const Header: FC = () => {
     <div className="flex flex-row w-full justify-between items-center">
       <Logotype />
       <nav className="hidden xl:flex flex-row gap-[32px]">
-        <NavigationText>{t("process")}</NavigationText>
-        <NavigationText>{t("okompanii")}</NavigationText>
-        <NavigationText>{t("preimushestva")}</NavigationText>
-        <NavigationText>{t("faq")}</NavigationText>
+        <Link href={"/#process"}>
+          <NavigationText>{t("process")}</NavigationText>
+        </Link>
+        <Link href={"/#about"}>
+          <NavigationText>{t("okompanii")}</NavigationText>
+        </Link>
+        <Link href={"/#advantages"}>
+          <NavigationText>{t("preimushestva")}</NavigationText>
+        </Link>
+        <Link href={"/#faq"}>
+          <NavigationText>{t("faq")}</NavigationText>
+        </Link>
       </nav>
       <nav className="block xl:hidden">
         <Image

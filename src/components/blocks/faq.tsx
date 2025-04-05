@@ -51,7 +51,7 @@ const Faq: FC = () => {
     },
   ];
   return (
-    <div className="flex flex-col gap-x-[24px] gap-y-[40px] w-full">
+    <div id="faq" className="flex flex-col gap-x-[24px] gap-y-[40px] w-full">
       <div className="flex flex-col xl:flex-row w-full">
         <div className="flex flex-col gap-[12px] xl:sticky xl:top-[40px] xl:h-fit">
           <H1 className="block sm:hidden">
