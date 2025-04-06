@@ -66,35 +66,7 @@
       "description": "all digitally, no office visits required"
     }
   },
-  "form": {
-    "heading": {
-      "text": "Ready to get your visa to Russia?",
-      "br": "Start with an invitation."
-    },
-    "errors": {
-      "required": "This field is required",
-      "email": "Invalid email address"
-    },
-    "toast": {
-      "title": "Application submitted",
-      "description": "You have successfully submitted the form. We will contact you soon!"
-    },
-    "desk": {
-      "text": "Fill out the short form",
-      "br": "— and get an official document today."
-    },
-    "inp": {
-      "name": "Name",
-      "tel": "Phone",
-      "mail": "E-Mail"
-    },
-    "checkbox": {
-      "text1": "By clicking on the button, you agree to the policy regarding the processing of personal data",
-      "text2": "By clicking on the button, you consent to the processing of personal data",
-      "text3": "Memo on Staying of Foreign Citizens and Stateless Persons in the Russian Federation"
-    },
-    "button": "Write to us"
-  },
+
   "faq": {
     "button": "Write to us",
     "heading": {
@@ -156,5 +128,241 @@
     "reestr": "Tour operator registration number",
     "adres": "Legal address : Nizhny Novgorod region, M.O. Diveyevsky, v. Maevka, Rodnikovaya str. 14"
   },
-  "selectlang": "Выберите язык"
+  "selectlang": "Выберите язык",
+  "tours": {
+    "inc": "Included:",
+    "msc": "Moscow",
+    "Economy": {
+      "label": "Economy",
+      "description": "4 days / 3 nights",
+      "table": [
+        "3 nights in a 3★ hotel",
+        "1 day of guided tour with transportation",
+        "Sights: Red Square, St. Basil's Cathedral, Arbat Street, Moscow Metro",
+        "Invitation support"
+      ]
+    },
+    "Standard": {
+      "label": "Standard",
+      "description": "5 days / 4 nights",
+      "table": [
+        "4 nights in a 3★ hotel with breakfast",
+        "2 days of guided tours with transportation",
+        "Main attractions: Red Square, Kremlin (outside), Victory Park, Moscow City, Gorky Park, Vernissage in Izmailovo",
+        "Airport pick-up",
+        "Invitation support"
+      ]
+    },
+    "Premium": {
+      "label": "Premium",
+      "description": "6 days / 5 nights",
+      "table": [
+        "5 nights in a 3★ hotel with breakfast",
+        "3 days of guided tours, 2 free days",
+        "Full tour program: Red Square, Kremlin (inside), GUM, Arbat Street, Sparrow Hills, Moscow River embankment, and more",
+        "Airport transfer",
+        "Invitation support"
+      ]
+    },
+    "VIP": {
+      "label": "VIP",
+      "description": "7 days / 6 nights",
+      "price": "Individual"
+    }
+  },
+  "extraform": {
+    "back": "Back",
+    "firststep": {
+      "heading": "Invitation to Russia",
+      "form": {
+        "totalLabel": "Order total:",
+        "citizenship": "Citizenship",
+        "citizenshipPlaceholder": "Select a country",
+        "citizenshipSearch": "Search for a country...",
+        "citizenshipEmpty": "Country not found",
+
+        "visaType": "Visa type",
+        "visaTypePlaceholder": "Select visa type",
+        "visaTypeSearch": "Search visa type...",
+        "visaTypeEmpty": "Visa type not found",
+
+        "visaTime": "Visa type and duration",
+        "visaTimePlaceholder": "Select visa type and duration",
+        "visaTimeSearch": "Search visa type and duration...",
+        "visaTimeEmpty": "Visa type and duration not found",
+
+        "peoples": "Number of tourists",
+        "peoplesPlaceholder": "Select number of tourists",
+
+        "tourHeading": "Tours",
+        "tourType": "Tour type",
+
+        "next": "Next"
+      }
+    }
+  },
+  "visa": {
+    "types": {
+      "Электронная виза": "e-Visa",
+      "Туристическая виза": "Tourist Visa",
+      "Бизнес виза": "Business Visa"
+    },
+    "times": {
+      "1 год - Многократная": "1 Year - Multiple Entry",
+      "30 дней - Однократная": "30 Days - Single Entry",
+      "3 месяца - Многократная": "3 Months - Multiple Entry",
+      "6 месяцев - Многократная": "6 Months - Multiple Entry",
+      "3 месяца - Однократная": "3 Months - Single Entry"
+    }
+  },
+  "touristForm": {
+    "back": "Back",
+    "title": "Tourist Information",
+    "total": "Order Total:",
+    "next": "Next",
+
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter last name",
+
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter first name",
+
+    "middleName": "Middle Name",
+    "middleNamePlaceholder": "Enter middle name",
+
+    "birthDate": "Date of Birth",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+
+    "passportNumber": "Passport Number",
+    "passportNumberPlaceholder": "Enter passport number",
+
+    "passportExpiryDate": "Passport Expiry Date",
+    "passportExpiryWarning1": "Note: To apply for an invitation to Russia, your passport must be valid for at least 6 months after the end of your trip.",
+    "passportExpiryWarning2": "Please check your passport expiry date before submitting the request.",
+    "passportExpiryWarning3": "Thank you for your understanding!",
+
+    "entryDate": "Planned Entry Date to Russia",
+    "exitDate": "Planned Exit Date from Russia",
+
+    "citizenship": "Citizenship",
+    "citizenshipPlaceholder": "Select a country",
+    "citizenshipSearch": "Search country...",
+    "citizenshipEmpty": "Country not found",
+
+    "tripPurpose": "Trip Purpose",
+    "tripPurposePlaceholder": "Select trip purpose",
+    "tripPurposeSearch": "Search trip purpose...",
+    "tripPurposeEmpty": "Trip purpose not found",
+
+    "itinerary": "Itinerary and Accommodation",
+    "itineraryPlaceholder": "Enter itinerary and accommodation",
+
+    "additionalInfo": "Additional Information",
+    "additionalInfoPlaceholder": "Enter additional information"
+  },
+  "visitTypes": {
+    "Отдых, экскурсии и знакомство с культурой России": "Leisure, excursions, and exploring Russian culture",
+    "- Участие в конференциях, выставках, посещение официальных мероприятий": "- Attending conferences, exhibitions, and official events"
+  },
+  "contactForm": {
+    "back": "Back",
+    "title": "Invitation to Russia",
+    "total": "Order Total:",
+    "phone": "Phone Number",
+    "phonePlaceholder": "+1 (___) ___-__-__",
+    "email": "Email",
+    "emailPlaceholder": "example@mail.com",
+    "preferredTitle": "Where is it most convenient to contact you?",
+    "whatsapp": "What’s App",
+    "telegram": "Telegram",
+
+    "next": "Next"
+  },
+  "summaryForm": {
+    "back": "Back",
+    "title": "Summary",
+    "citizenship": "Citizenship",
+    "visaType": "Visa Type",
+    "visaTypeTime": "Visa Type and Duration",
+    "peoples": "Number of Tourists",
+    "tourTitle": "Tours",
+    "lastName": "Last Name",
+    "firstName": "First Name",
+    "middleName": "Middle Name",
+    "birthDate": "Date of Birth",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "passportNumber": "Passport Number",
+    "passportExpiryDate": "Passport Expiry Date",
+    "passportExpiryWarning1": "Note: To apply for an invitation to Russia, your passport must be valid for at least 6 months after the end of your trip.",
+    "passportExpiryWarning2": "Please check the expiry date of your passport before submitting.",
+    "passportExpiryWarning3": "Thank you for your understanding!",
+    "entryDate": "Planned Entry Date to Russia",
+    "exitDate": "Planned Exit Date from Russia",
+    "tripPurpose": "Trip Purpose",
+    "itinerary": "Itinerary and Accommodation",
+    "additionalInfo": "Additional Information",
+    "phone": "Phone Number",
+    "email": "Email",
+    "heading": {
+      "text": "Ready to get your visa to Russia?",
+      "br": "Start with an invitation."
+    },
+    "errors": {
+      "required": "This field is required",
+      "email": "Invalid email address"
+    },
+    "toast": {
+      "title": "Application submitted",
+      "description": "You have successfully submitted the form. We will contact you soon!"
+    },
+    "desk": {
+      "text": "Fill out the short form",
+      "br": "— and get an official document today."
+    },
+    "inp": {
+      "name": "Name",
+      "tel": "Phone",
+      "mail": "E-Mail"
+    },
+    "checkbox": {
+      "text1": "By clicking on the button, you agree to the policy regarding the processing of personal data",
+      "text2": "By clicking on the button, you consent to the processing of personal data",
+      "text3": "Memo on Staying of Foreign Citizens and Stateless Persons in the Russian Federation"
+    },
+    "button": "Write to us"
+  },
+  "form": {
+    "heading": {
+      "text": "Ready to get your visa to Russia?",
+      "br": "Start with an invitation."
+    },
+    "errors": {
+      "required": "This field is required",
+      "email": "Invalid email address"
+    },
+    "toast": {
+      "title": "Application submitted",
+      "description": "You have successfully submitted the form. We will contact you soon!"
+    },
+    "desk": {
+      "text": "Fill out the short form",
+      "br": "— and get an official document today."
+    },
+    "inp": {
+      "name": "Name",
+      "tel": "Phone",
+      "mail": "E-Mail"
+    },
+    "checkbox": {
+      "text1": "By clicking on the button, you agree to the policy regarding the processing of personal data",
+      "text2": "By clicking on the button, you consent to the processing of personal data",
+      "text3": "Memo on Staying of Foreign Citizens and Stateless Persons in the Russian Federation"
+    },
+    "success": "The application has been submitted successfully!",
+    "button": "Write to us"
+  }
 }

@@ -67,35 +67,7 @@
       "description": "全部以數位方式進行，無需親臨診所。"
     }
   },
-  "form": {
-    "errors": {
-      "required": "此字段为必填项",
-      "email": "无效的电子邮件地址"
-    },
-    "toast": {
-      "title": "申请已提交",
-      "description": "您已成功提交表格，我们将尽快与您联系！"
-    },
-    "heading": {
-      "text": "準備好取得前往俄羅斯的簽證了嗎？",
-      "br": "從邀請開始。"
-    },
-    "desk": {
-      "text": "填寫簡短表格",
-      "br": "— 並立即取得正式文件。"
-    },
-    "inp": {
-      "name": "名稱",
-      "tel": "電話",
-      "mail": "郵件"
-    },
-    "checkbox": {
-      "text1": "點擊按鈕，即表示您同意個人資料處理政策",
-      "text2": "點擊按鈕，即表示您同意處理個人資料",
-      "text3": "外國公民和無國籍人士在俄羅斯聯邦居留備忘錄"
-    },
-    "button": "寫信給我們"
-  },
+
   "faq": {
     "button": "寫信給我們",
     "heading": {
@@ -156,5 +128,241 @@
     "inn": "TIN",
     "reestr": "旅遊業者登記號碼",
     "adres": "法定地址 : Nizhny Novgorod region, M.O. Diveyevsky, v. Maevka, 14, Rodnikovaya str. Diveyevsky, v. Maevka, 14, Rodnikovaya str."
+  },
+  "tours": {
+    "inc": "包含：",
+    "msc": "莫斯科",
+    "Economy": {
+      "label": "经济型",
+      "description": "4天 / 3晚",
+      "table": [
+        "入住3★酒店3晚",
+        "1天导游和车辆陪同游览",
+        "景点：红场、圣瓦西里大教堂、阿尔巴特街、莫斯科地铁",
+        "提供邀请函支持"
+      ]
+    },
+    "Standard": {
+      "label": "标准型",
+      "description": "5天 / 4晚",
+      "table": [
+        "入住3★酒店4晚，含早餐",
+        "2天导游和交通陪同游览",
+        "主要景点：红场、克里姆林宫（外观）、胜利公园、莫斯科城、高尔基公园、伊兹迈洛沃市场",
+        "机场接机服务",
+        "提供邀请函支持"
+      ]
+    },
+    "Premium": {
+      "label": "高端型",
+      "description": "6天 / 5晚",
+      "table": [
+        "入住3★酒店5晚，含早餐",
+        "3天导游陪同游览，2天自由活动",
+        "全程景点：红场、克里姆林宫（内部）、古姆百货、阿尔巴特街、麻雀山、莫斯科河沿岸等",
+        "机场接送服务",
+        "提供邀请函支持"
+      ]
+    },
+    "VIP": {
+      "label": "尊享型",
+      "description": "7天 / 6晚",
+      "price": "定制价格"
+    }
+  },
+  "extraform": {
+    "back": "返回",
+    "firststep": {
+      "heading": "俄罗斯邀请函",
+      "form": {
+        "totalLabel": "订单总额：",
+        "citizenship": "国籍",
+        "citizenshipPlaceholder": "选择国家",
+        "citizenshipSearch": "搜索国家...",
+        "citizenshipEmpty": "未找到国家",
+
+        "visaType": "签证类型",
+        "visaTypePlaceholder": "选择签证类型",
+        "visaTypeSearch": "搜索签证类型...",
+        "visaTypeEmpty": "未找到签证类型",
+
+        "visaTime": "签证类型和时长",
+        "visaTimePlaceholder": "选择签证类型和时长",
+        "visaTimeSearch": "搜索签证类型和时长...",
+        "visaTimeEmpty": "未找到签证类型和时长",
+
+        "peoples": "游客人数",
+        "peoplesPlaceholder": "选择游客人数",
+
+        "tourHeading": "旅游套餐",
+        "tourType": "旅游类型",
+
+        "next": "下一步"
+      }
+    }
+  },
+  "visa": {
+    "types": {
+      "Электронная виза": "电子签证",
+      "Туристическая виза": "旅游签证",
+      "Бизнес виза": "商务签证"
+    },
+    "times": {
+      "1 год - Многократная": "1年 - 多次入境",
+      "30 дней - Однократная": "30天 - 单次入境",
+      "3 месяца - Многократная": "3个月 - 多次入境",
+      "6 месяцев - Многократная": "6个月 - 多次入境",
+      "3 месяца - Однократная": "3个月 - 单次入境"
+    }
+  },
+
+  "touristForm": {
+    "back": "返回",
+    "title": "游客信息",
+    "total": "订单总额：",
+    "next": "下一步",
+
+    "lastName": "姓氏",
+    "lastNamePlaceholder": "请输入姓氏",
+
+    "firstName": "名字",
+    "firstNamePlaceholder": "请输入名字",
+
+    "middleName": "中间名",
+    "middleNamePlaceholder": "请输入中间名",
+
+    "birthDate": "出生日期",
+    "gender": "性别",
+    "male": "男",
+    "female": "女",
+
+    "passportNumber": "护照号码",
+    "passportNumberPlaceholder": "请输入护照号码",
+
+    "passportExpiryDate": "护照到期日期",
+    "passportExpiryWarning1": "注意：申请俄罗斯邀请函时，护照有效期必须在行程结束后至少六个月。",
+    "passportExpiryWarning2": "请在提交请求前检查护照的有效期。",
+    "passportExpiryWarning3": "感谢您的理解！",
+
+    "entryDate": "计划入境俄罗斯日期",
+    "exitDate": "计划离开俄罗斯日期",
+
+    "citizenship": "国籍",
+    "citizenshipPlaceholder": "请选择国家",
+    "citizenshipSearch": "搜索国家...",
+    "citizenshipEmpty": "未找到相关国家",
+
+    "tripPurpose": "旅行目的",
+    "tripPurposePlaceholder": "请选择旅行目的",
+    "tripPurposeSearch": "搜索旅行目的...",
+    "tripPurposeEmpty": "未找到旅行目的",
+
+    "itinerary": "行程和住宿地点",
+    "itineraryPlaceholder": "请输入行程和住宿地点",
+
+    "additionalInfo": "附加信息",
+    "additionalInfoPlaceholder": "请输入附加信息"
+  },
+  "visitTypes": {
+    "Отдых, экскурсии и знакомство с культурой России": "休闲、观光和了解俄罗斯文化",
+    "- Участие в конференциях, выставках, посещение официальных мероприятий": "- 参加会议、展览和官方活动"
+  },
+  "contactForm": {
+    "back": "返回",
+    "title": "俄罗斯邀请函",
+    "total": "订单总额：",
+    "phone": "电话号码",
+    "phonePlaceholder": "+86 (___) ___-__-__",
+    "email": "电子邮箱",
+    "emailPlaceholder": "example@mail.com",
+    "preferredTitle": "您希望通过哪种方式联系？",
+    "whatsapp": "What’s App",
+    "telegram": "Telegram",
+    "next": "下一步"
+  },
+  "summaryForm": {
+    "back": "返回",
+    "title": "摘要",
+    "citizenship": "国籍",
+    "visaType": "签证类型",
+    "visaTypeTime": "签证类型和时长",
+    "peoples": "游客人数",
+    "tourTitle": "旅游套餐",
+    "lastName": "姓氏",
+    "firstName": "名字",
+    "middleName": "中间名",
+    "birthDate": "出生日期",
+    "gender": "性别",
+    "male": "男",
+    "female": "女",
+    "passportNumber": "护照号码",
+    "passportExpiryDate": "护照到期日期",
+    "passportExpiryWarning1": "注意：申请俄罗斯邀请函时，护照有效期必须在行程结束后至少六个月。",
+    "passportExpiryWarning2": "请在提交前检查护照到期日期。",
+    "passportExpiryWarning3": "感谢您的理解！",
+    "entryDate": "预计入境俄罗斯日期",
+    "exitDate": "预计离开俄罗斯日期",
+    "tripPurpose": "旅行目的",
+    "itinerary": "行程和住宿",
+    "additionalInfo": "附加信息",
+    "phone": "电话号码",
+    "email": "电子邮箱",
+    "errors": {
+      "required": "此字段为必填项",
+      "email": "无效的电子邮件地址"
+    },
+    "toast": {
+      "title": "申请已提交",
+      "description": "您已成功提交表格，我们将尽快与您联系！"
+    },
+    "heading": {
+      "text": "準備好取得前往俄羅斯的簽證了嗎？",
+      "br": "從邀請開始。"
+    },
+    "desk": {
+      "text": "填寫簡短表格",
+      "br": "— 並立即取得正式文件。"
+    },
+    "inp": {
+      "name": "名稱",
+      "tel": "電話",
+      "mail": "郵件"
+    },
+    "checkbox": {
+      "text1": "點擊按鈕，即表示您同意個人資料處理政策",
+      "text2": "點擊按鈕，即表示您同意處理個人資料",
+      "text3": "外國公民和無國籍人士在俄羅斯聯邦居留備忘錄"
+    },
+    "button": "寫信給我們"
+  },
+  "form": {
+    "errors": {
+      "required": "此字段为必填项",
+      "email": "无效的电子邮件地址"
+    },
+    "toast": {
+      "title": "申请已提交",
+      "description": "您已成功提交表格，我们将尽快与您联系！"
+    },
+    "heading": {
+      "text": "準備好取得前往俄羅斯的簽證了嗎？",
+      "br": "從邀請開始。"
+    },
+    "desk": {
+      "text": "填寫簡短表格",
+      "br": "— 並立即取得正式文件。"
+    },
+    "inp": {
+      "name": "名稱",
+      "tel": "電話",
+      "mail": "郵件"
+    },
+    "success": "申请已成功提交！",
+    "checkbox": {
+      "text1": "點擊按鈕，即表示您同意個人資料處理政策",
+      "text2": "點擊按鈕，即表示您同意處理個人資料",
+      "text3": "外國公民和無國籍人士在俄羅斯聯邦居留備忘錄"
+    },
+    "button": "寫信給我們"
   }
 }

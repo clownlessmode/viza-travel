@@ -31,7 +31,7 @@ const Footer: FC = () => {
         </nav>
         <nav className="flex flex-col gap-[12px]">
           <NavigationText>
-            <Link href={"#"}>
+            <Link href={"https://wa.me/9680100024"}>
               {t("ws")} <br />
               +7 (968) 01 000-24
             </Link>

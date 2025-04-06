@@ -28,8 +28,9 @@ import { DATAVIZA } from "@/app/data";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import RadioCards from "@/components/ui/radio-cards";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import useFirstStepStore from "../firstStepStore";
+import { useTranslations } from "next-intl";
 
 export interface VisaDataItem {
   id: number;
@@ -39,104 +40,6 @@ export interface VisaDataItem {
   cost: string;
 }
 
-export const tours = [
-  {
-    value: "Economy",
-    label: "Economy",
-    price: "24 000 ₽",
-    description: "4 day / 3 night",
-    table: [
-      "3 night in a 3★ hotel",
-      "1 day of city tour with a guide and car",
-      "Sights: Red Square, St. Basil's Cathedral, Arbat, Moscow Metro",
-      "Invitation support",
-    ],
-  },
-  {
-    value: "Standard",
-    label: "Standard",
-    price: "34 000 ₽",
-    description: "5 days / 4 nights",
-    table: [
-      "4 nights in a 3★ hotel with breakfasts",
-      "2 days of excursions with a guide and transportation",
-      "Main places: Red Square, Kremlin (outside), Victory Park, Moscow City, Gorky Park, Izmailovo Market.",
-      "Meeting at the airport",
-      "Support by invitation",
-    ],
-  },
-  {
-    value: "Premium",
-    label: "Premium",
-    price: "59 000 ₽",
-    description: "6 days / 5 nights",
-    table: [
-      "5  nights in a 3★ hotel with breakfasts",
-      "3 days of guided tours, 2 free days",
-      "Full excursion program: Red Square, Kremlin (inside), GUM, Arbat, Vorobyovy Gory, Moskva River embankment, etc.",
-      "Airport transfer",
-      "Support by invitation",
-    ],
-  },
-  {
-    value: "VIP",
-    label: "VIP",
-    price: "individually",
-    description: "7 days/ 6 nights",
-  },
-];
-
-// const selectedTour = useMemo(() => {
-//   return tours.find((tour) => tour.value === tourType);
-// }, [tourType]);
-// const minVisaCost = useMemo(() => {
-//   if (!selectedCountryId) return null;
-
-//   // Находим выбранную страну по ID
-//   const selectedCountry = countries.find(
-//     (country) => country.value === selectedCountryId
-//   );
-
-//   if (!selectedCountry) return null;
-
-//   // Фильтруем визы по названию страны
-
-//   if (visasForCountry.length === 0) return null;
-
-//   // Парсим цену
-//   const parseCost = (cost: string) =>
-//     parseFloat(cost.replace("$", "").replace("₽", "").trim());
-
-//   // Находим минимальную визу
-//   const minVisa = visasForCountry.reduce((min, current) => {
-//     return parseCost(current.cost) < parseCost(min.cost) ? current : min;
-//   });
-
-//   return parseCost(minVisa.cost); // Возвращаем число, а не строку
-// }, [selectedCountryId, countries]);
-
-// const totalCost = useMemo(() => {
-//   const tourists = parseInt(peoples || "0", 10);
-//   if (!minVisaCost || !tourists || isNaN(tourists)) return null;
-
-//   let tourCost = 0;
-
-//   if (selectedTour && selectedTour.price !== "individually") {
-//     const parsedTourCost = parseFloat(
-//       selectedTour.price.replace("₽", "").replace(/\s/g, "").trim()
-//     );
-//     if (!isNaN(parsedTourCost)) {
-//       tourCost = parsedTourCost;
-//     }
-//   }
-
-//   const total = minVisaCost * tourists + tourCost / 85;
-
-//   return {
-//     amount: total.toFixed(),
-//     isVip: selectedTour?.price === "individually",
-//   };
-// }, [minVisaCost, peoples, selectedTour]);
 export const useUniqueCountries = (data: VisaDataItem[]): ComboboxOption[] => {
   return useMemo(() => {
     const seen = new Set<string>();
@@ -158,6 +61,8 @@ export const useVisaTypesByCountryId = (
   data: VisaDataItem[],
   countryId: string | undefined
 ): ComboboxOption[] => {
+  const t = useTranslations("visa.types");
+
   return useMemo(() => {
     if (!countryId) return [];
 
@@ -171,16 +76,18 @@ export const useVisaTypesByCountryId = (
         return true;
       })
       .map((item) => ({
-        label: item.type,
+        label: t(item.type) ?? item.type,
         value: item.type,
       }));
-  }, [data, countryId]);
+  }, [data, countryId, t]);
 };
 
 export const useVisaTimesByType = (
   data: VisaDataItem[],
   visaType: string | undefined
 ): ComboboxOption[] => {
+  const t = useTranslations("visa.times");
+
   return useMemo(() => {
     if (!visaType) return [];
 
@@ -194,10 +101,10 @@ export const useVisaTimesByType = (
         return true;
       })
       .map((item) => ({
-        label: item.time,
+        label: t(item.time) ?? item.time,
         value: item.time,
       }));
-  }, [data, visaType]);
+  }, [data, visaType, t]);
 };
 
 export interface VisaDataItem {
@@ -254,12 +161,12 @@ export const useTotalVisaCostInRub = (
 
     const selectedTour = tours.find((t) => t.value === selectedTourValue);
 
-    if (selectedTour?.price === "individually") {
+    if (selectedTour?.value === "VIP") {
       isVip = true;
 
       // Выбираем самый дорогой тур (по цене в рублях)
       const maxTour = tours
-        .filter((t) => t.price !== "individually")
+        .filter((t) => t.value !== "VIP")
         .map((t) => ({
           ...t,
           numPrice: parseFloat(t.price.replace("₽", "").replace(/\s/g, "")),
@@ -269,7 +176,7 @@ export const useTotalVisaCostInRub = (
       if (maxTour) {
         tourCostRub = 0; //maxTour.numPrice;
       }
-    } else if (selectedTour && selectedTour.price !== "individually") {
+    } else if (selectedTour && selectedTour.value !== "VIP") {
       tourCostRub = parseFloat(
         selectedTour.price.replace("₽", "").replace(/\s/g, "")
       );
@@ -296,8 +203,59 @@ export const useTotalVisaCostInRub = (
   ]);
 };
 
+export const useTranslatedTours = () => {
+  const t = useTranslations("tours");
+
+  return [
+    {
+      value: "Economy",
+      label: t("Economy.label"),
+      price: "24 000 ₽",
+      description: t("Economy.description"),
+      table: [
+        t("Economy.table.0"),
+        t("Economy.table.1"),
+        t("Economy.table.2"),
+        t("Economy.table.3"),
+      ],
+    },
+    {
+      value: "Standard",
+      label: t("Standard.label"),
+      price: "34 000 ₽",
+      description: t("Standard.description"),
+      table: [
+        t("Standard.table.0"),
+        t("Standard.table.1"),
+        t("Standard.table.2"),
+        t("Standard.table.3"),
+        t("Standard.table.4"),
+      ],
+    },
+    {
+      value: "Premium",
+      label: t("Premium.label"),
+      price: "59 000 ₽",
+      description: t("Premium.description"),
+      table: [
+        t("Premium.table.0"),
+        t("Premium.table.1"),
+        t("Premium.table.2"),
+        t("Premium.table.3"),
+        t("Premium.table.4"),
+      ],
+    },
+    {
+      value: "VIP",
+      label: t("VIP.label"),
+      price: t("VIP.price"),
+      description: t("VIP.description"),
+    },
+  ];
+};
 const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
   const form = useForm();
+  const tours = useTranslatedTours();
   const { index: currentIndex, setIndex } = useIndexForm();
   const countries = useUniqueCountries(DATAVIZA);
   const { setFirstStepData } = useFirstStepStore();
@@ -331,162 +289,169 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
     });
     setIndex(1);
   }
-  return (
-    <DialogContent className="px-0! py-0! overflow-y-hidden">
-      <ScrollArea className="max-h-[95vh] h-full lg:max-h-[80vh] sm:px-[60px] sm:py-[44px] px-[28px] py-[20px]">
-        <DialogHeader>
-          <DialogDescription>
-            <button
-              className={cn(
-                "sm:text-[24px] text-primary underline underline-offset-4 text-[18px]"
-              )}
-              onClick={onClose}
-            >
-              Назад
-            </button>
-            <div className="flex flex-row sm:gap-[48px] gap-[24px] items-center">
-              {[1, 2, 3, 4].map((_, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "size-3 sm:size-4 rounded-full",
-                    currentIndex === index ? "bg-primary" : "bg-black/10"
-                  )}
-                />
-              ))}
-            </div>
-          </DialogDescription>
-          <DialogTitle>Приглашение в Россию</DialogTitle>
-          {total !== null && (
-            <div className="flex justify-between items-center gap-4 mt-[24px]">
-              <H2FORM className="text-foreground text-nowrap">
-                Сумма заказа:
-              </H2FORM>
-              <Button className="rounded-[8px]! sm:w-[300px]">
-                {total}
-                {isVip ? "₽ VIP" : "₽"}
-              </Button>
-            </div>
-          )}
-          <Separator className="mt-[12px]" />
-        </DialogHeader>
-        <Form {...form}>
-          <form
-            className="space-y-2 mt-[12px] px-1"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
-            <FormField
-              control={form.control}
-              name="citizenship"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Гражданство</FormLabel>
-                  <FormControl>
-                    <Combobox
-                      {...field}
-                      options={countries}
-                      placeholder="Выберите страну"
-                      searchPlaceholder="Поиск страны..."
-                      emptyText="Страна не найдена"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="vizaType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Тип визы</FormLabel>
-                  <FormControl>
-                    <Combobox
-                      disabled={!form.watch("citizenship")}
-                      {...field}
-                      options={visaTypes}
-                      placeholder="Выберите тип визы"
-                      searchPlaceholder="Поиск типа визы..."
-                      emptyText="Тип визы не найдена"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="vizaTypeTwo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Тип и время визы</FormLabel>
-                  <FormControl>
-                    <Combobox
-                      disabled={!form.watch("vizaType")}
-                      {...field}
-                      options={visaTimes}
-                      placeholder="Выберите тип и время визы"
-                      searchPlaceholder="Поиск типа и времени визы..."
-                      emptyText="Тип и время визы не найдена"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="peoples"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Количество туристов</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      min={1}
-                      max={1000}
-                      type="number"
-                      disabled={!form.watch("vizaTypeTwo")}
-                      placeholder="Выберите количество туристов"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+  const t = useTranslations("extraform");
 
-            <div>
-              <DialogTitle>Туры</DialogTitle>
-              <Separator className="mt-[12px]" />
-            </div>
-            <FormField
-              control={form.control}
-              name="tourType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Количество туристов</FormLabel>
-                  <FormControl>
-                    <RadioCards
-                      {...field}
-                      onValueChange={field.onChange}
-                      options={tours}
-                      disabled={!form.watch("peoples")}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              className="mt-[48px] w-full"
-              disabled={!form.formState.isValid}
-            >
-              Далее
+  return (
+    <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
+      <DialogHeader>
+        <DialogDescription>
+          <button
+            className="sm:text-[24px] text-primary underline underline-offset-4 text-[18px]"
+            onClick={onClose}
+          >
+            {t("back")}
+          </button>
+          <div className="flex flex-row sm:gap-[48px] gap-[24px] items-center">
+            {[1, 2, 3, 4].map((_, index) => (
+              <div
+                key={index}
+                className={cn(
+                  "size-3 sm:size-4 rounded-full",
+                  currentIndex === index ? "bg-primary" : "bg-black/10"
+                )}
+              />
+            ))}
+          </div>
+        </DialogDescription>
+
+        <DialogTitle>{t("firststep.heading")}</DialogTitle>
+
+        {total !== null && (
+          <div className="flex justify-between items-center gap-4 mt-[24px]">
+            <H2FORM className="text-foreground text-nowrap">
+              {t("firststep.form.totalLabel")}
+            </H2FORM>
+            <Button className="rounded-[8px]! sm:w-[300px]">
+              {total}
+              {isVip ? "₽ VIP" : "₽"}
             </Button>
-          </form>
-        </Form>
-      </ScrollArea>
+          </div>
+        )}
+
+        <Separator className="mt-[12px]" />
+      </DialogHeader>
+
+      <Form {...form}>
+        <form
+          className="space-y-2 mt-[12px] px-1"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="citizenship"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("firststep.form.citizenship")}</FormLabel>
+                <FormControl>
+                  <Combobox
+                    {...field}
+                    options={countries}
+                    placeholder={t("firststep.form.citizenshipPlaceholder")}
+                    searchPlaceholder={t("firststep.form.citizenshipSearch")}
+                    emptyText={t("firststep.form.citizenshipEmpty")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="vizaType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("firststep.form.visaType")}</FormLabel>
+                <FormControl>
+                  <Combobox
+                    disabled={!form.watch("citizenship")}
+                    {...field}
+                    options={visaTypes}
+                    placeholder={t("firststep.form.visaTypePlaceholder")}
+                    searchPlaceholder={t("firststep.form.visaTypeSearch")}
+                    emptyText={t("firststep.form.visaTypeEmpty")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="vizaTypeTwo"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("firststep.form.visaTime")}</FormLabel>
+                <FormControl>
+                  <Combobox
+                    disabled={!form.watch("vizaType")}
+                    {...field}
+                    options={visaTimes}
+                    placeholder={t("firststep.form.visaTimePlaceholder")}
+                    searchPlaceholder={t("firststep.form.visaTimeSearch")}
+                    emptyText={t("firststep.form.visaTimeEmpty")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="peoples"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("firststep.form.peoples")}</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    min={1}
+                    max={1000}
+                    type="number"
+                    disabled={!form.watch("vizaTypeTwo")}
+                    placeholder={t("firststep.form.peoplesPlaceholder")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div>
+            <DialogTitle>{t("firststep.form.tourHeading")}</DialogTitle>
+            <Separator className="mt-[12px]" />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="tourType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("firststep.form.tourType")}</FormLabel>
+                <FormControl>
+                  <RadioCards
+                    {...field}
+                    onValueChange={field.onChange}
+                    options={tours}
+                    disabled={!form.watch("peoples")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="mt-[48px] w-full"
+            disabled={!form.formState.isValid}
+          >
+            {t("firststep.form.next")}
+          </Button>
+        </form>
+      </Form>
     </DialogContent>
   );
 };

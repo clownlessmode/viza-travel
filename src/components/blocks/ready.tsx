@@ -7,6 +7,14 @@ import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import LinkText from "../ui/texts/link-text";
 import { useTranslations } from "next-intl";
+import { Resend } from "resend";
+const resend = new Resend("re_dyQcBjVf_P1eLQVkJpzdjGaNLYeKU5VJb");
+resend.emails.send({
+  from: "onboarding@resend.dev",
+  to: "clownessmode@bk.ru",
+  subject: "Hello World",
+  html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
+});
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -37,7 +45,35 @@ const Ready: FC = () => {
   });
 
   const onSubmit = (data: FormData) => {
-    console.log("Form Data:", data);
+    resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "clownessmode@bk.ru",
+      subject: "Hello World",
+      html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #eaeaea; border-radius: 8px; background-color: #f9f9f9;">
+        <h2 style="color: #333; text-align: center;">📬 Новая заявка на связь</h2>
+        <p style="font-size: 16px; color: #555;">Вы получили новую заявку с сайта. Ниже приведены данные пользователя:</p>
+        
+        <table style="width: 100%; margin-top: 20px; font-size: 16px; color: #333;">
+          <tr>
+            <td style="padding: 8px; font-weight: bold; width: 120px;">Имя:</td>
+            <td style="padding: 8px;">${data.name}</td>
+          </tr>
+          <tr style="background-color: #f0f0f0;">
+            <td style="padding: 8px; font-weight: bold;">Телефон:</td>
+            <td style="padding: 8px;">${data.tel}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Email:</td>
+            <td style="padding: 8px;">${data.email}</td>
+          </tr>
+        </table>
+
+        <p style="margin-top: 30px; font-size: 14px; color: #999;">Письмо сгенерировано автоматически. Пожалуйста, не отвечайте на него.</p>
+      </div>
+    `,
+    });
+
     toast(t("toast.title"), {
       description: t("toast.description"),
     });

@@ -27,7 +27,6 @@ import H2FORM from "../h2";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-import { ScrollArea } from "@/components/ui/scroll-area";
 import useFirstStepStore, { FirstStepData } from "../firstStepStore";
 
 import useThirdStepStore from "../thirdStepStore";
@@ -35,14 +34,14 @@ import { useForm } from "react-hook-form";
 import useSecondStepStore, { SecondStepData } from "../secondStepStore";
 import { FormValues } from "../three-step/types";
 import RadioCards from "@/components/ui/radio-cards";
-import { tours, useUniqueCountries } from "../first-step/ui";
+import { useTranslatedTours, useUniqueCountries } from "../first-step/ui";
 import PolCards from "@/components/ui/pol-cards";
 import { Checkbox } from "@/components/ui/checkbox";
 import LinkText from "@/components/ui/texts/link-text";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { DATAVIZA } from "@/app/data";
-import { visitTypes } from "../second-step/ui";
+import { useVisitTypes } from "../second-step/ui";
 
 export interface VisaDataItem {
   id: number;
@@ -55,7 +54,70 @@ interface YGUYB extends FirstStepData, SecondStepData, FormValues {
   checkbox1: boolean;
   checkbox2: boolean;
 }
+type VisitTypeItem = {
+  value: string;
+};
+export function getVisitTypesByLocale(
+  locale: string,
+  visitTypes: VisitTypeItem[]
+): { value: string; label: string }[] {
+  return visitTypes.map(({ value }) => {
+    const translatedLabel = visitTypeTranslations[value]?.[locale] ?? value;
+
+    return {
+      value,
+      label: translatedLabel,
+    };
+  });
+}
+// utils/translateVisitType.ts
+
+export function translateVisitType(value: string): string {
+  // Получаем язык из браузера
+  const locale =
+    typeof navigator !== "undefined"
+      ? navigator.language.split("-")[0] // 'en-US' → 'en'
+      : "ru"; // fallback для SSR или node
+
+  const translations: Record<string, Record<string, string>> = {
+    "Отдых, экскурсии и знакомство с культурой России": {
+      ru: "Отдых, экскурсии и знакомство с культурой России",
+      en: "Leisure, excursions, and exploring Russian culture",
+      zh: "休闲、观光和了解俄罗斯文化",
+      ar: "الترفيه والجولات والتعرف على الثقافة الروسية",
+    },
+    "- Участие в конференциях, выставках, посещение официальных мероприятий": {
+      ru: "- Участие в конференциях, выставках, посещение официальных мероприятий",
+      en: "- Attending conferences, exhibitions, and official events",
+      zh: "- 参加会议、展览和官方活动",
+      ar: "- المشاركة في المؤتمرات والمعارض والفعاليات الرسمية",
+    },
+  };
+
+  return translations[value]?.[locale] ?? value;
+}
+// translations/visitTypeTranslations.ts
+export const visitTypeTranslations: Record<string, Record<string, string>> = {
+  "Отдых, экскурсии и знакомство с культурой России": {
+    ru: "Отдых, экскурсии и знакомство с культурой России",
+    en: "Leisure, excursions, and exploring Russian culture",
+    zh: "休闲、观光和了解俄罗斯文化",
+    ar: "الترفيه والجولات والتعرف على الثقافة الروسية",
+  },
+  "- Участие в конференциях, выставках, посещение официальных мероприятий": {
+    ru: "- Участие в конференциях, выставках, посещение официальных мероприятий",
+    en: "- Attending conferences, exhibitions, and official events",
+    zh: "- 参加会议、展览和官方活动",
+    ar: "- المشاركة في المؤتمرات والمعارض والفعاليات الرسمية",
+  },
+};
 const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
+  const t = useTranslations("summaryForm");
+  const x = useTranslations("visa");
+
+  const visitTypes = useVisitTypes();
+
+  const tours = useTranslatedTours();
   const { index: currentIndex, setIndex } = useIndexForm();
   const { setThirdStepData, resetThirdStepData, ...thirdStepData } =
     useThirdStepStore();
@@ -71,7 +133,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
   async function onSubmit(data: YGUYB) {
     // setThirdStepData({ ...values });
     // setIndex(currentIndex + 1);
-    toast.success("Заявка успешно отправлена!");
+    toast.success(t("success"));
     onClose();
     console.log(data);
   }
@@ -90,266 +152,187 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     (country) => country.value === form.watch("citizenship")
   );
 
-  const t = useTranslations("form");
   return (
-    <DialogContent className="px-0! py-0! overflow-y-hidden">
-      <ScrollArea className="max-h-[95vh] h-full lg:max-h-[80vh] sm:px-[60px] sm:py-[44px] px-[28px] py-[20px]">
-        <DialogHeader>
-          <DialogDescription>
-            <button
-              className={cn(
-                "sm:text-[24px] text-primary underline underline-offset-4 text-[18px]"
-              )}
-              onClick={() => setIndex(currentIndex - 1)}
-            >
-              Назад
-            </button>
-            <div className="flex flex-row sm:gap-[48px] gap-[24px] items-center">
-              {[1, 2, 3, 4].map((_, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "size-3 sm:size-4 rounded-full",
-                    currentIndex === index ? "bg-primary" : "bg-black/10"
-                  )}
-                />
-              ))}
-            </div>
-          </DialogDescription>
-          <DialogTitle>Сводка</DialogTitle>
-
-          <Separator className="mt-[12px]" />
-        </DialogHeader>
-        <Form {...form}>
-          <form
-            className="space-y-2 mt-[12px] px-1"
-            onSubmit={form.handleSubmit(onSubmit)}
+    <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
+      <DialogHeader>
+        <DialogDescription>
+          <button
+            className={cn(
+              "sm:text-[24px] text-primary underline underline-offset-4 text-[18px]"
+            )}
+            onClick={() => setIndex(currentIndex - 1)}
           >
-            {/* FIRST */}
-            <FormField
-              control={form.control}
-              name="citizenship"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Гражданство</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled
-                      value={selectedCountry?.label || field.value}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="vizaType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Тип визы</FormLabel>
-                  <FormControl>
-                    <Input disabled {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="vizaTypeTwo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Тип и время визы</FormLabel>
-                  <FormControl>
-                    <Input disabled {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="peoples"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Количество туристов</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      min={1}
-                      max={1000}
-                      type="number"
-                      disabled
-                      placeholder="Выберите количество туристов"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div>
-              <DialogTitle>Туры</DialogTitle>
-              <Separator className="mt-[12px]" />
-            </div>
-            <FormField
-              control={form.control}
-              name="tourType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <RadioCards
-                      {...field}
-                      onValueChange={field.onChange}
-                      options={tours}
-                      disabled
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Фамилия</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Введите фамилию" disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Имя</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Введите имя" disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="middleName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Отчество</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Введите отчество" disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex flex-row gap-2 w-full justify-between items-start">
-              <FormField
-                control={form.control}
-                name="birthDate"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Дата рождения</FormLabel>
-                    <FormControl>
-                      <Input type="date" {...field} disabled />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+            {t("back")}
+          </button>
+          <div className="flex flex-row sm:gap-[48px] gap-[24px] items-center">
+            {[1, 2, 3, 4].map((_, index) => (
+              <div
+                key={index}
+                className={cn(
+                  "size-3 sm:size-4 rounded-full",
+                  currentIndex === index ? "bg-primary" : "bg-black/10"
                 )}
               />
-              <FormField
-                control={form.control}
-                name="gender"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Пол</FormLabel>
-                    <FormControl>
-                      <PolCards
-                        {...field}
-                        disabled
-                        onValueChange={field.onChange}
-                        options={[
-                          {
-                            label: "Муж",
-                            value: "male",
-                          },
-                          {
-                            label: "Жен",
-                            value: "female",
-                          },
-                        ]}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            ))}
+          </div>
+        </DialogDescription>
+        <DialogTitle>{t("title")}</DialogTitle>
+        <Separator className="mt-[12px]" />
+      </DialogHeader>
 
+      <Form {...form}>
+        <form
+          className="space-y-2 mt-[12px] px-1"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          {/* Citizenship */}
+          <FormField
+            control={form.control}
+            name="citizenship"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("citizenship")}</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled
+                    value={selectedCountry?.label || field.value}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Visa Type */}
+          <FormField
+            control={form.control}
+            name="vizaType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("visaType")}</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled
+                    {...field}
+                    value={x(`types.${field.value}`)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Visa Type and Time */}
+          <FormField
+            control={form.control}
+            name="vizaTypeTwo"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("visaTypeTime")}</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled
+                    {...field}
+                    value={x(`times.${field.value}`)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Peoples */}
+          <FormField
+            control={form.control}
+            name="peoples"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("peoples")}</FormLabel>
+                <FormControl>
+                  <Input {...field} type="number" min={1} disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Tours */}
+          <div>
+            <DialogTitle>{t("tourTitle")}</DialogTitle>
+            <Separator className="mt-[12px]" />
+          </div>
+          <FormField
+            control={form.control}
+            name="tourType"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <RadioCards
+                    {...field}
+                    onValueChange={field.onChange}
+                    options={tours}
+                    disabled
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Last Name */}
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("lastName")}</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* First Name */}
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("firstName")}</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Middle Name */}
+          <FormField
+            control={form.control}
+            name="middleName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("middleName")}</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex flex-row gap-2 w-full justify-between items-start">
+            {/* Birth Date */}
             <FormField
               control={form.control}
-              name="passportNumber"
+              name="birthDate"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Номер паспорта</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="number"
-                      disabled
-                      maxLength={30}
-                      placeholder="Введите номер паспорта"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="passportExpiryDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Дата окончания срока действия паспорта</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                  {form.formState.errors.passportExpiryDate && (
-                    <div className="sm:border-2 border flex flex-col gap-2.5 border-destructive bg-[rgba(244, 246, 251, 1)] rounded-[24px] p-[12px] sm:p-[24px] mt-2">
-                      <p>
-                        Обратите внимание: для оформления приглашения в РФ срок
-                        действия вашего паспорта должен составлять не менее 6
-                        месяцев с даты окончания поездки. В противном случае
-                        заявка не может быть принята.
-                      </p>
-                      <p>
-                        Пожалуйста, проверьте срок действия документа перед
-                        отправкой запроса.
-                      </p>
-                      <p>Благодарим за понимание!</p>
-                    </div>
-                  )}
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="entryDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Дата предполагаемого въезда в РФ</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel>{t("birthDate")}</FormLabel>
                   <FormControl>
                     <Input type="date" {...field} disabled />
                   </FormControl>
@@ -357,149 +340,21 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 </FormItem>
               )}
             />
-
+            {/* Gender */}
             <FormField
               control={form.control}
-              name="exitDate"
+              name="gender"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Дата предполагаемого отъезда из РФ</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled type="date" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* <FormField
-              control={form.control}
-              name="citizenship"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Гражданство</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
-            <FormField
-              control={form.control}
-              name="tripPurpose"
-              render={({ field }) => {
-                const selectedOption = visitTypes.find(
-                  (option) => option.value === field.value
-                );
-                return (
-                  <FormItem>
-                    <FormLabel>Цель поездки</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled
-                        value={selectedOption?.label || ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-
-            <FormField
-              control={form.control}
-              name="itinerary"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Маршрут и места проживания</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled
-                      multiple
-                      placeholder="Введите маршрут и места проживания"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="additionalInfo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Дополнительная информация</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      multiple
-                      disabled
-                      placeholder="Введите дополнительную информацию"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Номер телефона</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="+7 (___) ___-__-__"
-                      disabled
-                      type="tel"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Почта</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="example@mail.com"
-                      disabled
-                      type="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div>
-              <DialogTitle>Где Вам удобнее связаться?</DialogTitle>
-              <Separator className="mt-[12px]" />
-            </div>
-            <FormField
-              control={form.control}
-              name="preferredContact"
-              render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
+                  <FormLabel>{t("gender")}</FormLabel>
                   <FormControl>
                     <PolCards
-                      disabled
                       {...field}
+                      disabled
                       onValueChange={field.onChange}
                       options={[
-                        { label: "What’s App", value: "whatsapp" },
-                        { label: "Telegram", value: "telegram" },
-                        { label: "E-mail", value: "email" },
+                        { label: t("male"), value: "male" },
+                        { label: t("female"), value: "female" },
                       ]}
                     />
                   </FormControl>
@@ -507,75 +362,265 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 </FormItem>
               )}
             />
-            {firstStepPrice !== null && (
-              <div className="flex justify-between items-center gap-4 mt-[24px]">
-                <H2FORM className="text-foreground text-nowrap">
-                  Сумма заказа:
-                </H2FORM>
-                <Button className="rounded-[8px]! sm:w-[300px]">
-                  {firstStepPrice}
-                </Button>
-              </div>
+          </div>
+
+          {/* Passport Number */}
+          <FormField
+            control={form.control}
+            name="passportNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("passportNumber")}</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled type="number" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-            <div className="flex flex-col gap-[12px] mt-[24px]">
-              {/* Checkbox 1 */}
-              <div className="flex flex-row gap-[12px] items-center">
-                <Checkbox
-                  checked={form.watch("checkbox1")}
-                  onCheckedChange={(checked) =>
-                    form.setValue("checkbox1", Boolean(checked), {
-                      shouldValidate: true,
-                    })
-                  }
-                />
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href="policy">{t("checkbox.text1")}</LinkText>
-                </label>
-              </div>
-              {form.formState.errors.checkbox1 && (
-                <p className="text-sm text-red-500 pl-8">
-                  {form.formState.errors.checkbox1.message}
-                </p>
-              )}
+          />
 
-              {/* Checkbox 2 */}
-              <div className="flex flex-row gap-[12px] items-center">
-                <Checkbox
-                  checked={form.watch("checkbox2")}
-                  onCheckedChange={(checked) =>
-                    form.setValue("checkbox2", Boolean(checked), {
-                      shouldValidate: true,
-                    })
-                  }
-                />
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href="agreement">{t("checkbox.text2")}</LinkText>
-                </label>
-              </div>
-              {form.formState.errors.checkbox2 && (
-                <p className="text-sm text-red-500 pl-8">
-                  {form.formState.errors.checkbox2.message}
-                </p>
-              )}
+          {/* Passport Expiry */}
+          <FormField
+            control={form.control}
+            name="passportExpiryDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("passportExpiryDate")}</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} disabled />
+                </FormControl>
+                <FormMessage />
+                {form.formState.errors.passportExpiryDate && (
+                  <div className="sm:border-2 border flex flex-col gap-2.5 border-destructive bg-[rgba(244, 246, 251, 1)] rounded-[24px] p-[12px] sm:p-[24px] mt-2">
+                    <p>{t("passportExpiryWarning1")}</p>
+                    <p>{t("passportExpiryWarning2")}</p>
+                    <p>{t("passportExpiryWarning3")}</p>
+                  </div>
+                )}
+              </FormItem>
+            )}
+          />
 
-              {/* Static Policy Text */}
-              <div className="flex flex-row gap-[12px] items-center pl-[calc(24px+12px)]">
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href="policy">{t("checkbox.text3")}</LinkText>
-                </label>
-              </div>
+          {/* Entry Date */}
+          <FormField
+            control={form.control}
+            name="entryDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("entryDate")}</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Exit Date */}
+          <FormField
+            control={form.control}
+            name="exitDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("exitDate")}</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Trip Purpose */}
+          <FormField
+            control={form.control}
+            name="tripPurpose"
+            render={({ field }) => {
+              const selectedOption = visitTypes.find(
+                (option) => option.value === field.value
+              );
+              return (
+                <FormItem>
+                  <FormLabel>{t("tripPurpose")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled
+                      value={
+                        translateVisitType(selectedOption?.label as string) ||
+                        ""
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+
+          {/* Itinerary */}
+          <FormField
+            control={form.control}
+            name="itinerary"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("itinerary")}</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled multiple />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="additionalInfo"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("additionalInfo")}</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled multiple />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("phone")}</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="tel"
+                    disabled
+                    placeholder="+7 (___) ___-__-__"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("email")}</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="email"
+                    disabled
+                    placeholder="example@mail.com"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div>
+            <DialogTitle>Где Вам удобнее связаться?</DialogTitle>
+            <Separator className="mt-[12px]" />
+          </div>
+          <FormField
+            control={form.control}
+            name="preferredContact"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <PolCards
+                    disabled
+                    {...field}
+                    onValueChange={field.onChange}
+                    options={[
+                      { label: "What’s App", value: "whatsapp" },
+                      { label: "Telegram", value: "telegram" },
+                      { label: "E-mail", value: "email" },
+                    ]}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {firstStepPrice !== null && (
+            <div className="flex justify-between items-center gap-4 mt-[24px]">
+              <H2FORM className="text-foreground text-nowrap">
+                Сумма заказа:
+              </H2FORM>
+              <Button className="rounded-[8px]! sm:w-[300px]">
+                {firstStepPrice}
+              </Button>
             </div>
+          )}
+          <div className="flex flex-col gap-[12px] mt-[24px]">
+            {/* Checkbox 1 */}
+            <div className="flex flex-row gap-[12px] items-center">
+              <Checkbox
+                checked={form.watch("checkbox1")}
+                onCheckedChange={(checked) =>
+                  form.setValue("checkbox1", Boolean(checked), {
+                    shouldValidate: true,
+                  })
+                }
+              />
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                <LinkText href="policy">{t("checkbox.text1")}</LinkText>
+              </label>
+            </div>
+            {form.formState.errors.checkbox1 && (
+              <p className="text-sm text-red-500 pl-8">
+                {form.formState.errors.checkbox1.message}
+              </p>
+            )}
 
-            <Button
-              type="submit"
-              className="mt-[48px] w-full"
-              disabled={!form.formState.isValid}
-            >
-              Далее
-            </Button>
-          </form>
-        </Form>
-      </ScrollArea>
+            {/* Checkbox 2 */}
+            <div className="flex flex-row gap-[12px] items-center">
+              <Checkbox
+                checked={form.watch("checkbox2")}
+                onCheckedChange={(checked) =>
+                  form.setValue("checkbox2", Boolean(checked), {
+                    shouldValidate: true,
+                  })
+                }
+              />
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                <LinkText href="agreement">{t("checkbox.text2")}</LinkText>
+              </label>
+            </div>
+            {form.formState.errors.checkbox2 && (
+              <p className="text-sm text-red-500 pl-8">
+                {form.formState.errors.checkbox2.message}
+              </p>
+            )}
+
+            {/* Static Policy Text */}
+            <div className="flex flex-row gap-[12px] items-center pl-[calc(24px+12px)]">
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                <LinkText href="policy">{t("checkbox.text3")}</LinkText>
+              </label>
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            className="mt-[48px] w-full"
+            disabled={
+              !form.formState.isValid ||
+              !form.watch("checkbox2") ||
+              !form.watch("checkbox1")
+            }
+          >
+            {t("button")}
+          </Button>
+        </form>
+      </Form>
     </DialogContent>
   );
 };

@@ -4,6 +4,7 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export interface Option {
   value: string;
@@ -31,7 +32,7 @@ const RadioCards: FC<RadioCardsProps> = ({
   ...props
 }) => {
   const [openCard, setOpenCard] = useState<string | null>(value ?? null);
-
+  const t = useTranslations("tours");
   const handleToggle = (val: string) => {
     if (val === openCard) {
       setOpenCard(null); // закрыть, если уже выбрано
@@ -71,7 +72,7 @@ const RadioCards: FC<RadioCardsProps> = ({
               </div>
               <div className="flex-1 flex flex-row pl-2 gap-x-[36px] gap-y-0 text-[18px] flex-wrap">
                 <p className="w-[90px]">{option.label}</p>
-                <p className="w-[133px]">{option.description}</p>
+                <p className="w-[140px]">{option.description}</p>
                 <p className="font-bold">{option.price}</p>
               </div>
               {option.table && (
@@ -97,8 +98,8 @@ const RadioCards: FC<RadioCardsProps> = ({
                     className="overflow-hidden text-[18px]"
                   >
                     <div className="mt-[12px]">
-                      <p className="font-bold">Moscow</p>
-                      <p className="mt-[8px]">Included:</p>
+                      <p className="font-bold">{t("msc")}</p>
+                      <p className="mt-[8px]">{t("inc")}</p>
                       <ul className="list-disc list-outside pl-4 mt-2">
                         {option.table?.map((item: string, index: number) => (
                           <li key={index}>{item}</li>
