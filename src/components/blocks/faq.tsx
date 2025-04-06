@@ -10,6 +10,7 @@ import {
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 import ModalForm from "../modal-form/form";
+import Link from "next/link";
 
 const Faq: FC = () => {
   const t = useTranslations("faq");
@@ -48,7 +49,9 @@ const Faq: FC = () => {
     },
     {
       title: t("text9.title"),
-      description: t("text9.description"),
+      descriptionleft: t("text9.descriptionleft"),
+      descriptionspan: t("text9.descriptionspan"),
+      descriptionright: t("text9.descriptionright"),
     },
   ];
   return (
@@ -80,7 +83,19 @@ const Faq: FC = () => {
                 className="mb-[12px]"
               >
                 <AccordionTrigger>{item.title}</AccordionTrigger>
-                <AccordionContent>{item.description}</AccordionContent>
+                <AccordionContent>
+                  {item.description ? (
+                    item.description
+                  ) : (
+                    <span className="text-foreground">
+                      {item.descriptionleft}{" "}
+                      <Link href={"jotting"} className="text-primary underline">
+                        {item.descriptionspan}
+                      </Link>{" "}
+                      {item.descriptionright}
+                    </span>
+                  )}
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

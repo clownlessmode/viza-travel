@@ -42,7 +42,7 @@ const Advantages: FC = () => {
     {
       image: "official.webp",
       title: t("official.title"),
-      description: t("skorost.description"),
+      description: t("official.description"),
     },
     {
       image: "accessable.webp",

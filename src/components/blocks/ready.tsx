@@ -8,13 +8,7 @@ import { Checkbox } from "../ui/checkbox";
 import LinkText from "../ui/texts/link-text";
 import { useTranslations } from "next-intl";
 import { Resend } from "resend";
-const resend = new Resend("re_dyQcBjVf_P1eLQVkJpzdjGaNLYeKU5VJb");
-resend.emails.send({
-  from: "onboarding@resend.dev",
-  to: "clownessmode@bk.ru",
-  subject: "Hello World",
-  html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
-});
+const resend = new Resend("re_2af2vhdm_GkXwr3LHBH83mapwoqi9p7b3");
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -46,9 +40,9 @@ const Ready: FC = () => {
 
   const onSubmit = (data: FormData) => {
     resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "clownessmode@bk.ru",
-      subject: "Hello World",
+      from: "support@vizarussia24.ru",
+      to: "eclipselucky@gmail.com",
+      subject: `Новая заявка от ${data.name}`,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #eaeaea; border-radius: 8px; background-color: #f9f9f9;">
         <h2 style="color: #333; text-align: center;">📬 Новая заявка на связь</h2>

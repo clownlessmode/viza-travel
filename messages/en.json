@@ -96,7 +96,7 @@
     },
     "text6": {
       "title": "Is it possible to make changes to an invitation if information about travel dates, name, etc. has been entered incorrectly?",
-      "description": "Yes, we can make changes. You will not need to order a new invitation if you have made mistakes when filling out the online form. Please send your request with corrections to our e-mail address - rossitour@gmail.com."
+      "description": "Yes, we can make changes. You will not need to order a new invitation if you have made mistakes when filling out the online form. Please send your request with corrections to our e-mail address - support@visarussia24.ru."
     },
     "text7": {
       "title": "Will I need a hard copy of the invitation, or will a scan be sufficient?",
@@ -136,7 +136,7 @@
       "label": "Economy",
       "description": "4 days / 3 nights",
       "table": [
-        "3 nights in a 3★ hotel",
+        "3 nights in a 4★ hotel",
         "1 day of guided tour with transportation",
         "Sights: Red Square, St. Basil's Cathedral, Arbat Street, Moscow Metro",
         "Invitation support"
@@ -146,7 +146,7 @@
       "label": "Standard",
       "description": "5 days / 4 nights",
       "table": [
-        "4 nights in a 3★ hotel with breakfast",
+        "4 nights in a 4★ hotel with breakfast",
         "2 days of guided tours with transportation",
         "Main attractions: Red Square, Kremlin (outside), Victory Park, Moscow City, Gorky Park, Vernissage in Izmailovo",
         "Airport pick-up",
@@ -157,7 +157,7 @@
       "label": "Premium",
       "description": "6 days / 5 nights",
       "table": [
-        "5 nights in a 3★ hotel with breakfast",
+        "5 nights in a 4★ hotel with breakfast",
         "3 days of guided tours, 2 free days",
         "Full tour program: Red Square, Kremlin (inside), GUM, Arbat Street, Sparrow Hills, Moscow River embankment, and more",
         "Airport transfer",
