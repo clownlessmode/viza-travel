@@ -37,35 +37,35 @@ const Ready: FC = () => {
       checkbox2: false,
     },
   });
+  // `
+  //       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #eaeaea; border-radius: 8px; background-color: #f9f9f9;">
+  //         <h2 style="color: #333; text-align: center;">📬 Новая заявка на связь</h2>
+  //         <p style="font-size: 16px; color: #555;">Вы получили новую заявку с сайта. Ниже приведены данные пользователя:</p>
 
+  //         <table style="width: 100%; margin-top: 20px; font-size: 16px; color: #333;">
+  //           <tr>
+  //             <td style="padding: 8px; font-weight: bold; width: 120px;">Имя:</td>
+  //             <td style="padding: 8px;">${data.name}</td>
+  //           </tr>
+  //           <tr style="background-color: #f0f0f0;">
+  //             <td style="padding: 8px; font-weight: bold;">Телефон:</td>
+  //             <td style="padding: 8px;">${data.tel}</td>
+  //           </tr>
+  //           <tr>
+  //             <td style="padding: 8px; font-weight: bold;">Email:</td>
+  //             <td style="padding: 8px;">${data.email}</td>
+  //           </tr>
+  //         </table>
+
+  //         <p style="margin-top: 30px; font-size: 14px; color: #999;">Письмо сгенерировано автоматически. Пожалуйста, не отвечайте на него.</p>
+  //       </div>
+  //     `
   const onSubmit = (data: FormData) => {
     resend.emails.send({
       from: "support@vizarussia24.ru",
       to: "eclipselucky@gmail.com",
       subject: `Новая заявка от ${data.name}`,
-      html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #eaeaea; border-radius: 8px; background-color: #f9f9f9;">
-        <h2 style="color: #333; text-align: center;">📬 Новая заявка на связь</h2>
-        <p style="font-size: 16px; color: #555;">Вы получили новую заявку с сайта. Ниже приведены данные пользователя:</p>
-        
-        <table style="width: 100%; margin-top: 20px; font-size: 16px; color: #333;">
-          <tr>
-            <td style="padding: 8px; font-weight: bold; width: 120px;">Имя:</td>
-            <td style="padding: 8px;">${data.name}</td>
-          </tr>
-          <tr style="background-color: #f0f0f0;">
-            <td style="padding: 8px; font-weight: bold;">Телефон:</td>
-            <td style="padding: 8px;">${data.tel}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; font-weight: bold;">Email:</td>
-            <td style="padding: 8px;">${data.email}</td>
-          </tr>
-        </table>
-
-        <p style="margin-top: 30px; font-size: 14px; color: #999;">Письмо сгенерировано автоматически. Пожалуйста, не отвечайте на него.</p>
-      </div>
-    `,
+      text: "HIIIIII",
     });
 
     toast(t("toast.title"), {
