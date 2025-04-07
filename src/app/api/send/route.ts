@@ -4,12 +4,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.NEXT_PUBLIC_MAIL_KEY);
+const resend = new Resend(process.env.MAIL_KEY);
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export const send = async (req: NextApiRequest, res: NextApiResponse) => {
   const { data, error } = await resend.emails.send({
     from: "Acme <onboarding@resend.dev>",
-    to: ["delivered@resend.dev"],
+    to: ["eclipselucky@gmail.com"],
     subject: "Hello world",
     react: await ReadyTemplate({
       tel: "tel",
