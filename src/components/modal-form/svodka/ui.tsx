@@ -42,7 +42,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { DATAVIZA } from "@/app/data";
 import { useVisitTypes } from "../second-step/ui";
-import { VisaApplicationEmailProps } from "@/components/blocks/ready";
+import { VisaApplicationEmailProps } from "@/components/blocks/templates";
 
 export interface VisaDataItem {
   id: number;
@@ -163,9 +163,9 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     } catch (error) {
       console.error("Ошибка сети:", error);
     }
-    // onClose();
-    // form.reset();
-    // setIndex(0);
+    onClose();
+    form.reset();
+    setIndex(0);
 
     console.log(firstStepData, secondStepData.data, thirdStepData);
   }
