@@ -121,6 +121,8 @@
     "button": "尋找旅遊"
   },
   "footer": {
+    "supp": "支持服务",
+    "appl": "邀请函咨询",
     "return": "退款条件",
     "procedure": "服务取消程序",
     "privacy": "使用者協議",

@@ -120,6 +120,8 @@
     "button": "Find a tour"
   },
   "footer": {
+    "supp": "Support service",
+    "appl": "Invitation inquiries",
     "return": "Return conditions",
     "procedure": "Service cancellation procedure",
     "privacy": "User Agreement",

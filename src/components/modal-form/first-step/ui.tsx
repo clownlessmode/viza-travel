@@ -137,7 +137,7 @@ export const useTotalVisaCostInRub = (
   peoples: string | undefined,
   selectedTourValue: string | undefined,
   tours: TourItem[],
-  currencyRate: number = 85 // можно передавать другой курс, если надо
+  currencyRate: number = 85
 ): UseTotalVisaCostRubResult => {
   return useMemo(() => {
     if (!countryId || !visaType || !visaTime) {
@@ -186,7 +186,7 @@ export const useTotalVisaCostInRub = (
       );
     }
 
-    const totalRub = visaCostRubTotal + tourCostRub;
+    const totalRub = visaCostRubTotal + tourCostRub * numPeople;
 
     // Округление вверх до ближайших 1000₽
     const roundedTotal = Math.ceil(totalRub / 1000) * 1000;
