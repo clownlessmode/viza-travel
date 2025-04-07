@@ -7,8 +7,6 @@ import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import LinkText from "../ui/texts/link-text";
 import { useTranslations } from "next-intl";
-import { Resend } from "resend";
-const resend = new Resend("re_2af2vhdm_GkXwr3LHBH83mapwoqi9p7b3");
 
 export const ReadyTemplate: React.FC<Readonly<FormData>> = ({
   name,
@@ -93,17 +91,27 @@ const Ready: FC = () => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    resend.emails.send({
-      from: "support@vizarussia24.ru",
-      to: "eclipselucky@gmail.com",
-      subject: `Новая заявка от ${data.name}`,
-      text: "HIIIIII",
-    });
+  const onSubmit = async (data: FormData) => {
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    toast(t("toast.title"), {
-      description: t("toast.description"),
-    });
+      if (response.ok) {
+        toast(t("toast.title"), {
+          description: t("toast.description"),
+        });
+      } else {
+        const errorData = await response.json();
+        console.error("Ошибка при отправке письма:", errorData);
+      }
+    } catch (error) {
+      console.error("Ошибка сети:", error);
+    }
   };
 
   const t = useTranslations("form");

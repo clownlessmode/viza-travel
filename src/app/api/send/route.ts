@@ -1,28 +1,35 @@
-/* eslint-disable import/no-anonymous-default-export */
-import { ReadyTemplate } from "@/components/blocks/ready";
-import type { NextApiRequest, NextApiResponse } from "next";
+// pages/api/send-email.ts
 
+import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.MAIL_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_MAIL_KEY);
 
-export const send = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { data, error } = await resend.emails.send({
-    from: "Acme <onboarding@resend.dev>",
-    to: ["eclipselucky@gmail.com"],
-    subject: "Hello world",
-    react: await ReadyTemplate({
-      tel: "tel",
-      checkbox1: true,
-      checkbox2: true,
-      email: "mail",
-      name: "123",
-    }),
-  });
-
-  if (error) {
-    return res.status(400).json(error);
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  res.status(200).json(data);
-};
+  try {
+    const { name, email, tel, checkbox1, checkbox2 } = req.body;
+
+    const { error } = await resend.emails.send({
+      from: "support@vizarussia24.ru",
+      to: "eclipselucky@gmail.com",
+      subject: `Новая заявка от ${name}`,
+      text: `Имя: ${name}\nEmail: ${email}\nТелефон: ${tel}\nЧекбокс 1: ${checkbox1}\nЧекбокс 2: ${checkbox2}`,
+    });
+
+    if (error) {
+      return res.status(400).json({ error });
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("Ошибка при отправке письма:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+}
