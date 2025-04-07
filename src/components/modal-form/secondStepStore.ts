@@ -8,7 +8,7 @@ export interface SecondStepData {
   middleName?: string;
   birthDate: string;
   gender: "male" | "female";
-  visaType: string;
+
   passportNumber: string;
   passportExpiryDate: string;
   entryDate: string;
@@ -20,8 +20,15 @@ export interface SecondStepData {
 }
 
 // Типизация Zustand стора
-interface SecondStepStore extends SecondStepData {
-  setSecondStepData: (data: Partial<SecondStepData>) => void;
+interface SecondStepStore {
+  data: SecondStepData[];
+
+  addSecondStepData: (entry: SecondStepData) => void;
+  updateSecondStepData: (
+    index: number,
+    updatedEntry: Partial<SecondStepData>
+  ) => void;
+  removeSecondStepData: (index: number) => void;
   resetSecondStepData: () => void;
 }
 
@@ -29,43 +36,30 @@ interface SecondStepStore extends SecondStepData {
 const useSecondStepStore = create<SecondStepStore>()(
   persist(
     (set) => ({
-      // Начальные значения
-      lastName: "",
-      firstName: "",
-      middleName: "",
-      birthDate: "",
-      gender: "male",
-      visaType: "",
-      passportNumber: "",
-      passportExpiryDate: "",
-      entryDate: "",
-      exitDate: "",
-      citizenship: "",
-      tripPurpose: "",
-      itinerary: "",
-      additionalInfo: "",
+      data: [],
 
-      // Обновление полей (можно обновлять частично)
-      setSecondStepData: (data) => set((state) => ({ ...state, ...data })),
+      // Добавить новый элемент
+      addSecondStepData: (entry) =>
+        set((state) => ({
+          data: [...state.data, entry],
+        })),
 
-      // Сброс всех данных
-      resetSecondStepData: () =>
-        set({
-          lastName: "",
-          firstName: "",
-          middleName: "",
-          birthDate: "",
-          gender: "male",
-          visaType: "",
-          passportNumber: "",
-          passportExpiryDate: "",
-          entryDate: "",
-          exitDate: "",
-          citizenship: "",
-          tripPurpose: "",
-          itinerary: "",
-          additionalInfo: "",
-        }),
+      // Обновить существующий элемент по индексу
+      updateSecondStepData: (index, updatedEntry) =>
+        set((state) => ({
+          data: state.data.map((item, i) =>
+            i === index ? { ...item, ...updatedEntry } : item
+          ),
+        })),
+
+      // Удалить элемент по индексу
+      removeSecondStepData: (index) =>
+        set((state) => ({
+          data: state.data.filter((_, i) => i !== index),
+        })),
+
+      // Сбросить все данные
+      resetSecondStepData: () => set({ data: [] }),
     }),
     {
       name: "second-step-store", // ключ в localStorage

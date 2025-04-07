@@ -107,8 +107,10 @@
       "description": "A tourist visa is issued for a period of up to 30 days with the right for one or two entries. If you have any questions, please contact us at support@visarussia24.ru."
     },
     "text9": {
-      "title": "Rules for the stay of a foreign citizen in the Russian Federation",
-      "description": "Dear guest! In order to make your stay comfortable and safe, please read this handbook. It contains important information about the rules of stay in the Russian Federation."
+      "title": "Rules for the Stay of Foreign Citizens in the Russian Federation",
+      "descriptionleft": "Dear guest! To make your stay comfortable and safe, please read",
+      "descriptionspan": "this memo.",
+      "descriptionright": "It contains important information about the rules of staying in the Russian Federation."
     }
   },
   "full": {

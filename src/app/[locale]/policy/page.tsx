@@ -1,9 +1,11 @@
 import Footer from "@/components/blocks/footer";
 import Header from "@/components/blocks/header";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
 const Page = () => {
+  const localecode = useLocale();
   return (
     <div className="flex flex-col gap-[100px] md:gap-[150px] px-[10px] sm:px-[80px] pt-[14px] w-full h-full min-h-screen ">
       <div className="flex flex-col gap-[14px]">
@@ -11,21 +13,21 @@ const Page = () => {
         <div className="bg-white rounded-[48px] xl:p-[48px] sm:p-[24px] p-[20px]">
           <Image
             className="hidden xl:block"
-            src={"/blocks/docs/policy-1920-1280.svg"}
+            src={`/blocks/docs/policy/${localecode}/policy-1920-1280.svg`}
             alt="doc"
             width={1920}
             height={4000}
           />
           <Image
             className="hidden sm:block xl:hidden"
-            src={"/blocks/docs/policy-1280-640.svg"}
+            src={`/blocks/docs/policy/${localecode}/policy-1280-640.svg`}
             alt="doc"
             width={1920}
             height={4000}
           />
           <Image
             className="block sm:hidden"
-            src={"/blocks/docs/policy-320.svg"}
+            src={`/blocks/docs/policy/${localecode}/policy-320.svg`}
             alt="doc"
             width={1920}
             height={4000}

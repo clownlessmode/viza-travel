@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { H1 } from "../ui/texts";
+import { H1, H2 } from "../ui/texts";
 import Text from "../ui/texts/Text";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -79,7 +79,7 @@ const About: FC = () => {
       >
         <div className="flex flex-col h-full items-start gap-[40px]">
           <div className="flex flex-row gap-[100px]">
-            <H1>{t("heading")}</H1>
+            <H2 className="text-nowrap">{t("heading")}</H2>
             <div className="flex flex-col gap-[24px]">
               <Text>{t("text1")}</Text>
               <Text>{t("text2")}</Text>

@@ -127,15 +127,17 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     firstStepPrice,
     ...firstStepData
   } = useFirstStepStore();
-  const { setSecondStepData, resetSecondStepData, ...secondStepData } =
+  const { addSecondStepData, resetSecondStepData, ...secondStepData } =
     useSecondStepStore();
 
   async function onSubmit(data: YGUYB) {
     // setThirdStepData({ ...values });
-    // setIndex(currentIndex + 1);
     toast.success(t("success"));
     onClose();
-    console.log(data);
+    form.reset();
+    setIndex(0);
+
+    console.log(firstStepData, secondStepData.data, thirdStepData);
   }
 
   const form = useForm<YGUYB>({
@@ -203,7 +205,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
             )}
           />
-
           {/* Visa Type */}
           <FormField
             control={form.control}
@@ -222,7 +223,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
             )}
           />
-
           {/* Visa Type and Time */}
           <FormField
             control={form.control}
@@ -241,7 +241,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
             )}
           />
-
           {/* Peoples */}
           <FormField
             control={form.control}
@@ -256,7 +255,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
             )}
           />
-
           {/* Tours */}
           <div>
             <DialogTitle>{t("tourTitle")}</DialogTitle>
@@ -279,213 +277,113 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
             )}
           />
-
+          {/* SECOND */}
           {/* Last Name */}
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
+          {secondStepData.data.map((traveler, index) => (
+            <React.Fragment key={index}>
               <FormItem>
                 <FormLabel>{t("lastName")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled />
+                  <Input value={traveler.lastName} disabled />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
 
-          {/* First Name */}
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("firstName")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled />
+                  <Input value={traveler.firstName} disabled />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
 
-          {/* Middle Name */}
-          <FormField
-            control={form.control}
-            name="middleName"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("middleName")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled />
+                  <Input value={traveler.middleName || ""} disabled />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
 
-          <div className="flex flex-row gap-2 w-full justify-between items-start">
-            {/* Birth Date */}
-            <FormField
-              control={form.control}
-              name="birthDate"
-              render={({ field }) => (
+              <div className="flex flex-row gap-2 w-full justify-between items-start">
                 <FormItem className="w-full">
                   <FormLabel>{t("birthDate")}</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} disabled />
+                    <Input type="date" value={traveler.birthDate} disabled />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
-              )}
-            />
-            {/* Gender */}
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
+
                 <FormItem className="w-full">
                   <FormLabel>{t("gender")}</FormLabel>
                   <FormControl>
-                    <PolCards
-                      {...field}
+                    <Input
+                      value={
+                        traveler.gender === "male" ? t("male") : t("female")
+                      }
                       disabled
-                      onValueChange={field.onChange}
-                      options={[
-                        { label: t("male"), value: "male" },
-                        { label: t("female"), value: "female" },
-                      ]}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
-              )}
-            />
-          </div>
+              </div>
 
-          {/* Passport Number */}
-          <FormField
-            control={form.control}
-            name="passportNumber"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("passportNumber")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled type="number" />
+                  <Input value={traveler.passportNumber} disabled type="text" />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
 
-          {/* Passport Expiry */}
-          <FormField
-            control={form.control}
-            name="passportExpiryDate"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("passportExpiryDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} disabled />
+                  <Input
+                    type="date"
+                    value={traveler.passportExpiryDate}
+                    disabled
+                  />
                 </FormControl>
-                <FormMessage />
-                {form.formState.errors.passportExpiryDate && (
-                  <div className="sm:border-2 border flex flex-col gap-2.5 border-destructive bg-[rgba(244, 246, 251, 1)] rounded-[24px] p-[12px] sm:p-[24px] mt-2">
-                    <p>{t("passportExpiryWarning1")}</p>
-                    <p>{t("passportExpiryWarning2")}</p>
-                    <p>{t("passportExpiryWarning3")}</p>
-                  </div>
-                )}
               </FormItem>
-            )}
-          />
 
-          {/* Entry Date */}
-          <FormField
-            control={form.control}
-            name="entryDate"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("entryDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} disabled />
+                  <Input type="date" value={traveler.entryDate} disabled />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
 
-          {/* Exit Date */}
-          <FormField
-            control={form.control}
-            name="exitDate"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("exitDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} disabled />
+                  <Input type="date" value={traveler.exitDate} disabled />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
 
-          {/* Trip Purpose */}
-          <FormField
-            control={form.control}
-            name="tripPurpose"
-            render={({ field }) => {
-              const selectedOption = visitTypes.find(
-                (option) => option.value === field.value
-              );
-              return (
-                <FormItem>
-                  <FormLabel>{t("tripPurpose")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled
-                      value={
-                        translateVisitType(selectedOption?.label as string) ||
-                        ""
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
+              <FormItem>
+                <FormLabel>{t("tripPurpose")}</FormLabel>
+                <FormControl>
+                  <Input
+                    value={translateVisitType(
+                      visitTypes.find((v) => v.value === traveler.tripPurpose)
+                        ?.label || traveler.tripPurpose
+                    )}
+                    disabled
+                  />
+                </FormControl>
+              </FormItem>
 
-          {/* Itinerary */}
-          <FormField
-            control={form.control}
-            name="itinerary"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("itinerary")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled multiple />
+                  <Input value={traveler.itinerary} disabled />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
 
-          <FormField
-            control={form.control}
-            name="additionalInfo"
-            render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("additionalInfo")}</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled multiple />
+                  <Input value={traveler.additionalInfo || ""} disabled />
                 </FormControl>
-                <FormMessage />
               </FormItem>
-            )}
-          />
+            </React.Fragment>
+          ))}
+          {/* SECOND END */}
           <FormField
             control={form.control}
             name="phone"
@@ -504,7 +402,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
             )}
           />
-
           {/* Email */}
           <FormField
             control={form.control}
@@ -607,7 +504,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </label>
             </div>
           </div>
-
           <Button
             type="submit"
             className="mt-[48px] w-full"

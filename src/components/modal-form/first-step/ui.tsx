@@ -68,17 +68,21 @@ export const useVisaTypesByCountryId = (
 
     const seen = new Set<string>();
 
-    return data
-      .filter((item) => item.id.toString() === countryId)
-      .filter((item) => {
-        if (seen.has(item.type)) return false;
-        seen.add(item.type);
-        return true;
-      })
-      .map((item) => ({
-        label: t(item.type) ?? item.type,
-        value: item.type,
-      }));
+    return (
+      data
+        .filter((item) => item.id.toString() === countryId)
+        // 👉 Убираем "бизнес-визу"
+        .filter((item) => item.type !== t("Бизнес виза")) // или "Business", в зависимости от данных
+        .filter((item) => {
+          if (seen.has(item.type)) return false;
+          seen.add(item.type);
+          return true;
+        })
+        .map((item) => ({
+          label: t(item.type) ?? item.type,
+          value: item.type,
+        }))
+    );
   }, [data, countryId, t]);
 };
 

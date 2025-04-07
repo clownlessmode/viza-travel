@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 
 import { FormValues } from "./types";
 import useIndexForm from "../indexStore";
@@ -55,38 +55,48 @@ export const useVisitTypes = () => {
 const SecondStep: FC = () => {
   const visitTypes = useVisitTypes();
 
-  // const [peopleIndex, setPeopleIndex] = useState(0);
+  const [peopleIndex, setPeopleIndex] = useState(0);
   const form = useForm();
   const { index: currentIndex, setIndex } = useIndexForm();
   const countries = useUniqueCountries(DATAVIZA);
 
-  const { firstStepPrice } = useFirstStepStore();
-  // citizenship; // Страна из которой отправляемся например Andorra, Australia
-  // vizaType; // Тип визы например бизнес виза
-  const [datas, setDatas] = useState<FormValues[]>([]);
-  const { setSecondStepData } = useSecondStepStore();
+  const { firstStepPrice, peoples } = useFirstStepStore();
+  const { addSecondStepData, data } = useSecondStepStore();
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+
   function onSubmit(values: FormValues) {
-    const updatedDatas = [...datas, values];
-    setDatas(updatedDatas);
+    const isFinal = peopleIndex + 1 === Number(peoples);
 
-    // const isFinal = peopleIndex + 1 === Number(peoples);
+    if (!isFinal) {
+      addSecondStepData({ ...values });
+      form.reset();
+      setPeopleIndex((prev) => prev + 1);
 
-    // if (isFinal) {
-    // Сохраняем данные, переходим к следующему шагу
-    // setTouristData(updatedDatas); // если используешь store
-    //   console.log("Все туристы:", updatedDatas);
-    // } else {
-    // Следующий турист
-    setSecondStepData(values);
-    setIndex(currentIndex + 1);
+      scrollToTop();
 
-    // setPeopleIndex((prev) => prev + 1);
-    // }
+      console.log("Все туристы:", data);
+    } else {
+      addSecondStepData({ ...values });
+      setIndex(currentIndex + 1);
+
+      scrollToTop();
+
+      console.log("Все туристы last:", data);
+    }
   }
   const t = useTranslations("touristForm");
-
+  const scrollToTop = () => {
+    const overlay = document.querySelector('[data-slot="dialog-overlay"]');
+    overlay?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
-    <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
+    <DialogContent
+      className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]"
+      ref={dialogRef}
+    >
       <DialogHeader>
         <DialogDescription>
           <button
@@ -109,7 +119,14 @@ const SecondStep: FC = () => {
             ))}
           </div>
         </DialogDescription>
-        <DialogTitle>{t("title")}</DialogTitle>
+        <DialogTitle className="justify-between">
+          {t("title")}{" "}
+          {Number(peoples) > 1 && (
+            <span className="opacity-50">
+              ({peopleIndex + 1}/{peoples})
+            </span>
+          )}
+        </DialogTitle>
         {firstStepPrice !== null && (
           <div className="flex justify-between items-center gap-4 mt-[24px]">
             <H2FORM className="text-foreground text-nowrap">
