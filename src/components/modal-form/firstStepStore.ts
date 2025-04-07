@@ -6,7 +6,7 @@ import { persist } from "zustand/middleware";
 export interface FirstStepData {
   citizenship: string;
   vizaType: string;
-  peoples: string; // или number, если хочешь хранить как число
+  peoples: string; 
   tourType?: string;
   firstStepPrice: string;
   vizaTypeTwo: string;

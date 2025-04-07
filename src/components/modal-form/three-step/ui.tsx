@@ -48,6 +48,7 @@ const ThirdStep: FC = () => {
 
   function onSubmit(values: FormValues) {
     setThirdStepData({ ...values });
+    
     setIndex(currentIndex + 1);
   }
   const t = useTranslations("contactForm");

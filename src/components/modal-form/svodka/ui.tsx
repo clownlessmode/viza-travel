@@ -42,6 +42,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { DATAVIZA } from "@/app/data";
 import { useVisitTypes } from "../second-step/ui";
+import { VisaApplicationEmailProps } from "@/components/blocks/ready";
 
 export interface VisaDataItem {
   id: number;
@@ -132,7 +133,36 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
 
   async function onSubmit(data: YGUYB) {
     // setThirdStepData({ ...values });
+    const datasss: VisaApplicationEmailProps = {
+      citizenship: firstStepData.citizenship,
+      vizaType: firstStepData.vizaType,
+      peoples: firstStepData.peoples,
+      tourType: firstStepData.tourType,
+      firstStepPrice: firstStepPrice, // 👈 обязательно указать
+      vizaTypeTwo: firstStepData.vizaTypeTwo,
+      data: secondStepData.data, // 👈 массив людей
+      phone: thirdStepData.phone,
+      email: thirdStepData.email,
+      preferredContact: thirdStepData.preferredContact,
+    };
     toast.success(t("success"));
+    try {
+      const response = await fetch("/api/send-form", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datasss),
+      });
+
+      if (response.ok) {
+      } else {
+        const errorData = await response.json();
+        console.error("Ошибка при отправке письма:", errorData);
+      }
+    } catch (error) {
+      console.error("Ошибка сети:", error);
+    }
     onClose();
     form.reset();
     setIndex(0);

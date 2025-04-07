@@ -2,27 +2,22 @@
 
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import { ReadyTemplate } from "@/components/blocks/ready";
+import {
+  FormTemplate,
+  VisaApplicationEmailProps,
+} from "@/components/blocks/ready";
 
 const resend = new Resend(process.env.MAIL_KEY);
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-
-    const { name, email, tel } = body;
+    const body: VisaApplicationEmailProps = await req.json();
 
     const { error } = await resend.emails.send({
       from: "applicans@visarussia24.ru",
       to: "applicans@visarussia24.ru",
-      subject: `Новая заявка на связь от ${name}`,
-      react: await ReadyTemplate({
-        email,
-        name,
-        tel,
-        checkbox1: true,
-        checkbox2: true,
-      }),
+      subject: `Новая заявка от ${name}`,
+      react: await FormTemplate({ ...body }),
     });
 
     if (error) {
