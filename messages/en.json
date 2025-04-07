@@ -120,6 +120,8 @@
     "button": "Find a tour"
   },
   "footer": {
+    "return": "Return conditions",
+    "procedure": "Service cancellation procedure",
     "privacy": "User Agreement",
     "policy": "Privacy Policy",
     "oferta": "Offer",

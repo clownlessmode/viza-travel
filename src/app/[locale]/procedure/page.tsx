@@ -6,7 +6,6 @@ import React from "react";
 
 const Page = () => {
   const localecode = useLocale();
-
   return (
     <div className="flex flex-col gap-[100px] md:gap-[150px] px-[10px] sm:px-[80px] pt-[14px] w-full h-full min-h-screen ">
       <div className="flex flex-col gap-[14px]">
@@ -14,15 +13,14 @@ const Page = () => {
         <div className="bg-white rounded-[48px] xl:p-[48px] sm:p-[24px] p-[20px]">
           <Image
             className="hidden sm:block"
-            src={`/blocks/docs/offer/${localecode}/offer-1920-1280.svg`}
+            src={`/blocks/docs/procedure/${localecode}/procedure-1920-1280.svg`}
             alt="doc"
             width={1920}
             height={4000}
           />
-
           <Image
             className="block sm:hidden"
-            src={`/blocks/docs/offer/${localecode}/offer-320.svg`}
+            src={`/blocks/docs/procedure/${localecode}/procedure-320.svg`}
             alt="doc"
             width={1920}
             height={4000}

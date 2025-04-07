@@ -13,19 +13,13 @@ const Page = () => {
         <Header />
         <div className="bg-white rounded-[48px] xl:p-[48px] sm:p-[24px] p-[20px]">
           <Image
-            className="hidden xl:block"
+            className="hidden sm:block"
             src={`/blocks/docs/jotting/${localecode}/jotting-1920-1280.svg`}
             alt="doc"
             width={1920}
             height={4000}
           />
-          <Image
-            className="hidden sm:block xl:hidden"
-            src={`/blocks/docs/jotting/${localecode}/jotting-1280-640.svg`}
-            alt="doc"
-            width={1920}
-            height={4000}
-          />
+
           <Image
             className="block sm:hidden"
             src={`/blocks/docs/jotting/${localecode}/jotting-320.svg`}

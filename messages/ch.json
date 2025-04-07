@@ -121,6 +121,8 @@
     "button": "尋找旅遊"
   },
   "footer": {
+    "return": "退款条件",
+    "procedure": "服务取消程序",
     "privacy": "使用者協議",
     "policy": "隱私權政策",
     "oferta": "提供",

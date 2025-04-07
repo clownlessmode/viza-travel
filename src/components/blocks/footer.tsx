@@ -55,7 +55,7 @@ const Footer: FC = () => {
           </NavigationText>
         </nav>
       </div>
-      <nav className="flex flex-col md:flex-row gap-[12px] opacity-50 md:justify-between md: max-w-[600px]">
+      <nav className="text-nowrap! flex flex-col md:flex-row gap-[12px] opacity-50 md:justify-between">
         <NavigationText>
           <Link href={"agreement"}>{t("privacy")}</Link>
         </NavigationText>
@@ -64,6 +64,12 @@ const Footer: FC = () => {
         </NavigationText>
         <NavigationText>
           <Link href={"offer"}>{t("oferta")}</Link>
+        </NavigationText>
+        <NavigationText>
+          <Link href={"procedure"}>{t("procedure")}</Link>
+        </NavigationText>
+        <NavigationText>
+          <Link href={"return"}>{t("return")}</Link>
         </NavigationText>
       </nav>
     </footer>
