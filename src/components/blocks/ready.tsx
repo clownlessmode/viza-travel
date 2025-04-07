@@ -102,9 +102,6 @@ const Ready: FC = () => {
       });
 
       if (response.ok) {
-        toast(t("toast.title"), {
-          description: t("toast.description"),
-        });
       } else {
         const errorData = await response.json();
         console.error("Ошибка при отправке письма:", errorData);
@@ -112,6 +109,9 @@ const Ready: FC = () => {
     } catch (error) {
       console.error("Ошибка сети:", error);
     }
+    toast(t("toast.title"), {
+      description: t("toast.description"),
+    });
   };
 
   const t = useTranslations("form");
