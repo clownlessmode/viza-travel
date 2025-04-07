@@ -79,6 +79,7 @@ const Header: FC = () => {
                   {t("faq")}
                 </NavigationText>
               </Link>
+              <LanguageSwitcher />
             </nav>
             <SheetClose asChild>
               <ModalForm>
