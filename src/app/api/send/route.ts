@@ -1,20 +1,15 @@
-// pages/api/send-email.ts
+// src/app/api/send/route.ts
 
-import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
+import { NextResponse } from "next/server";
 
-const resend = new Resend(process.env.NEXT_PUBLIC_MAIL_KEY);
+const resend = new Resend(process.env.MAIL_KEY);
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
-  }
-
+export async function POST(req: Request) {
   try {
-    const { name, email, tel, checkbox1, checkbox2 } = req.body;
+    const body = await req.json();
+
+    const { name, email, tel, checkbox1, checkbox2 } = body;
 
     const { error } = await resend.emails.send({
       from: "support@vizarussia24.ru",
@@ -24,12 +19,12 @@ export default async function handler(
     });
 
     if (error) {
-      return res.status(400).json({ error });
+      return NextResponse.json({ error }, { status: 400 });
     }
 
-    return res.status(200).json({ success: true });
+    return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("Ошибка при отправке письма:", err);
-    res.status(500).json({ message: "Server Error" });
+    console.error("Ошибка сервера:", err);
+    return NextResponse.json({ message: "Server Error" }, { status: 500 });
   }
 }
