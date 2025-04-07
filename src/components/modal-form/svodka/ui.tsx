@@ -163,9 +163,9 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     } catch (error) {
       console.error("Ошибка сети:", error);
     }
-    onClose();
-    form.reset();
-    setIndex(0);
+    // onClose();
+    // form.reset();
+    // setIndex(0);
 
     console.log(firstStepData, secondStepData.data, thirdStepData);
   }
