@@ -2,7 +2,7 @@
 
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import { ReadyTemplate } from "@/components/blocks/ready";
+import { ReadyTemplate } from "@/components/blocks/templates";
 
 const resend = new Resend(process.env.MAIL_KEY);
 
@@ -16,13 +16,11 @@ export async function POST(req: Request) {
       from: "applicans@visarussia24.ru",
       to: "applicans@visarussia24.ru",
       subject: `Новая заявка на связь от ${name}`,
-      react: await ReadyTemplate({
+      react: ReadyTemplate({
         email,
         name,
         tel,
-        checkbox1: true,
-        checkbox2: true,
-      }),
+      }) as React.ReactElement,
     });
 
     if (error) {
