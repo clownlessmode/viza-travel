@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
-import ModalForm from "../modal-form/form";
 import Link from "next/link";
 
 const Faq: FC = () => {
@@ -101,9 +100,9 @@ const Faq: FC = () => {
           </Accordion>
         </div>
       </div>
-      <ModalForm>
+      <Link href={"mailto:support@visarussia24.ru"}>
         <Button className="w-full">{t("button")}</Button>
-      </ModalForm>
+      </Link>
     </div>
   );
 };

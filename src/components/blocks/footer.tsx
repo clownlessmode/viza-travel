@@ -31,14 +31,24 @@ const Footer: FC = () => {
         </nav>
         <nav className="flex flex-col gap-[12px]">
           <NavigationText>
-            <Link href={"https://wa.me/9680100024"}>
-              {t("ws")} <br />
-              +7 (968) 01 000-24
+            <Link
+              href={"https://wa.me/9680100024"}
+              className="items-center flex flex-row gap-1"
+            >
+              <span>
+                {t("ws")} <br />
+                +7 (968) 01 000-24
+              </span>
             </Link>
           </NavigationText>
           <NavigationText>
             <Link href={"mailto:support@visarussia24.ru"}>
               support@visarussia24.ru
+            </Link>
+          </NavigationText>
+          <NavigationText>
+            <Link href={"mailto:applicans@visarussia24.ru"}>
+              applicans@visarussia24.ru
             </Link>
           </NavigationText>
         </nav>
