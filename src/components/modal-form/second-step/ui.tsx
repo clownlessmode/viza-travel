@@ -35,7 +35,7 @@ import PolCards from "@/components/ui/pol-cards";
 import { Combobox } from "@/components/ui/combobox";
 // import { useUniqueCountries } from "../first-step/ui";
 import { DATAVIZA } from "@/app/data";
-import { useUniqueCountries } from "../first-step/ui";
+import { useTranslatedTours, useUniqueCountries } from "../first-step/ui";
 import useSecondStepStore from "../secondStepStore";
 import { useTranslations } from "next-intl";
 
@@ -60,7 +60,7 @@ const SecondStep: FC = () => {
   const { index: currentIndex, setIndex } = useIndexForm();
   const countries = useUniqueCountries(DATAVIZA);
 
-  const { firstStepPrice, peoples } = useFirstStepStore();
+  const { firstStepPrice, peoples, tourType } = useFirstStepStore();
   const { addSecondStepData, data } = useSecondStepStore();
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
@@ -84,6 +84,10 @@ const SecondStep: FC = () => {
       console.log("Все туристы last:", data);
     }
   }
+  const tours = useTranslatedTours();
+  const getLabelByValue = (value: string) => {
+    return tours.find((tour) => tour.value === value);
+  };
   const t = useTranslations("touristForm");
   const scrollToTop = () => {
     const overlay = document.querySelector('[data-slot="dialog-overlay"]');
@@ -132,9 +136,39 @@ const SecondStep: FC = () => {
             <H2FORM className="text-foreground text-nowrap">
               {t("total")}
             </H2FORM>
-            <Button className="rounded-[8px]! sm:w-[300px]">
-              {firstStepPrice}
-            </Button>
+            <div className="flex flex-row gap-1">
+              <Button className="rounded-[8px]!">
+                {Number(firstStepPrice.slice(0, -1)) -
+                  (getLabelByValue(tourType as string)?.price
+                    ? Number(
+                        getLabelByValue(tourType as string)?.price.replace(
+                          /\D/g,
+                          ""
+                        )
+                      )
+                    : 0)}
+                {/* {isVip ? "₽ VIP" : "₽"} */}₽
+                {tourType != "no-tour" && (
+                  <span className="opacity-50">
+                    +
+                    {getLabelByValue(tourType as string)?.price
+                      ? Number(
+                          getLabelByValue(tourType as string)?.price.replace(
+                            /\D/g,
+                            ""
+                          )
+                        )
+                      : 0}
+                    ₽
+                  </span>
+                )}
+              </Button>
+              {tourType != "no-tour" && (
+                <Button className="rounded-[8px]!">
+                  {t("st")}: {getLabelByValue(tourType as string)?.label}
+                </Button>
+              )}
+            </div>
           </div>
         )}
         <Separator className="mt-[12px]" />

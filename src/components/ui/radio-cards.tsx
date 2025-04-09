@@ -19,6 +19,7 @@ export interface RadioCardsProps extends RadioGroup.RadioGroupProps {
   className?: string;
   columns?: number;
   disabled?: boolean;
+  required?: boolean; // ← добавляем сюда
 }
 
 const RadioCards: FC<RadioCardsProps> = ({
@@ -28,7 +29,7 @@ const RadioCards: FC<RadioCardsProps> = ({
   defaultValue,
   className,
   disabled = false,
-
+  required = true,
   ...props
 }) => {
   const [openCard, setOpenCard] = useState<string | null>(value ?? null);
@@ -41,7 +42,15 @@ const RadioCards: FC<RadioCardsProps> = ({
     }
     onValueChange?.(val); // вызвать родительскую смену значения
   };
-
+  const finalOptions = [...options];
+  if (!required) {
+    finalOptions.unshift({
+      value: "no-tour",
+      label: t("noTour.label") || "Без тура",
+      price: "Бесплатно",
+      description: t("noTour.description") || "Выберите, если не нужен тур",
+    });
+  }
   return (
     <RadioGroup.Root
       disabled={disabled}
@@ -51,7 +60,7 @@ const RadioCards: FC<RadioCardsProps> = ({
       className={cn(`flex flex-col gap-[32px] w-full`, className)}
       {...props}
     >
-      {options.map((option) => {
+      {finalOptions.map((option) => {
         const isOpen = openCard === option.value;
 
         return (

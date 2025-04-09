@@ -126,18 +126,21 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     setFirstStepData,
     resetFirstStepData,
     firstStepPrice,
+    tourType,
     ...firstStepData
   } = useFirstStepStore();
   const { addSecondStepData, resetSecondStepData, ...secondStepData } =
     useSecondStepStore();
-
+  const getLabelByValue = (value: string) => {
+    return tours.find((tour) => tour.value === value);
+  };
   async function onSubmit(data: YGUYB) {
     // setThirdStepData({ ...values });
     const datasss: VisaApplicationEmailProps = {
       citizenship: firstStepData.citizenship,
       vizaType: firstStepData.vizaType,
       peoples: firstStepData.peoples,
-      tourType: firstStepData.tourType,
+      tourType: tourType,
       firstStepPrice: firstStepPrice, // 👈 обязательно указать
       vizaTypeTwo: firstStepData.vizaTypeTwo,
       data: secondStepData.data, // 👈 массив людей
@@ -479,11 +482,41 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           {firstStepPrice !== null && (
             <div className="flex justify-between items-center gap-4 mt-[24px]">
               <H2FORM className="text-foreground text-nowrap">
-                Сумма заказа:
+                {t("total")}
               </H2FORM>
-              <Button className="rounded-[8px]! sm:w-[300px]">
-                {firstStepPrice}
-              </Button>
+              <div className="flex flex-row gap-1">
+                <Button className="rounded-[8px]!">
+                  {Number(firstStepPrice.slice(0, -1)) -
+                    (getLabelByValue(tourType as string)?.price
+                      ? Number(
+                          getLabelByValue(tourType as string)?.price.replace(
+                            /\D/g,
+                            ""
+                          )
+                        )
+                      : 0)}
+                  {/* {isVip ? "₽ VIP" : "₽"} */}₽
+                  {tourType != "no-tour" && (
+                    <span className="opacity-50">
+                      +
+                      {getLabelByValue(tourType as string)?.price
+                        ? Number(
+                            getLabelByValue(tourType as string)?.price.replace(
+                              /\D/g,
+                              ""
+                            )
+                          )
+                        : 0}
+                      ₽
+                    </span>
+                  )}
+                </Button>
+                {tourType != "no-tour" && (
+                  <Button className="rounded-[8px]!">
+                    {t("st")}: {getLabelByValue(tourType as string)?.label}
+                  </Button>
+                )}
+              </div>
             </div>
           )}
           <div className="flex flex-col gap-[12px] mt-[24px]">

@@ -25,12 +25,13 @@ import useIndexForm from "../indexStore";
 import { Combobox, ComboboxOption } from "@/components/ui/combobox";
 import H2FORM from "../h2";
 import { DATAVIZA } from "@/app/data";
-import { Input } from "@/components/ui/input";
+
 import { Separator } from "@/components/ui/separator";
 import RadioCards from "@/components/ui/radio-cards";
 
 import useFirstStepStore from "../firstStepStore";
 import { useTranslations } from "next-intl";
+import { NumberInputWithButtons } from "./Numeric";
 
 export interface VisaDataItem {
   id: number;
@@ -57,6 +58,7 @@ export const useUniqueCountries = (data: VisaDataItem[]): ComboboxOption[] => {
     }, []);
   }, [data]);
 };
+
 export const useVisaTypesByCountryId = (
   data: VisaDataItem[],
   countryId: string | undefined
@@ -116,12 +118,12 @@ export interface VisaDataItem {
   country: string;
   type: string;
   time: string;
-  cost: string; // "$" string
+  cost: string;
 }
 
 export interface TourItem {
   value: string;
-  price: string; // "24 000 ₽" or "individually"
+  price: string;
 }
 
 interface UseTotalVisaCostRubResult {
@@ -167,8 +169,6 @@ export const useTotalVisaCostInRub = (
 
     if (selectedTour?.value === "VIP") {
       isVip = true;
-
-      // Выбираем самый дорогой тур (по цене в рублях)
       const maxTour = tours
         .filter((t) => t.value !== "VIP")
         .map((t) => ({
@@ -178,7 +178,7 @@ export const useTotalVisaCostInRub = (
         .sort((a, b) => b.numPrice - a.numPrice)[0];
 
       if (maxTour) {
-        tourCostRub = 0; //maxTour.numPrice;
+        tourCostRub = 0;
       }
     } else if (selectedTour && selectedTour.value !== "VIP") {
       tourCostRub = parseFloat(
@@ -188,7 +188,6 @@ export const useTotalVisaCostInRub = (
 
     const totalRub = visaCostRubTotal + tourCostRub * numPeople;
 
-    // Округление вверх до ближайших 1000₽
     const roundedTotal = Math.ceil(totalRub / 1000) * 1000;
 
     return {
@@ -269,8 +268,8 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
   const selectedVisaType = form.watch("vizaType");
   const visaTimes = useVisaTimesByType(DATAVIZA, selectedVisaType);
   const selectedVisaTime = form.watch("vizaTypeTwo");
-  const peoples = form.watch("peoples"); // Кол-во туристов (string or number)
-  const selectedTourValue = form.watch("tourType"); // Кол-во туристов (string or number)
+  const peoples = form.watch("peoples");
+  const selectedTourValue = form.watch("tourType");
 
   const { total, isVip } = useTotalVisaCostInRub(
     DATAVIZA,
@@ -281,7 +280,9 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
     selectedTourValue,
     tours
   );
-
+  const getLabelByValue = (value: string) => {
+    return tours.find((tour) => tour.value === value);
+  };
   function onSubmit(values: FormValues) {
     setFirstStepData({
       firstStepPrice: `${total}${isVip ? "₽ VIP" : "₽"}`,
@@ -325,10 +326,26 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             <H2FORM className="text-foreground text-nowrap">
               {t("firststep.form.totalLabel")}
             </H2FORM>
-            <Button className="rounded-[8px]! sm:w-[300px]">
-              {total}
-              {isVip ? "₽ VIP" : "₽"}
-            </Button>
+            <div className="flex flex-row gap-1">
+              <Button className="rounded-[8px]!">
+                {Number(total) -
+                  (getLabelByValue(selectedTourValue)?.price
+                    ? Number(
+                        getLabelByValue(selectedTourValue)?.price.replace(
+                          /\D/g,
+                          ""
+                        )
+                      )
+                    : 0)}
+                {/* {isVip ? "₽ VIP" : "₽"} */}₽
+              </Button>
+              {selectedTourValue != "no-tour" && (
+                <Button className="rounded-[8px]!">
+                  {t("firststep.st")}:{" "}
+                  {getLabelByValue(selectedTourValue)?.label}
+                </Button>
+              )}
+            </div>
           </div>
         )}
 
@@ -409,11 +426,10 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
               <FormItem>
                 <FormLabel>{t("firststep.form.peoples")}</FormLabel>
                 <FormControl>
-                  <Input
+                  <NumberInputWithButtons
                     {...field}
                     min={1}
                     max={1000}
-                    type="number"
                     disabled={!form.watch("vizaTypeTwo")}
                     placeholder={t("firststep.form.peoplesPlaceholder")}
                   />
@@ -427,7 +443,6 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             <DialogTitle>{t("firststep.form.tourHeading")}</DialogTitle>
             <Separator className="mt-[12px]" />
           </div>
-
           <FormField
             control={form.control}
             name="tourType"
@@ -439,6 +454,28 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
                     {...field}
                     onValueChange={field.onChange}
                     options={tours}
+                    required={
+                      ![
+                        "110",
+                        "112",
+                        "143",
+                        "145",
+                        "146",
+                        "187",
+                        "194",
+                        "53",
+                        "55",
+                        "57",
+                        "255",
+                        "191",
+                        "162",
+                        "75",
+                        "225",
+                        "158",
+                        "160",
+                        "236",
+                      ].includes(selectedCountryId)
+                    }
                     disabled={!form.watch("peoples")}
                   />
                 </FormControl>
@@ -446,6 +483,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
             )}
           />
+          {/* )} */}
 
           <Button
             type="submit"

@@ -84,11 +84,15 @@ export function Combobox({
                 {options.map((option) => (
                   <CommandItem
                     className="w-full"
-                    key={option.value + option.label + String(new Date())}
-                    value={option.value}
-                    onSelect={(currentValue) => {
-                      if (currentValue !== value) {
-                        onChange?.(currentValue);
+                    key={
+                      option.value +
+                      option.label +
+                      String(new Date() + String(Math.random))
+                    }
+                    value={option.label} // теперь фильтрация будет по label
+                    onSelect={() => {
+                      if (option.value !== value) {
+                        onChange?.(option.value); // передаём правильный value
                       }
                       setOpen(false);
                     }}

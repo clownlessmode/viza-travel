@@ -138,6 +138,7 @@
   "extraform": {
     "back": "Назад",
     "firststep": {
+      "st": "Тур",
       "heading": "Приглашение в россию",
       "form": {
         "totalLabel": "Сумма заказа:",
@@ -185,6 +186,10 @@
   "tours": {
     "inc": "Включено:",
     "msc": "Москва",
+    "noTour": {
+      "label": "Без тура",
+      "description": "Тур не нужен"
+    },
     "Economy": {
       "label": "Эконом",
       "description": "4 дня / 3 ночи",
@@ -225,6 +230,7 @@
   },
 
   "touristForm": {
+    "st": "Тур",
     "back": "Назад",
     "title": "Информация о туристах",
     "total": "Сумма заказа:",
@@ -290,6 +296,7 @@
     "next": "Далее"
   },
   "summaryForm": {
+    "total": "Сумма заказа:",
     "back": "Назад",
     "title": "Сводка",
     "citizenship": "Гражданство",
