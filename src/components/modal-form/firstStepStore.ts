@@ -1,13 +1,11 @@
 // firstStepStore.ts
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
 // Типизация значений первого шага
 export interface FirstStepData {
   citizenship: string;
   vizaType: string;
-  peoples: string; 
-  tourType?: string;
+  peoples: string;
   firstStepPrice: string;
   vizaTypeTwo: string;
 }
@@ -19,35 +17,27 @@ interface FirstStepStore extends FirstStepData {
 }
 
 // Zustand store
-const useFirstStepStore = create<FirstStepStore>()(
-  persist(
-    (set) => ({
-      // Начальные значения
+const useFirstStepStore = create<FirstStepStore>()((set) => ({
+  // Начальные значения
+  vizaTypeTwo: "",
+  citizenship: "",
+  vizaType: "",
+  peoples: "1",
+  tourType: "",
+  firstStepPrice: "",
+
+  // Обновление отдельных полей (можно передавать одно или несколько сразу)
+  setFirstStepData: (data) => set((state) => ({ ...state, ...data })),
+
+  // Полный сброс
+  resetFirstStepData: () =>
+    set({
       vizaTypeTwo: "",
       citizenship: "",
       vizaType: "",
       peoples: "1",
-      tourType: "",
       firstStepPrice: "",
-
-      // Обновление отдельных полей (можно передавать одно или несколько сразу)
-      setFirstStepData: (data) => set((state) => ({ ...state, ...data })),
-
-      // Полный сброс
-      resetFirstStepData: () =>
-        set({
-          vizaTypeTwo: "",
-          citizenship: "",
-          vizaType: "",
-          peoples: "1",
-          tourType: "",
-          firstStepPrice: "",
-        }),
     }),
-    {
-      name: "first-step-store", // ключ в localStorage
-    }
-  )
-);
+}));
 
 export default useFirstStepStore;

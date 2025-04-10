@@ -136,6 +136,10 @@
     "adres": "法定地址 : Nizhny Novgorod region, M.O. Diveyevsky, v. Maevka, 14, Rodnikovaya str. Diveyevsky, v. Maevka, 14, Rodnikovaya str."
   },
   "tours": {
+    "noTour": {
+      "label": "无旅游团",
+      "description": "不需要旅游团"
+    },
     "inc": "包含：",
     "msc": "莫斯科",
     "Economy": {
@@ -225,6 +229,8 @@
   },
 
   "touristForm": {
+    "st": "遊覽",
+    "trs": "觀光客",
     "back": "返回",
     "title": "游客信息",
     "total": "订单总额：",
@@ -289,6 +295,8 @@
     "next": "下一步"
   },
   "summaryForm": {
+    "total": "订单总额：",
+
     "back": "返回",
     "title": "摘要",
     "citizenship": "国籍",

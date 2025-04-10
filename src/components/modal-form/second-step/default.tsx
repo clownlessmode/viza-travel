@@ -6,7 +6,7 @@ export const defaultValues: FormValues = {
   middleName: "",
   birthDate: "",
   gender: "male",
-
+  tourType: "Economy",
   passportNumber: "",
   passportExpiryDate: "",
   entryDate: "",
@@ -15,4 +15,6 @@ export const defaultValues: FormValues = {
   tripPurpose: "",
   itinerary: "",
   additionalInfo: "",
+  visaType: "",
+  visaTypeTwo: "",
 };

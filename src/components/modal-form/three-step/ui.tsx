@@ -31,7 +31,7 @@ import useFirstStepStore from "../firstStepStore";
 import PolCards from "@/components/ui/pol-cards";
 import useThirdStepStore from "../thirdStepStore";
 import { useTranslations } from "next-intl";
-import { useTranslatedTours } from "../first-step/ui";
+import useSecondStepStore from "../secondStepStore";
 
 export interface VisaDataItem {
   id: number;
@@ -44,8 +44,9 @@ export interface VisaDataItem {
 const ThirdStep: FC = () => {
   const form = useForm();
   const { index: currentIndex, setIndex } = useIndexForm();
+  const { data } = useSecondStepStore();
   const { setThirdStepData } = useThirdStepStore();
-  const { firstStepPrice, tourType } = useFirstStepStore();
+  const { firstStepPrice } = useFirstStepStore();
 
   function onSubmit(values: FormValues) {
     setThirdStepData({ ...values });
@@ -53,10 +54,8 @@ const ThirdStep: FC = () => {
     setIndex(currentIndex + 1);
   }
   const t = useTranslations("contactForm");
-  const tours = useTranslatedTours();
-  const getLabelByValue = (value: string) => {
-    return tours.find((tour) => tour.value === value);
-  };
+  const sum = data.reduce((acc, num) => acc + num.price, 0);
+
   return (
     <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
       <DialogHeader>
@@ -88,37 +87,7 @@ const ThirdStep: FC = () => {
               {t("total")}
             </H2FORM>
             <div className="flex flex-row gap-1">
-              <Button className="rounded-[8px]!">
-                {Number(firstStepPrice.slice(0, -1)) -
-                  (getLabelByValue(tourType as string)?.price
-                    ? Number(
-                        getLabelByValue(tourType as string)?.price.replace(
-                          /\D/g,
-                          ""
-                        )
-                      )
-                    : 0)}
-                {/* {isVip ? "₽ VIP" : "₽"} */}₽
-                {tourType != "no-tour" && (
-                  <span className="opacity-50">
-                    +
-                    {getLabelByValue(tourType as string)?.price
-                      ? Number(
-                          getLabelByValue(tourType as string)?.price.replace(
-                            /\D/g,
-                            ""
-                          )
-                        )
-                      : 0}
-                    ₽
-                  </span>
-                )}
-              </Button>
-              {tourType != "no-tour" && (
-                <Button className="rounded-[8px]!">
-                  {t("st")}: {getLabelByValue(tourType as string)?.label}
-                </Button>
-              )}
+              <Button className="rounded-[8px]!">{sum}₽</Button>
             </div>
           </div>
         )}

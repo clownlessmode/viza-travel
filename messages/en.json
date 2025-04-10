@@ -136,6 +136,10 @@
   },
   "selectlang": "Выберите язык",
   "tours": {
+    "noTour": {
+      "label": "No tour",
+      "description": "Tour not needed"
+    },
     "inc": "Included:",
     "msc": "Moscow",
     "Economy": {
@@ -224,6 +228,8 @@
     }
   },
   "touristForm": {
+    "trs": "Tourist",
+    "st": "Tour",
     "back": "Back",
     "title": "Tourist Information",
     "total": "Order Total:",
@@ -282,13 +288,14 @@
     "phonePlaceholder": "+1 (___) ___-__-__",
     "email": "Email",
     "emailPlaceholder": "example@mail.com",
-    "preferredTitle": "Where is it most convenient to contact you?",
+    "preferredTitle": "Where would you prefer to connect?",
     "whatsapp": "What’s App",
     "telegram": "Telegram",
 
     "next": "Next"
   },
   "summaryForm": {
+    "total": "Order total:",
     "back": "Back",
     "title": "Summary",
     "citizenship": "Citizenship",

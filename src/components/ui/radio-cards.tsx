@@ -51,6 +51,8 @@ const RadioCards: FC<RadioCardsProps> = ({
       description: t("noTour.description") || "Выберите, если не нужен тур",
     });
   }
+
+  
   return (
     <RadioGroup.Root
       disabled={disabled}

@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTranslations } from "next-intl";
 
 // Тип одной опции
 export type ComboboxOption = {
@@ -35,6 +36,8 @@ interface ComboboxProps {
   emptyText?: string;
   className?: string;
   disabled?: boolean;
+  visaType?: boolean;
+  issss?: boolean;
 }
 
 export function Combobox({
@@ -46,9 +49,11 @@ export function Combobox({
   emptyText = "Ничего не найдено",
   className,
   disabled = false,
+  issss = false,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
-
+  const t = useTranslations("visa.types");
+  const x = useTranslations("visa.times");
   const selectedLabel = options.find((option) => option.value === value)?.label;
 
   return (
@@ -83,16 +88,44 @@ export function Combobox({
               <CommandGroup className="w-full">
                 {options.map((option) => (
                   <CommandItem
-                    className="w-full"
+                    className={cn(
+                      "w-full",
+                      option.label === t("Бизнес виза") &&
+                        "opacity-50 cursor-not-allowed",
+                      !issss
+                        ? ""
+                        : option.label === x("15 дней - Однократная") ||
+                            option.label === x("30 дней - Однократная")
+                          ? ""
+                          : "opacity-50 cursor-not-allowed"
+                    )}
                     key={
                       option.value +
                       option.label +
                       String(new Date() + String(Math.random))
                     }
-                    value={option.label} // теперь фильтрация будет по label
+                    value={option.label}
                     onSelect={() => {
+                      if (option.label === t("Бизнес виза")) {
+                        return; // ничего не делаем
+                      }
+
+                      if (
+                        issss && // если режим включён
+                        !(
+                          // и label НЕ входит в разрешённые
+                          (
+                            option.label === x("15 дней - Однократная") ||
+                            option.label === x("30 дней - Однократная")
+                          )
+                        )
+                      ) {
+                        return;
+                      }
+
+                      // Всё ок — можно выбрать
                       if (option.value !== value) {
-                        onChange?.(option.value); // передаём правильный value
+                        onChange?.(option.value);
                       }
                       setOpen(false);
                     }}

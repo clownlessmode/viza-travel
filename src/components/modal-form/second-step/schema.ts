@@ -9,6 +9,9 @@ export const schema = z.object({
   gender: z.enum(["male", "female"], {
     required_error: "Выберите пол",
   }),
+  tourType: z.string(),
+  visaType: z.string(),
+  visaTypeTwo: z.string(),
   passportNumber: z.string().min(1, "Обязательное поле"),
   passportExpiryDate: z
     .string()

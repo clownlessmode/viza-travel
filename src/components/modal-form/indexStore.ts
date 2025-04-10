@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
 // Типизация стора
 interface IndexFormStore {
@@ -9,18 +8,11 @@ interface IndexFormStore {
 }
 
 // Zustand store
-const useIndexFormStore = create<IndexFormStore>()(
-  persist(
-    (set) => ({
-      index: 0,
-      setIndex: (index: number) => set({ index }),
-      resetIndex: () => set({ index: 0 }),
-    }),
-    {
-      name: "index-form", // ключ в localStorage
-    }
-  )
-);
+const useIndexFormStore = create<IndexFormStore>()((set) => ({
+  index: 0,
+  setIndex: (index: number) => set({ index }),
+  resetIndex: () => set({ index: 0 }),
+}));
 
 // Удобный хук
 const useIndexForm = () => {

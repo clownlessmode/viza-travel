@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ui.tsx
 "use client";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 import { FormValues } from "./types";
 import useIndexForm from "../indexStore";
@@ -35,9 +36,16 @@ import PolCards from "@/components/ui/pol-cards";
 import { Combobox } from "@/components/ui/combobox";
 // import { useUniqueCountries } from "../first-step/ui";
 import { DATAVIZA } from "@/app/data";
-import { useTranslatedTours, useUniqueCountries } from "../first-step/ui";
+import {
+  useTotalVisaCostInRub,
+  useTranslatedTours,
+  useUniqueCountries,
+  useVisaTimesByType,
+  useVisaTypesByCountryId,
+} from "../first-step/ui";
 import useSecondStepStore from "../secondStepStore";
 import { useTranslations } from "next-intl";
+import RadioCards from "@/components/ui/radio-cards";
 
 export const useVisitTypes = () => {
   const t = useTranslations("visitTypes");
@@ -59,8 +67,13 @@ const SecondStep: FC = () => {
   const form = useForm();
   const { index: currentIndex, setIndex } = useIndexForm();
   const countries = useUniqueCountries(DATAVIZA);
+  useEffect(() => {
+    form.setValue("citizenship", citizenship);
+    form.setValue("visaType", vizaType);
+    form.setValue("visaTypeTwo", vizaTypeTwo);
+  }, []);
 
-  const { firstStepPrice, peoples, tourType } = useFirstStepStore();
+  const { peoples, citizenship, vizaTypeTwo, vizaType } = useFirstStepStore();
   const { addSecondStepData, data } = useSecondStepStore();
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
@@ -68,23 +81,46 @@ const SecondStep: FC = () => {
     const isFinal = peopleIndex + 1 === Number(peoples);
 
     if (!isFinal) {
-      addSecondStepData({ ...values });
+      addSecondStepData({
+        ...values,
+        price: Number(total),
+      });
       form.reset();
       setPeopleIndex((prev) => prev + 1);
-
+      form.setValue("citizenship", citizenship);
+      form.setValue("visaType", vizaType);
+      form.setValue("visaTypeTwo", vizaTypeTwo);
       scrollToTop();
-
-      console.log("Все туристы:", data);
     } else {
-      addSecondStepData({ ...values });
+      addSecondStepData({
+        ...values,
+        price:
+          Number(total) -
+          (getLabelByValue(selectedTour as string)?.price
+            ? Number(
+                getLabelByValue(selectedTour as string)?.price.replace(
+                  /\D/g,
+                  ""
+                )
+              )
+            : 0),
+      });
       setIndex(currentIndex + 1);
 
       scrollToTop();
-
-      console.log("Все туристы last:", data);
     }
   }
+  const y = useTranslations("extraform");
+
   const tours = useTranslatedTours();
+  const selectedCountryId = form.watch("citizenship");
+
+  const visaTypes = useVisaTypesByCountryId(DATAVIZA, selectedCountryId);
+  const selectedVisaType = form.watch("visaType");
+  const visaTimes = useVisaTimesByType(DATAVIZA, selectedVisaType);
+  const selectedVisaTime = form.watch("visaTypeTwo");
+  const selectedTour = form.watch("tourType");
+
   const getLabelByValue = (value: string) => {
     return tours.find((tour) => tour.value === value);
   };
@@ -96,6 +132,33 @@ const SecondStep: FC = () => {
       behavior: "smooth",
     });
   };
+  const { total, isVip } = useTotalVisaCostInRub(
+    DATAVIZA,
+    selectedCountryId,
+    selectedVisaType,
+    selectedVisaTime,
+    "1",
+    selectedTour,
+    tours
+  );
+
+  const { total: pricePerPerson } = useTotalVisaCostInRub(
+    DATAVIZA,
+    citizenship,
+    vizaType,
+    vizaTypeTwo,
+    "1", // один человек
+    undefined,
+    tours
+  );
+
+  // Теперь создаём массив цен:
+  const visaPricesPerPerson = Array.from(
+    { length: Number(peoples) },
+    () => pricePerPerson
+  );
+  const totalVisaPrice = Number(peoples) * (pricePerPerson ?? 0);
+
   return (
     <DialogContent
       className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]"
@@ -124,48 +187,78 @@ const SecondStep: FC = () => {
           </div>
         </DialogDescription>
         <DialogTitle className="justify-between">
-          {t("title")}{" "}
+          {t("title")}
           {Number(peoples) > 1 && (
             <span className="opacity-50">
               ({peopleIndex + 1}/{peoples})
             </span>
           )}
         </DialogTitle>
-        {firstStepPrice !== null && (
+        {visaPricesPerPerson && (
           <div className="flex justify-between items-center gap-4 mt-[24px]">
             <H2FORM className="text-foreground text-nowrap">
               {t("total")}
             </H2FORM>
             <div className="flex flex-row gap-1">
               <Button className="rounded-[8px]!">
-                {Number(firstStepPrice.slice(0, -1)) -
-                  (getLabelByValue(tourType as string)?.price
+                {/* {Number(total) -
+                  (getLabelByValue(selectedTour as string)?.price
                     ? Number(
-                        getLabelByValue(tourType as string)?.price.replace(
+                        getLabelByValue(selectedTour as string)?.price.replace(
                           /\D/g,
                           ""
                         )
                       )
-                    : 0)}
-                {/* {isVip ? "₽ VIP" : "₽"} */}₽
-                {tourType != "no-tour" && (
+                    : 0) +
+                  data.reduce((acc, item) => {
+                    const price = Number(
+                      typeof item.price === "string" ? item.price : item.price
+                    );
+                    return acc + price;
+                  }, 0)} */}
+                {/* {isVip
+                  ? `₽ ${getLabelByValue(selectedTour as string)?.label}`
+                  : "₽"} */}
+                {visaPricesPerPerson?.length > 0 && peopleIndex !== 0
+                  ? (total as number) +
+                    (data?.slice(0, peopleIndex).reduce((acc, item) => {
+                      const price =
+                        typeof item?.price === "string"
+                          ? Number(item.price)
+                          : Number(item?.price ?? 0);
+                      return acc + price;
+                    }, 0) ?? 0) +
+                    (visaPricesPerPerson
+                      ?.slice(peopleIndex + 1)
+                      .reduce(
+                        (acc, price) => (acc as number) + (price ?? 0),
+                        0
+                      ) ?? 0) -
+                    Number(
+                      getLabelByValue(selectedTour as string)?.price.replace(
+                        /\D/g,
+                        ""
+                      )
+                    )
+                  : totalVisaPrice}
+                ₽{" "}
+                {selectedTour !== "no-tour" && isVip !== true && (
                   <span className="opacity-50">
                     +
-                    {getLabelByValue(tourType as string)?.price
+                    {getLabelByValue(selectedTour as string)?.price
                       ? Number(
-                          getLabelByValue(tourType as string)?.price.replace(
-                            /\D/g,
-                            ""
-                          )
+                          getLabelByValue(
+                            selectedTour as string
+                          )?.price.replace(/\D/g, "")
                         )
                       : 0}
                     ₽
                   </span>
                 )}
               </Button>
-              {tourType != "no-tour" && (
+              {selectedTour != "no-tour" && (
                 <Button className="rounded-[8px]!">
-                  {t("st")}: {getLabelByValue(tourType as string)?.label}
+                  {t("st")}: {getLabelByValue(selectedTour as string)?.label}
                 </Button>
               )}
             </div>
@@ -215,6 +308,76 @@ const SecondStep: FC = () => {
                 <FormLabel>{t("middleName")}</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder={t("middleNamePlaceholder")} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="citizenship"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{y("firststep.form.citizenship")}</FormLabel>
+                <FormControl>
+                  <Combobox
+                    {...field}
+                    options={countries}
+                    placeholder={y("firststep.form.citizenshipPlaceholder")}
+                    searchPlaceholder={y("firststep.form.citizenshipSearch")}
+                    emptyText={y("firststep.form.citizenshipEmpty")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="visaType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{y("firststep.form.visaType")}</FormLabel>
+                <FormControl>
+                  <Combobox
+                    disabled={!form.watch("citizenship")}
+                    {...field}
+                    options={visaTypes}
+                    placeholder={y("firststep.form.visaTypePlaceholder")}
+                    searchPlaceholder={y("firststep.form.visaTypeSearch")}
+                    emptyText={y("firststep.form.visaTypeEmpty")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="visaTypeTwo"
+            render={({ field }) => (
+              // &&
+              //           selectedVisaType === x("15 дней - Однократная")) ||
+              //         selectedVisaType === x("30 дней - Однократная")
+              <FormItem>
+                <FormLabel>{y("firststep.form.visaTime")}</FormLabel>
+                <FormControl>
+                  <Combobox
+                    disabled={!form.watch("visaType")}
+                    {...field}
+                    issss
+                    // visaType={
+                    //   selectedVisaTime === x("15 дней - Однократная") ||
+                    //   selectedVisaTime === x("30 дней - Однократная")
+                    //     ? true
+                    //     : false
+                    // }
+                    options={visaTimes}
+                    placeholder={y("firststep.form.visaTimePlaceholder")}
+                    searchPlaceholder={y("firststep.form.visaTimeSearch")}
+                    emptyText={y("firststep.form.visaTimeEmpty")}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -285,7 +448,7 @@ const SecondStep: FC = () => {
                 <FormControl>
                   <Input type="date" {...field} />
                 </FormControl>
-                <FormMessage />
+
                 {form.formState.errors.passportExpiryDate && (
                   <div className="sm:border-2 border flex flex-col gap-2.5 border-destructive bg-[rgba(244, 246, 251, 1)] rounded-[24px] p-[12px] sm:p-[24px] mt-2">
                     <p>{t("passportExpiryWarning1")}</p>
@@ -319,26 +482,6 @@ const SecondStep: FC = () => {
                 <FormLabel>{t("exitDate")}</FormLabel>
                 <FormControl>
                   <Input type="date" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="citizenship"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("citizenship")}</FormLabel>
-                <FormControl>
-                  <Combobox
-                    {...field}
-                    options={countries}
-                    placeholder={t("citizenshipPlaceholder")}
-                    searchPlaceholder={t("citizenshipSearch")}
-                    emptyText={t("citizenshipEmpty")}
-                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -400,7 +543,45 @@ const SecondStep: FC = () => {
               </FormItem>
             )}
           />
-
+          <FormField
+            control={form.control}
+            name="tourType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{y("firststep.form.tourType")}</FormLabel>
+                <FormControl>
+                  <RadioCards
+                    {...field}
+                    onValueChange={field.onChange}
+                    options={tours}
+                    required={
+                      ![
+                        "110",
+                        "112",
+                        "143",
+                        "145",
+                        "146",
+                        "187",
+                        "194",
+                        "53",
+                        "55",
+                        "57",
+                        "255",
+                        "191",
+                        "162",
+                        "75",
+                        "225",
+                        "158",
+                        "160",
+                        "236",
+                      ].includes(selectedCountryId)
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
             type="submit"
             className="mt-[48px] w-full"

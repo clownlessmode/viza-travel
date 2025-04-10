@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // ui.tsx
 "use client";
 import { Button } from "@/components/ui/button";
@@ -73,8 +74,7 @@ export const useVisaTypesByCountryId = (
     return (
       data
         .filter((item) => item.id.toString() === countryId)
-        // 👉 Убираем "бизнес-визу"
-        .filter((item) => item.type !== t("Бизнес виза")) // или "Business", в зависимости от данных
+        // .filter((item) => item.type !== t("Бизнес виза"))
         .filter((item) => {
           if (seen.has(item.type)) return false;
           seen.add(item.type);
@@ -95,21 +95,36 @@ export const useVisaTimesByType = (
   const t = useTranslations("visa.times");
 
   return useMemo(() => {
-    if (!visaType) return [];
+    if (!visaType) {
+      return [];
+    }
 
     const seen = new Set<string>();
 
-    return data
-      .filter((item) => item.type === visaType)
-      .filter((item) => {
-        if (seen.has(item.time)) return false;
-        seen.add(item.time);
-        return true;
-      })
-      .map((item) => ({
+    const filteredByType = data.filter((item) => {
+      const match = item.type === visaType;
+
+      return match;
+    });
+
+    const uniqueByTime = filteredByType.filter((item) => {
+      if (seen.has(item.time)) {
+        return false;
+      }
+      seen.add(item.time);
+      return true;
+    });
+
+    const result = uniqueByTime.map((item) => {
+      const translated = t(item.time);
+      return {
         label: t(item.time) ?? item.time,
         value: item.time,
-      }));
+      };
+    });
+
+
+    return result;
   }, [data, visaType, t]);
 };
 
@@ -188,7 +203,7 @@ export const useTotalVisaCostInRub = (
 
     const totalRub = visaCostRubTotal + tourCostRub * numPeople;
 
-    const roundedTotal = Math.ceil(totalRub / 1000) * 1000;
+    const roundedTotal = totalRub; //Math.ceil(totalRub / 1000) * 1000;
 
     return {
       total: roundedTotal,
@@ -269,7 +284,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
   const visaTimes = useVisaTimesByType(DATAVIZA, selectedVisaType);
   const selectedVisaTime = form.watch("vizaTypeTwo");
   const peoples = form.watch("peoples");
-  const selectedTourValue = form.watch("tourType");
+  // const selectedTourValue = form.watch("tourType");
 
   const { total, isVip } = useTotalVisaCostInRub(
     DATAVIZA,
@@ -277,7 +292,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
     selectedVisaType,
     selectedVisaTime,
     peoples,
-    selectedTourValue,
+    undefined,
     tours
   );
   const getLabelByValue = (value: string) => {
@@ -288,13 +303,12 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
       firstStepPrice: `${total}${isVip ? "₽ VIP" : "₽"}`,
       ...values,
     });
-    console.log({
-      firstStepPrice: `${total}${isVip ? "₽ VIP" : "₽"}`,
-      ...values,
-    });
+
     setIndex(1);
   }
   const t = useTranslations("extraform");
+  const x = useTranslations("visa.times");
+  const s = useTranslations("visa.types");
 
   return (
     <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
@@ -328,23 +342,31 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             </H2FORM>
             <div className="flex flex-row gap-1">
               <Button className="rounded-[8px]!">
-                {Number(total) -
-                  (getLabelByValue(selectedTourValue)?.price
-                    ? Number(
-                        getLabelByValue(selectedTourValue)?.price.replace(
-                          /\D/g,
-                          ""
-                        )
-                      )
-                    : 0)}
+                {Number(total) - 0}
+                {/* (getLabelByValue(selectedTourValue)?.price ? Number(
+                getLabelByValue(selectedTourValue)?.price.replace( /\D/g, "" ) )
+                * Number(peoples) : 0) */}
                 {/* {isVip ? "₽ VIP" : "₽"} */}₽
+                {/* {selectedTourValue != "no-tour" && (
+                  <span className="opacity-50">
+                    +
+                    {getLabelByValue(selectedTourValue as string)?.price
+                      ? Number(
+                          getLabelByValue(
+                            selectedTourValue as string
+                          )?.price.replace(/\D/g, "")
+                        ) * Number(peoples)
+                      : 0}
+                    ₽
+                  </span>
+                )} */}
               </Button>
-              {selectedTourValue != "no-tour" && (
+              {/* {selectedTourValue != "no-tour" && (
                 <Button className="rounded-[8px]!">
                   {t("firststep.st")}:{" "}
                   {getLabelByValue(selectedTourValue)?.label}
                 </Button>
-              )}
+              )} */}
             </div>
           </div>
         )}
@@ -402,12 +424,22 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             control={form.control}
             name="vizaTypeTwo"
             render={({ field }) => (
+              // &&
+              //           selectedVisaType === x("15 дней - Однократная")) ||
+              //         selectedVisaType === x("30 дней - Однократная")
               <FormItem>
                 <FormLabel>{t("firststep.form.visaTime")}</FormLabel>
                 <FormControl>
                   <Combobox
                     disabled={!form.watch("vizaType")}
                     {...field}
+                    issss
+                    // visaType={
+                    //   selectedVisaTime === x("15 дней - Однократная") ||
+                    //   selectedVisaTime === x("30 дней - Однократная")
+                    //     ? true
+                    //     : false
+                    // }
                     options={visaTimes}
                     placeholder={t("firststep.form.visaTimePlaceholder")}
                     searchPlaceholder={t("firststep.form.visaTimeSearch")}
@@ -439,7 +471,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             )}
           />
 
-          <div>
+          {/* <div>
             <DialogTitle>{t("firststep.form.tourHeading")}</DialogTitle>
             <Separator className="mt-[12px]" />
           </div>
@@ -454,35 +486,33 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
                     {...field}
                     onValueChange={field.onChange}
                     options={tours}
-                    required={
-                      ![
-                        "110",
-                        "112",
-                        "143",
-                        "145",
-                        "146",
-                        "187",
-                        "194",
-                        "53",
-                        "55",
-                        "57",
-                        "255",
-                        "191",
-                        "162",
-                        "75",
-                        "225",
-                        "158",
-                        "160",
-                        "236",
-                      ].includes(selectedCountryId)
-                    }
+                    required={[
+                      "110",
+                      "112",
+                      "143",
+                      "145",
+                      "146",
+                      "187",
+                      "194",
+                      "53",
+                      "55",
+                      "57",
+                      "255",
+                      "191",
+                      "162",
+                      "75",
+                      "225",
+                      "158",
+                      "160",
+                      "236",
+                    ].includes(selectedCountryId)}
                     disabled={!form.watch("peoples")}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           {/* )} */}
 
           <Button

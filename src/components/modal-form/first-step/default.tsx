@@ -6,5 +6,5 @@ export const defaultValues: FormValues = {
   vizaType: "",
   vizaTypeTwo: "",
   peoples: "1",
-  tourType: "Standard",
+  // tourType: "Standard",
 };

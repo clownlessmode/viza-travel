@@ -115,6 +115,8 @@ export const visitTypeTranslations: Record<string, Record<string, string>> = {
 const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
   const t = useTranslations("summaryForm");
   const x = useTranslations("visa");
+  const g = useTranslations("touristForm");
+  const k = useTranslations("contactForm");
 
   const visitTypes = useVisitTypes();
 
@@ -126,7 +128,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     setFirstStepData,
     resetFirstStepData,
     firstStepPrice,
-    tourType,
+
     ...firstStepData
   } = useFirstStepStore();
   const { addSecondStepData, resetSecondStepData, ...secondStepData } =
@@ -140,7 +142,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       citizenship: firstStepData.citizenship,
       vizaType: firstStepData.vizaType,
       peoples: firstStepData.peoples,
-      tourType: tourType,
+
       firstStepPrice: firstStepPrice, // 👈 обязательно указать
       vizaTypeTwo: firstStepData.vizaTypeTwo,
       data: secondStepData.data, // 👈 массив людей
@@ -148,7 +150,8 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       email: thirdStepData.email,
       preferredContact: thirdStepData.preferredContact,
     };
-    toast.success(t("success"));
+    toast.success(k("success"));
+
     try {
       const response = await fetch("/api/send-form", {
         method: "POST",
@@ -169,8 +172,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     onClose();
     form.reset();
     setIndex(0);
-
-    console.log(firstStepData, secondStepData.data, thirdStepData);
   }
 
   const form = useForm<YGUYB>({
@@ -182,10 +183,10 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       checkbox2: false,
     },
   });
-  const countries = useUniqueCountries(DATAVIZA); // data: VisaDataItem[]
-  const selectedCountry = countries.find(
-    (country) => country.value === form.watch("citizenship")
-  );
+
+  const { data } = useSecondStepStore();
+
+  const sum = data.reduce((acc, num) => acc + num.price, 0);
 
   return (
     <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
@@ -221,99 +222,14 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           onSubmit={form.handleSubmit(onSubmit)}
         >
           {/* Citizenship */}
-          <FormField
-            control={form.control}
-            name="citizenship"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("citizenship")}</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled
-                    value={selectedCountry?.label || field.value}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Visa Type */}
-          <FormField
-            control={form.control}
-            name="vizaType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("visaType")}</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled
-                    {...field}
-                    value={x(`types.${field.value}`)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Visa Type and Time */}
-          <FormField
-            control={form.control}
-            name="vizaTypeTwo"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("visaTypeTime")}</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled
-                    {...field}
-                    value={x(`times.${field.value}`)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Peoples */}
-          <FormField
-            control={form.control}
-            name="peoples"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("peoples")}</FormLabel>
-                <FormControl>
-                  <Input {...field} type="number" min={1} disabled />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Tours */}
-          <div>
-            <DialogTitle>{t("tourTitle")}</DialogTitle>
-            <Separator className="mt-[12px]" />
-          </div>
-          <FormField
-            control={form.control}
-            name="tourType"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <RadioCards
-                    {...field}
-                    onValueChange={field.onChange}
-                    options={tours}
-                    disabled
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           {/* SECOND */}
           {/* Last Name */}
           {secondStepData.data.map((traveler, index) => (
             <React.Fragment key={index}>
+              <DialogTitle className="justify-between mb-6">
+                {g("trs")} {index + 1}
+              </DialogTitle>
               <FormItem>
                 <FormLabel>{t("lastName")}</FormLabel>
                 <FormControl>
@@ -414,6 +330,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                   <Input value={traveler.additionalInfo || ""} disabled />
                 </FormControl>
               </FormItem>
+              {/* <Separator className="my-10 bg-blue-300" /> */}
             </React.Fragment>
           ))}
           {/* SECOND END */}
@@ -455,7 +372,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
             )}
           />
           <div>
-            <DialogTitle>Где Вам удобнее связаться?</DialogTitle>
+            <DialogTitle>{k("preferredTitle")}</DialogTitle>
             <Separator className="mt-[12px]" />
           </div>
           <FormField
@@ -485,37 +402,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 {t("total")}
               </H2FORM>
               <div className="flex flex-row gap-1">
-                <Button className="rounded-[8px]!">
-                  {Number(firstStepPrice.slice(0, -1)) -
-                    (getLabelByValue(tourType as string)?.price
-                      ? Number(
-                          getLabelByValue(tourType as string)?.price.replace(
-                            /\D/g,
-                            ""
-                          )
-                        )
-                      : 0)}
-                  {/* {isVip ? "₽ VIP" : "₽"} */}₽
-                  {tourType != "no-tour" && (
-                    <span className="opacity-50">
-                      +
-                      {getLabelByValue(tourType as string)?.price
-                        ? Number(
-                            getLabelByValue(tourType as string)?.price.replace(
-                              /\D/g,
-                              ""
-                            )
-                          )
-                        : 0}
-                      ₽
-                    </span>
-                  )}
-                </Button>
-                {tourType != "no-tour" && (
-                  <Button className="rounded-[8px]!">
-                    {t("st")}: {getLabelByValue(tourType as string)?.label}
-                  </Button>
-                )}
+                <Button className="rounded-[8px]!">{sum}₽</Button>
               </div>
             </div>
           )}
