@@ -336,11 +336,11 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
 
         {total !== null && (
           <div className="flex justify-between items-center gap-4 mt-[24px]">
-            <H2FORM className="text-foreground text-nowrap">
+            <H2FORM className="text-foreground text-nowrap text-sm! sm:text-lg!">
               {t("firststep.form.totalLabel")}
             </H2FORM>
             <div className="flex flex-row gap-1">
-              <Button className="rounded-[8px]!">
+              <Button className="rounded-[8px]!" size={"sm"}>
                 {Number(total) - 0}
                 {/* (getLabelByValue(selectedTourValue)?.price ? Number(
                 getLabelByValue(selectedTourValue)?.price.replace( /\D/g, "" ) )

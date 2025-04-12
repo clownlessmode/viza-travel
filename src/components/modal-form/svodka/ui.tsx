@@ -114,9 +114,10 @@ export const visitTypeTranslations: Record<string, Record<string, string>> = {
 };
 const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
   const t = useTranslations("summaryForm");
-  const x = useTranslations("visa");
+
   const g = useTranslations("touristForm");
   const k = useTranslations("contactForm");
+  const z = useTranslations("extraform");
 
   const visitTypes = useVisitTypes();
 
@@ -135,6 +136,9 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     useSecondStepStore();
   const getLabelByValue = (value: string) => {
     return tours.find((tour) => tour.value === value);
+  };
+  const getLabelByValues = (value: string) => {
+    return DATAVIZA.find((citizenship) => citizenship.id.toString() === value);
   };
   async function onSubmit(data: YGUYB) {
     // setThirdStepData({ ...values });
@@ -187,7 +191,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
   const { data } = useSecondStepStore();
 
   const sum = data.reduce((acc, num) => acc + num.price, 0);
-
+  console.log(secondStepData.data);
   return (
     <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
       <DialogHeader>
@@ -218,7 +222,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
 
       <Form {...form}>
         <form
-          className="space-y-2 mt-[12px] px-1"
+          className="space-y-4  px-1"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           {/* Citizenship */}
@@ -227,7 +231,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           {/* Last Name */}
           {secondStepData.data.map((traveler, index) => (
             <React.Fragment key={index}>
-              <DialogTitle className="justify-between mb-6">
+              <DialogTitle className="justify-between mb-6 mt-0">
                 {g("trs")} {index + 1}
               </DialogTitle>
               <FormItem>
@@ -250,8 +254,50 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                   <Input value={traveler.middleName || ""} disabled />
                 </FormControl>
               </FormItem>
-
-              <div className="flex flex-row gap-2 w-full justify-between items-start">
+              <FormItem>
+                <FormLabel>{z("firststep.form.citizenship")}</FormLabel>
+                <FormControl>
+                  <Input
+                    value={
+                      getLabelByValues(traveler.citizenship)?.country || ""
+                    }
+                    disabled
+                  />
+                </FormControl>
+              </FormItem>
+              <FormItem>
+                <FormLabel>{z("firststep.form.visaType")}</FormLabel>
+                <FormControl>
+                  <Input value={traveler.visaType || ""} disabled />
+                </FormControl>
+              </FormItem>
+              <FormItem>
+                <FormLabel>{z("firststep.form.visaTime")}</FormLabel>
+                <FormControl>
+                  <Input value={traveler.visaTime || ""} disabled />
+                </FormControl>
+              </FormItem>
+              <FormField
+                control={form.control}
+                name="tourType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{z("firststep.form.tourType")}</FormLabel>
+                    <FormControl>
+                      <RadioCards
+                        {...field}
+                        onValueChange={field.onChange}
+                        options={tours}
+                        defaultValue={traveler.tourType}
+                        defaultChecked={true}
+                        disabled
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between sm:items-start">
                 <FormItem className="w-full">
                   <FormLabel>{t("birthDate")}</FormLabel>
                   <FormControl>
@@ -398,11 +444,13 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           />
           {firstStepPrice !== null && (
             <div className="flex justify-between items-center gap-4 mt-[24px]">
-              <H2FORM className="text-foreground text-nowrap">
+              <H2FORM className="text-foreground text-nowrap text-sm! sm:text-lg!">
                 {t("total")}
               </H2FORM>
               <div className="flex flex-row gap-1">
-                <Button className="rounded-[8px]!">{sum}₽</Button>
+                <Button className="rounded-[8px]!" size={"sm"}>
+                  {sum}₽
+                </Button>
               </div>
             </div>
           )}

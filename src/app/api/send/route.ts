@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const { name, email, tel } = body;
 
     const { error } = await resend.emails.send({
-      from: "applicans@visarussia24.ru",
+      from: "Support <support@visarussia24.ru>",
       to: "applicans@visarussia24.ru",
       subject: `Новая заявка на связь от ${name}`,
       react: ReadyTemplate({

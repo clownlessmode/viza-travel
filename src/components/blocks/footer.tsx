@@ -83,11 +83,13 @@ const Footer: FC = () => {
         </nav>
       </div>
       <nav className="text-nowrap! flex flex-col md:flex-row gap-[12px] opacity-50 md:justify-between">
-        <NavigationText>
+        <NavigationText className="max-w-[300px] text-wrap">
           <Link href={"agreement"}>{t("privacy")}</Link>
         </NavigationText>
         <NavigationText>
-          <Link href={"policy"}>{t("policy")}</Link>
+          <Link href={"policy"} className="max-w-[300px] text-wrap">
+            {t("policy")}
+          </Link>
         </NavigationText>
         <NavigationText>
           <Link href={"offer"}>{t("oferta")}</Link>

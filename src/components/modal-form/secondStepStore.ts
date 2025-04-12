@@ -7,6 +7,8 @@ export interface SecondStepData {
   middleName?: string;
   birthDate: string;
   gender: "male" | "female";
+  visaType: string;
+  visaTime: string;
   tourType: string;
   passportNumber: string;
   passportExpiryDate: string;

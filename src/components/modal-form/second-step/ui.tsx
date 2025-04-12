@@ -83,6 +83,9 @@ const SecondStep: FC = () => {
     if (!isFinal) {
       addSecondStepData({
         ...values,
+
+        visaType: selectedVisaType,
+        visaTime: selectedVisaTime,
         price: Number(total),
       });
       form.reset();
@@ -94,6 +97,8 @@ const SecondStep: FC = () => {
     } else {
       addSecondStepData({
         ...values,
+        visaType: selectedVisaType,
+        visaTime: selectedVisaTime,
         price: Number(total),
         // (getLabelByValue(selectedTour as string)?.price
         //   ? Number(
@@ -196,29 +201,11 @@ const SecondStep: FC = () => {
         </DialogTitle>
         {visaPricesPerPerson && (
           <div className="flex justify-between items-center gap-4 mt-[24px]">
-            <H2FORM className="text-foreground text-nowrap">
+            <H2FORM className="text-foreground text-nowrap text-sm! sm:text-lg!">
               {t("total")}
             </H2FORM>
-            <div className="flex flex-row gap-1">
-              <Button className="rounded-[8px]!">
-                {/* {Number(total) -
-                  (getLabelByValue(selectedTour as string)?.price
-                    ? Number(
-                        getLabelByValue(selectedTour as string)?.price.replace(
-                          /\D/g,
-                          ""
-                        )
-                      )
-                    : 0) +
-                  data.reduce((acc, item) => {
-                    const price = Number(
-                      typeof item.price === "string" ? item.price : item.price
-                    );
-                    return acc + price;
-                  }, 0)} */}
-                {/* {isVip
-                  ? `₽ ${getLabelByValue(selectedTour as string)?.label}`
-                  : "₽"} */}
+            <div className="flex sm:flex-row gap-1 flex-col">
+              <Button className="rounded-[8px]! " size={"sm"}>
                 {visaPricesPerPerson?.length > 0 && peopleIndex !== 0
                   ? (total as number) +
                     (data?.slice(0, peopleIndex).reduce((acc, item) => {
@@ -257,7 +244,7 @@ const SecondStep: FC = () => {
                 )}
               </Button>
               {selectedTour != "no-tour" && (
-                <Button className="rounded-[8px]!">
+                <Button className="rounded-[8px]!" size={"sm"}>
                   {t("st")}: {getLabelByValue(selectedTour as string)?.label}
                 </Button>
               )}
@@ -384,7 +371,7 @@ const SecondStep: FC = () => {
             )}
           />
 
-          <div className="flex flex-row gap-2 w-full justify-between items-start">
+          <div className="flex sm:flex-row gap-2 w-full sm:justify-between sm:items-start">
             <FormField
               control={form.control}
               name="birthDate"

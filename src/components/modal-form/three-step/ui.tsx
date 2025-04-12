@@ -85,11 +85,13 @@ const ThirdStep: FC = () => {
         <DialogTitle>{t("title")}</DialogTitle>
         {firstStepPrice !== null && (
           <div className="flex justify-between items-center gap-4 mt-[24px]">
-            <H2FORM className="text-foreground text-nowrap">
+            <H2FORM className="text-foreground text-nowrap text-sm! sm:text-lg!">
               {t("total")}
             </H2FORM>
             <div className="flex flex-row gap-1">
-              <Button className="rounded-[8px]!">{sum}₽</Button>
+              <Button className="rounded-[8px]! " size={"sm"}>
+                {sum}₽
+              </Button>
             </div>
           </div>
         )}
