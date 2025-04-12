@@ -420,11 +420,13 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 <>
                   {t("checkbox.text1.left")}
-                  <LinkText href="agreement">
+                  <LinkText href="agreement" target="_blank">
                     {t("checkbox.text1.agree")}
                   </LinkText>
                   {t("checkbox.text1.center")}
-                  <LinkText href="policy">{t("checkbox.text1.pers")}</LinkText>
+                  <LinkText href="policy" target="_blank">
+                    {t("checkbox.text1.pers")}
+                  </LinkText>
                   {t("checkbox.text1.right")}
                 </>
               </label>
@@ -445,11 +447,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           <Button
             type="submit"
             className="mt-[48px] w-full"
-            disabled={
-              !form.formState.isValid ||
-              !form.watch("checkbox2") ||
-              !form.watch("checkbox1")
-            }
+            disabled={!form.formState.isValid || !form.watch("checkbox1")}
           >
             {t("button")}
           </Button>

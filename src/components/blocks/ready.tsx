@@ -151,11 +151,11 @@ const Ready: FC = () => {
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   <>
                     {t("checkbox.text1.left")}
-                    <LinkText href="agreement">
+                    <LinkText href="agreement" target="_blank">
                       {t("checkbox.text1.agree")}
                     </LinkText>
                     {t("checkbox.text1.center")}
-                    <LinkText href="policy">
+                    <LinkText href="policy" target="_blank">
                       {t("checkbox.text1.pers")}
                     </LinkText>
                     {t("checkbox.text1.right")}
