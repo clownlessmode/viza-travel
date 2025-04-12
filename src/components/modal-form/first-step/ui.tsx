@@ -123,7 +123,6 @@ export const useVisaTimesByType = (
       };
     });
 
-
     return result;
   }, [data, visaType, t]);
 };
@@ -154,7 +153,7 @@ export const useTotalVisaCostInRub = (
   peoples: string | undefined,
   selectedTourValue: string | undefined,
   tours: TourItem[],
-  currencyRate: number = 85
+  currencyRate: number = 1
 ): UseTotalVisaCostRubResult => {
   return useMemo(() => {
     if (!countryId || !visaType || !visaTime) {

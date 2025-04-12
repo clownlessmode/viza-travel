@@ -53,6 +53,8 @@ const ThirdStep: FC = () => {
 
     setIndex(currentIndex + 1);
   }
+  console.log(firstStepPrice, "firtstep");
+  console.log(data, "dataa");
   const t = useTranslations("contactForm");
   const sum = data.reduce((acc, num) => acc + num.price, 0);
 

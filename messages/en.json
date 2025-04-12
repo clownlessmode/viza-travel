@@ -125,7 +125,7 @@
     "return": "Return conditions",
     "procedure": "Service cancellation procedure",
     "privacy": "User Agreement",
-    "policy": "Privacy Policy",
+    "policy": "Personal data processing policy",
     "oferta": "Offer",
     "pamyatka": "Leaflet on the stay of foreign citizens",
     "ws": "Write in WhatsApp",
@@ -278,7 +278,7 @@
   },
   "visitTypes": {
     "Отдых, экскурсии и знакомство с культурой России": "Leisure, excursions, and exploring Russian culture",
-    "- Участие в конференциях, выставках, посещение официальных мероприятий": "- Attending conferences, exhibitions, and official events"
+    "Участие в конференциях, выставках, посещение официальных мероприятий": "Attending conferences, exhibitions, and official events"
   },
   "contactForm": {
     "back": "Back",
@@ -344,8 +344,13 @@
       "mail": "E-Mail"
     },
     "checkbox": {
-      "text1": "By clicking on the button, you agree to the policy regarding the processing of personal data",
-      "text2": "By clicking on the button, you consent to the processing of personal data",
+      "text1": {
+        "left": "I ",
+        "agree": "agree",
+        "center": " to the processing of my ",
+        "pers": "personal data",
+        "right": " on the operator's website"
+      },
       "text3": "Memo on Staying of Foreign Citizens and Stateless Persons in the Russian Federation"
     },
     "button": "Write to us"
@@ -373,8 +378,13 @@
       "mail": "E-Mail"
     },
     "checkbox": {
-      "text1": "By clicking on the button, you agree to the policy regarding the processing of personal data",
-      "text2": "By clicking on the button, you consent to the processing of personal data",
+      "text1": {
+        "left": "I ",
+        "agree": "agree",
+        "center": " to the processing of my ",
+        "pers": "personal data",
+        "right": " on the operator's website"
+      },
       "text3": "Memo on Staying of Foreign Citizens and Stateless Persons in the Russian Federation"
     },
     "success": "The application has been submitted successfully!",

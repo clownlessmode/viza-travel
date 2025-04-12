@@ -8,7 +8,6 @@ import { Checkbox } from "../ui/checkbox";
 import LinkText from "../ui/texts/link-text";
 import { useTranslations } from "next-intl";
 
-
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 type FormData = {
@@ -33,7 +32,6 @@ const Ready: FC = () => {
       tel: "",
       email: "",
       checkbox1: false,
-      checkbox2: false,
     },
   });
 
@@ -151,32 +149,22 @@ const Ready: FC = () => {
                   }
                 />
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href="policy">{t("checkbox.text1")}</LinkText>
+                  <>
+                    {t("checkbox.text1.left")}
+                    <LinkText href="agreement">
+                      {t("checkbox.text1.agree")}
+                    </LinkText>
+                    {t("checkbox.text1.center")}
+                    <LinkText href="policy">
+                      {t("checkbox.text1.pers")}
+                    </LinkText>
+                    {t("checkbox.text1.right")}
+                  </>
                 </label>
               </div>
               {errors.checkbox1 && (
                 <p className="text-sm text-red-500 pl-8">
                   {errors.checkbox1.message}
-                </p>
-              )}
-
-              {/* Checkbox 2 */}
-              <div className="flex flex-row gap-[12px] items-center">
-                <Checkbox
-                  checked={watch("checkbox2")}
-                  onCheckedChange={(checked) =>
-                    setValue("checkbox2", Boolean(checked), {
-                      shouldValidate: true,
-                    })
-                  }
-                />
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  <LinkText href="agreement">{t("checkbox.text2")}</LinkText>
-                </label>
-              </div>
-              {errors.checkbox2 && (
-                <p className="text-sm text-red-500 pl-8">
-                  {errors.checkbox2.message}
                 </p>
               )}
 

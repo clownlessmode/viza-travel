@@ -52,7 +52,7 @@ export const useVisitTypes = () => {
 
   const rawVisitTypes = [
     "Отдых, экскурсии и знакомство с культурой России",
-    "- Участие в конференциях, выставках, посещение официальных мероприятий",
+    "Участие в конференциях, выставках, посещение официальных мероприятий",
   ];
 
   return rawVisitTypes.map((value) => ({
@@ -94,16 +94,15 @@ const SecondStep: FC = () => {
     } else {
       addSecondStepData({
         ...values,
-        price:
-          Number(total) -
-          (getLabelByValue(selectedTour as string)?.price
-            ? Number(
-                getLabelByValue(selectedTour as string)?.price.replace(
-                  /\D/g,
-                  ""
-                )
-              )
-            : 0),
+        price: Number(total),
+        // (getLabelByValue(selectedTour as string)?.price
+        //   ? Number(
+        //       getLabelByValue(selectedTour as string)?.price.replace(
+        //         /\D/g,
+        //         ""
+        //       )
+        //     )
+        //   : 0),
       });
       setIndex(currentIndex + 1);
 
@@ -190,6 +189,7 @@ const SecondStep: FC = () => {
           {t("title")}
           {Number(peoples) > 1 && (
             <span className="opacity-50">
+              {" "}
               ({peopleIndex + 1}/{peoples})
             </span>
           )}
@@ -429,7 +429,6 @@ const SecondStep: FC = () => {
                 <FormControl>
                   <Input
                     {...field}
-                    type="number"
                     maxLength={30}
                     placeholder={t("passportNumberPlaceholder")}
                   />
@@ -554,28 +553,26 @@ const SecondStep: FC = () => {
                     {...field}
                     onValueChange={field.onChange}
                     options={tours}
-                    required={
-                      ![
-                        "110",
-                        "112",
-                        "143",
-                        "145",
-                        "146",
-                        "187",
-                        "194",
-                        "53",
-                        "55",
-                        "57",
-                        "255",
-                        "191",
-                        "162",
-                        "75",
-                        "225",
-                        "158",
-                        "160",
-                        "236",
-                      ].includes(selectedCountryId)
-                    }
+                    required={[
+                      "110",
+                      "112",
+                      "143",
+                      "145",
+                      "146",
+                      "187",
+                      "194",
+                      "53",
+                      "55",
+                      "57",
+                      "255",
+                      "191",
+                      "162",
+                      "75",
+                      "225",
+                      "158",
+                      "160",
+                      "236",
+                    ].includes(selectedCountryId)}
                   />
                 </FormControl>
                 <FormMessage />

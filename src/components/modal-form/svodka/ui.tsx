@@ -87,11 +87,11 @@ export function translateVisitType(value: string): string {
       zh: "休闲、观光和了解俄罗斯文化",
       ar: "الترفيه والجولات والتعرف على الثقافة الروسية",
     },
-    "- Участие в конференциях, выставках, посещение официальных мероприятий": {
-      ru: "- Участие в конференциях, выставках, посещение официальных мероприятий",
-      en: "- Attending conferences, exhibitions, and official events",
-      zh: "- 参加会议、展览和官方活动",
-      ar: "- المشاركة في المؤتمرات والمعارض والفعاليات الرسمية",
+    "Участие в конференциях, выставках, посещение официальных мероприятий": {
+      ru: "Участие в конференциях, выставках, посещение официальных мероприятий",
+      en: "Attending conferences, exhibitions, and official events",
+      zh: "参加会议、展览和官方活动",
+      ar: "المشاركة في المؤتمرات والمعارض والفعاليات الرسمية",
     },
   };
 
@@ -106,10 +106,10 @@ export const visitTypeTranslations: Record<string, Record<string, string>> = {
     ar: "الترفيه والجولات والتعرف على الثقافة الروسية",
   },
   "- Участие в конференциях, выставках, посещение официальных мероприятий": {
-    ru: "- Участие в конференциях, выставках, посещение официальных мероприятий",
-    en: "- Attending conferences, exhibitions, and official events",
-    zh: "- 参加会议、展览和官方活动",
-    ar: "- المشاركة في المؤتمرات والمعارض والفعاليات الرسمية",
+    ru: "Участие в конференциях, выставках, посещение официальных мероприятий",
+    en: "Attending conferences, exhibitions, and official events",
+    zh: "参加会议、展览和官方活动",
+    ar: "المشاركة في المؤتمرات والمعارض والفعاليات الرسمية",
   },
 };
 const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -418,32 +418,20 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 }
               />
               <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                <LinkText href="policy">{t("checkbox.text1")}</LinkText>
+                <>
+                  {t("checkbox.text1.left")}
+                  <LinkText href="agreement">
+                    {t("checkbox.text1.agree")}
+                  </LinkText>
+                  {t("checkbox.text1.center")}
+                  <LinkText href="policy">{t("checkbox.text1.pers")}</LinkText>
+                  {t("checkbox.text1.right")}
+                </>
               </label>
             </div>
             {form.formState.errors.checkbox1 && (
               <p className="text-sm text-red-500 pl-8">
                 {form.formState.errors.checkbox1.message}
-              </p>
-            )}
-
-            {/* Checkbox 2 */}
-            <div className="flex flex-row gap-[12px] items-center">
-              <Checkbox
-                checked={form.watch("checkbox2")}
-                onCheckedChange={(checked) =>
-                  form.setValue("checkbox2", Boolean(checked), {
-                    shouldValidate: true,
-                  })
-                }
-              />
-              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                <LinkText href="agreement">{t("checkbox.text2")}</LinkText>
-              </label>
-            </div>
-            {form.formState.errors.checkbox2 && (
-              <p className="text-sm text-red-500 pl-8">
-                {form.formState.errors.checkbox2.message}
               </p>
             )}
 
