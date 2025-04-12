@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // ui.tsx
 "use client";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
@@ -154,7 +155,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       email: thirdStepData.email,
       preferredContact: thirdStepData.preferredContact,
     };
-    toast.success(k("success"));
+    toast.success(t("success"));
 
     try {
       const response = await fetch("/api/send-form", {
@@ -173,6 +174,28 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     } catch (error) {
       console.error("Ошибка сети:", error);
     }
+    try {
+      const amount = String(sum);
+      const params = new URLSearchParams({
+        amount,
+        description: "Оплата туристических услуг",
+        email: email,
+        userId: "123", // Здесь должен быть реальный ID пользователя
+      });
+
+      const res = await fetch(`/api/payment?${params}`);
+      const data = await res.json();
+
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      } else {
+        throw new Error("Payment URL not received");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Ошибка при создании платежа");
+    } finally {
+    }
     onClose();
     form.reset();
     setIndex(0);
@@ -187,8 +210,10 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       checkbox2: false,
     },
   });
+  const email = form.watch("email");
 
   const { data } = useSecondStepStore();
+  console.log(form);
 
   const sum = data.reduce((acc, num) => acc + num.price, 0);
   console.log(secondStepData.data);
@@ -277,26 +302,29 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                   <Input value={traveler.visaTime || ""} disabled />
                 </FormControl>
               </FormItem>
-              <FormField
-                control={form.control}
-                name="tourType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{z("firststep.form.tourType")}</FormLabel>
-                    <FormControl>
-                      <RadioCards
-                        {...field}
-                        onValueChange={field.onChange}
-                        options={tours}
-                        defaultValue={traveler.tourType}
-                        defaultChecked={true}
-                        disabled
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+              <div
+                className={cn(
+                  "relative group ring-[1px] bg-[rgba(0,0,0,0.03)] rounded-[8px] ring-border py-[16px] px-[24px] text-left transition-colors",
+                  "data-[state=checked]:ring-2 data-[state=checked]:ring-primary",
+                  "hover:bg-muted cursor-pointer",
+                  "flex flex-col gap-[12px]"
                 )}
-              />
+              >
+                {/* Верхняя часть */}
+                <div className="flex flex-row gap-2 justify-between items-center">
+                  <div className="flex-1 flex flex-row pl-2 gap-x-[36px] gap-y-0 text-[18px] flex-wrap">
+                    <p className="w-[90px]">
+                      {getLabelByValue(traveler.tourType)?.label}
+                    </p>
+                    <p className="w-[140px]">
+                      {getLabelByValue(traveler.tourType)?.description}
+                    </p>
+                    <p className="font-bold">
+                      {getLabelByValue(traveler.tourType)?.price}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between sm:items-start">
                 <FormItem className="w-full">
                   <FormLabel>{t("birthDate")}</FormLabel>

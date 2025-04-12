@@ -14,8 +14,8 @@ export async function POST(req: Request) {
     const body: VisaApplicationEmailProps = await req.json();
 
     const { error } = await resend.emails.send({
-      from: "applicans@visarussia24.ru",
-      to: "applicans@visarussia24.ru",
+      from: "visarussia24@mail.ru",
+      to: "visarussia24@mail.ru",
       subject: `Новая заявка`,
       react: FormTemplate({ ...body }) as React.ReactElement,
     });

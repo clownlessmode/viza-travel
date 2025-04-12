@@ -4,6 +4,7 @@
     "": {
       "name": "viza",
       "dependencies": {
+        "@dev-aces/robokassa": "^1.1.0",
         "@hookform/resolvers": "^5.0.1",
         "@radix-ui/react-accordion": "^1.2.3",
         "@radix-ui/react-checkbox": "^1.1.4",
@@ -52,6 +53,8 @@
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
+
+    "@dev-aces/robokassa": ["@dev-aces/robokassa@1.1.0", "", {}, "sha512-fIuLh6ge5Al6fa+XnXSUs/owvTlSDzLAa4QNe5LwngA6xfWgUH2586tjBNn6H7C1gA3NrVfKr8iurgh++ftVFA=="],
 
     "@emnapi/core": ["@emnapi/core@1.4.0", "", { "dependencies": { "@emnapi/wasi-threads": "1.0.1", "tslib": "^2.4.0" } }, "sha512-H+N/FqT07NmLmt6OFFtDfwe8PNygprzBikrEMyQfgqSmT0vzE515Pz7R8izwB9q/zsH/MA64AKoul3sA6/CzVg=="],
 
