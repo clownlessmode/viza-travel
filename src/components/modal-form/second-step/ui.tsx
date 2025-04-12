@@ -45,6 +45,7 @@ import {
 import useSecondStepStore from "../secondStepStore";
 import { useTranslations } from "next-intl";
 import RadioCards from "@/components/ui/radio-cards";
+import { NativeSelect } from "@/components/ui/native-select";
 
 export const useVisitTypes = () => {
   const t = useTranslations("visitTypes");
@@ -469,12 +470,10 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>*{t("tripPurpose")}</FormLabel>
                 <FormControl>
-                  <Combobox
+                  <NativeSelect
                     {...field}
                     options={visitTypes}
                     placeholder={t("tripPurposePlaceholder")}
-                    searchPlaceholder={t("tripPurposeSearch")}
-                    emptyText={t("tripPurposeEmpty")}
                   />
                 </FormControl>
               </FormItem>
