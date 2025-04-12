@@ -1,4 +1,27 @@
 {
+  "paymentPage": {
+    "success": {
+      "title": "支付成功！",
+      "thankYou": "感谢您的付款。我们正在处理您的订单，并将尽快与您联系。",
+      "orderNumber": "订单号：",
+      "amount": "金额：",
+      "currency": "₽",
+      "notAvailable": "不可用"
+    },
+    "failure": {
+      "title": "支付错误",
+      "message": "很遗憾，您的付款未完成。请检查您的详细信息或重试。"
+    },
+    "common": {
+      "questions": "有问题吗？",
+      "needHelp": "需要帮助？",
+      "contactUs": "如果您需要更多信息，请联系我们：",
+      "helpText": "如果您在付款时遇到任何问题，请联系我们：",
+      "whatsapp": "WhatsApp：",
+      "email": "电子邮件：",
+      "mainPage": "返回首页"
+    }
+  },
   "selectlang": "选择语言",
   "header": {
     "process": "製程",

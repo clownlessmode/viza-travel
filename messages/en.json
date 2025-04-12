@@ -1,4 +1,27 @@
 {
+  "paymentPage": {
+    "success": {
+      "title": "Payment Successful!",
+      "thankYou": "Thank you for your payment. We are processing your order and will contact you shortly.",
+      "orderNumber": "Order Number:",
+      "amount": "Amount:",
+      "currency": "₽",
+      "notAvailable": "N/A"
+    },
+    "failure": {
+      "title": "Payment Error",
+      "message": "Unfortunately, your payment was not completed. Please check your details or try again."
+    },
+    "common": {
+      "questions": "Have questions?",
+      "needHelp": "Need help?",
+      "contactUs": "If you need additional information, please contact us:",
+      "helpText": "If you have any problems with payment, please contact us:",
+      "whatsapp": "WhatsApp:",
+      "email": "Email:",
+      "mainPage": "Back to home"
+    }
+  },
   "header": {
     "process": "Process",
     "okompanii": "About",

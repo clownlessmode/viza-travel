@@ -155,25 +155,24 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       email: thirdStepData.email,
       preferredContact: thirdStepData.preferredContact,
     };
-    toast.success(t("success"));
 
-    try {
-      const response = await fetch("/api/send-form", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datasss),
-      });
+    // try {
+    //   const response = await fetch("/api/send-form", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(datasss),
+    //   });
 
-      if (response.ok) {
-      } else {
-        const errorData = await response.json();
-        console.error("Ошибка при отправке письма:", errorData);
-      }
-    } catch (error) {
-      console.error("Ошибка сети:", error);
-    }
+    //   if (response.ok) {
+    //   } else {
+    //     const errorData = await response.json();
+    //     console.error("Ошибка при отправке письма:", errorData);
+    //   }
+    // } catch (error) {
+    //   console.error("Ошибка сети:", error);
+    // }
     try {
       const amount = String(sum);
       const params = new URLSearchParams({

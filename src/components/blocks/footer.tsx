@@ -58,14 +58,14 @@ const Footer: FC = () => {
               <WA className="text-green-300 size-5" />
             </Link>
           </NavigationText>
-          <NavigationText>
+          {/* <NavigationText>
             <Link href={"mailto:support@visarussia24.ru"}>
-              support@visarussia24.ru - {t("supp")}
+              visarussia24@mail.ru - {t("supp")}
             </Link>
-          </NavigationText>
+          </NavigationText> */}
           <NavigationText>
-            <Link href={"mailto:applicans@visarussia24.ru"}>
-              applicans@visarussia24.ru - {t("appl")}
+            <Link href={"mailto:visarussia24@mail.ru"}>
+              visarussia24@mail.ru - {t("appl")}, {t("supp")}
             </Link>
           </NavigationText>
         </nav>
