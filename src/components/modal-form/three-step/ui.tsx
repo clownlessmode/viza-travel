@@ -13,7 +13,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
@@ -108,7 +107,7 @@ const ThirdStep: FC = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("phone")}</FormLabel>
+                <FormLabel>*{t("phone")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -116,7 +115,6 @@ const ThirdStep: FC = () => {
                     type="tel"
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -125,7 +123,7 @@ const ThirdStep: FC = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("email")}</FormLabel>
+                <FormLabel>*{t("email")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -133,7 +131,6 @@ const ThirdStep: FC = () => {
                     type="email"
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -159,7 +156,6 @@ const ThirdStep: FC = () => {
                     ]}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />

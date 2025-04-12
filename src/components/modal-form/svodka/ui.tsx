@@ -259,27 +259,27 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 {g("trs")} {index + 1}
               </DialogTitle>
               <FormItem>
-                <FormLabel>{t("lastName")}</FormLabel>
+                <FormLabel>*{t("lastName")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.lastName} disabled />
                 </FormControl>
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("firstName")}</FormLabel>
+                <FormLabel>*{t("firstName")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.firstName} disabled />
                 </FormControl>
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("middleName")}</FormLabel>
+                <FormLabel>*{t("middleName")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.middleName || ""} disabled />
                 </FormControl>
               </FormItem>
               <FormItem>
-                <FormLabel>{z("firststep.form.citizenship")}</FormLabel>
+                <FormLabel>*{z("firststep.form.citizenship")}</FormLabel>
                 <FormControl>
                   <Input
                     value={
@@ -290,13 +290,13 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 </FormControl>
               </FormItem>
               <FormItem>
-                <FormLabel>{z("firststep.form.visaType")}</FormLabel>
+                <FormLabel>*{z("firststep.form.visaType")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.visaType || ""} disabled />
                 </FormControl>
               </FormItem>
               <FormItem>
-                <FormLabel>{z("firststep.form.visaTime")}</FormLabel>
+                <FormLabel>*{z("firststep.form.visaTime")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.visaTime || ""} disabled />
                 </FormControl>
@@ -326,7 +326,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </div>
               <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between sm:items-start">
                 <FormItem className="w-full">
-                  <FormLabel>{t("birthDate")}</FormLabel>
+                  <FormLabel>*{t("birthDate")}</FormLabel>
                   <FormControl>
                     <Input
                       type="date"
@@ -338,7 +338,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 </FormItem>
 
                 <FormItem className="w-full">
-                  <FormLabel>{t("gender")}</FormLabel>
+                  <FormLabel>*{t("gender")}</FormLabel>
                   <FormControl>
                     <Input
                       value={
@@ -351,14 +351,14 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </div>
 
               <FormItem>
-                <FormLabel>{t("passportNumber")}</FormLabel>
+                <FormLabel>*{t("passportNumber")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.passportNumber} disabled type="text" />
                 </FormControl>
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("passportExpiryDate")}</FormLabel>
+                <FormLabel>*{t("passportExpiryDate")}</FormLabel>
                 <FormControl>
                   <Input
                     type="date"
@@ -369,7 +369,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("entryDate")}</FormLabel>
+                <FormLabel>*{t("entryDate")}</FormLabel>
                 <FormControl>
                   <Input
                     type="date"
@@ -381,11 +381,10 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("exitDate")}</FormLabel>
+                <FormLabel>*{t("exitDate")}</FormLabel>
                 <FormControl>
                   <Input
                     type="date"
-
                     placeholder={"----"}
                     value={traveler.exitDate}
                     disabled
@@ -394,7 +393,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("tripPurpose")}</FormLabel>
+                <FormLabel>*{t("tripPurpose")}</FormLabel>
                 <FormControl>
                   <Input
                     value={translateVisitType(
@@ -407,14 +406,14 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("itinerary")}</FormLabel>
+                <FormLabel>*{t("itinerary")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.itinerary} disabled />
                 </FormControl>
               </FormItem>
 
               <FormItem>
-                <FormLabel>{t("additionalInfo")}</FormLabel>
+                <FormLabel>*{t("additionalInfo")}</FormLabel>
                 <FormControl>
                   <Input value={traveler.additionalInfo || ""} disabled />
                 </FormControl>
@@ -428,7 +427,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("phone")}</FormLabel>
+                <FormLabel>*{t("phone")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -437,7 +436,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                     placeholder="+7 (___) ___-__-__"
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -447,7 +445,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("email")}</FormLabel>
+                <FormLabel>*{t("email")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -456,7 +454,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                     placeholder="example@mail.com"
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -481,7 +478,6 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                     ]}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />

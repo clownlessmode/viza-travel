@@ -14,7 +14,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
@@ -264,11 +263,10 @@ const SecondStep: FC = () => {
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("lastName")}</FormLabel>
+                <FormLabel>*{t("lastName")}</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder={t("lastNamePlaceholder")} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -278,11 +276,10 @@ const SecondStep: FC = () => {
             name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("firstName")}</FormLabel>
+                <FormLabel>*{t("firstName")}</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder={t("firstNamePlaceholder")} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -292,11 +289,10 @@ const SecondStep: FC = () => {
             name="middleName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("middleName")}</FormLabel>
+                <FormLabel>*{t("middleName")}</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder={t("middleNamePlaceholder")} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -305,7 +301,7 @@ const SecondStep: FC = () => {
             name="citizenship"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{y("firststep.form.citizenship")}</FormLabel>
+                <FormLabel>*{y("firststep.form.citizenship")}</FormLabel>
                 <FormControl>
                   <Combobox
                     {...field}
@@ -315,7 +311,6 @@ const SecondStep: FC = () => {
                     emptyText={y("firststep.form.citizenshipEmpty")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -324,7 +319,7 @@ const SecondStep: FC = () => {
             name="visaType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{y("firststep.form.visaType")}</FormLabel>
+                <FormLabel>*{y("firststep.form.visaType")}</FormLabel>
                 <FormControl>
                   <Combobox
                     disabled={!form.watch("citizenship")}
@@ -335,7 +330,6 @@ const SecondStep: FC = () => {
                     emptyText={y("firststep.form.visaTypeEmpty")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -348,7 +342,7 @@ const SecondStep: FC = () => {
               //           selectedVisaType === x("15 дней - Однократная")) ||
               //         selectedVisaType === x("30 дней - Однократная")
               <FormItem>
-                <FormLabel>{y("firststep.form.visaTime")}</FormLabel>
+                <FormLabel>*{y("firststep.form.visaTime")}</FormLabel>
                 <FormControl>
                   <Combobox
                     disabled={!form.watch("visaType")}
@@ -366,7 +360,6 @@ const SecondStep: FC = () => {
                     emptyText={y("firststep.form.visaTimeEmpty")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -377,11 +370,10 @@ const SecondStep: FC = () => {
               name="birthDate"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>{t("birthDate")}</FormLabel>
+                  <FormLabel>*{t("birthDate")}</FormLabel>
                   <FormControl>
                     <Input type="date" placeholder={"----"} {...field} />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -390,7 +382,7 @@ const SecondStep: FC = () => {
               name="gender"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>{t("gender")}</FormLabel>
+                  <FormLabel>*{t("gender")}</FormLabel>
                   <FormControl>
                     <PolCards
                       {...field}
@@ -401,7 +393,6 @@ const SecondStep: FC = () => {
                       ]}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -412,7 +403,7 @@ const SecondStep: FC = () => {
             name="passportNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("passportNumber")}</FormLabel>
+                <FormLabel>*{t("passportNumber")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -420,7 +411,6 @@ const SecondStep: FC = () => {
                     placeholder={t("passportNumberPlaceholder")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -430,7 +420,7 @@ const SecondStep: FC = () => {
             name="passportExpiryDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("passportExpiryDate")}</FormLabel>
+                <FormLabel>*{t("passportExpiryDate")}</FormLabel>
                 <FormControl>
                   <Input type="date" placeholder={"----"} {...field} />
                 </FormControl>
@@ -451,11 +441,10 @@ const SecondStep: FC = () => {
             name="entryDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("entryDate")}</FormLabel>
+                <FormLabel>*{t("entryDate")}</FormLabel>
                 <FormControl>
                   <Input type="date" placeholder={"----"} {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -465,11 +454,10 @@ const SecondStep: FC = () => {
             name="exitDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("exitDate")}</FormLabel>
+                <FormLabel>*{t("exitDate")}</FormLabel>
                 <FormControl>
                   <Input type="date" placeholder={"----"} {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -479,7 +467,7 @@ const SecondStep: FC = () => {
             name="tripPurpose"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("tripPurpose")}</FormLabel>
+                <FormLabel>*{t("tripPurpose")}</FormLabel>
                 <FormControl>
                   <Combobox
                     {...field}
@@ -489,7 +477,6 @@ const SecondStep: FC = () => {
                     emptyText={t("tripPurposeEmpty")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -499,7 +486,7 @@ const SecondStep: FC = () => {
             name="itinerary"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("itinerary")}</FormLabel>
+                <FormLabel>*{t("itinerary")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -507,7 +494,6 @@ const SecondStep: FC = () => {
                     placeholder={t("itineraryPlaceholder")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -525,7 +511,6 @@ const SecondStep: FC = () => {
                     placeholder={t("additionalInfoPlaceholder")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -534,7 +519,7 @@ const SecondStep: FC = () => {
             name="tourType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{y("firststep.form.tourType")}</FormLabel>
+                <FormLabel>*{y("firststep.form.tourType")}</FormLabel>
                 <FormControl>
                   <RadioCards
                     {...field}
@@ -562,7 +547,6 @@ const SecondStep: FC = () => {
                     ].includes(selectedCountryId)}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />

@@ -14,7 +14,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
@@ -28,7 +27,6 @@ import H2FORM from "../h2";
 import { DATAVIZA } from "@/app/data";
 
 import { Separator } from "@/components/ui/separator";
-import RadioCards from "@/components/ui/radio-cards";
 
 import useFirstStepStore from "../firstStepStore";
 import { useTranslations } from "next-intl";
@@ -383,7 +381,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             name="citizenship"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("firststep.form.citizenship")}</FormLabel>
+                <FormLabel>*{t("firststep.form.citizenship")}</FormLabel>
                 <FormControl>
                   <Combobox
                     {...field}
@@ -393,7 +391,6 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
                     emptyText={t("firststep.form.citizenshipEmpty")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -403,7 +400,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             name="vizaType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("firststep.form.visaType")}</FormLabel>
+                <FormLabel>*{t("firststep.form.visaType")}</FormLabel>
                 <FormControl>
                   <Combobox
                     disabled={!form.watch("citizenship")}
@@ -414,7 +411,6 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
                     emptyText={t("firststep.form.visaTypeEmpty")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -427,7 +423,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
               //           selectedVisaType === x("15 дней - Однократная")) ||
               //         selectedVisaType === x("30 дней - Однократная")
               <FormItem>
-                <FormLabel>{t("firststep.form.visaTime")}</FormLabel>
+                <FormLabel>*{t("firststep.form.visaTime")}</FormLabel>
                 <FormControl>
                   <Combobox
                     disabled={!form.watch("vizaType")}
@@ -445,7 +441,6 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
                     emptyText={t("firststep.form.visaTimeEmpty")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -455,7 +450,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             name="peoples"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("firststep.form.peoples")}</FormLabel>
+                <FormLabel>*{t("firststep.form.peoples")}</FormLabel>
                 <FormControl>
                   <NumberInputWithButtons
                     {...field}
@@ -465,7 +460,6 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
                     placeholder={t("firststep.form.peoplesPlaceholder")}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -479,7 +473,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             name="tourType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("firststep.form.tourType")}</FormLabel>
+                <FormLabel>*{t("firststep.form.tourType")}</FormLabel>
                 <FormControl>
                   <RadioCards
                     {...field}
@@ -508,7 +502,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
                     disabled={!form.watch("peoples")}
                   />
                 </FormControl>
-                <FormMessage />
+                
               </FormItem>
             )}
           /> */}
