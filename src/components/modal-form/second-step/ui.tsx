@@ -379,7 +379,7 @@ const SecondStep: FC = () => {
                 <FormItem className="w-full">
                   <FormLabel>{t("birthDate")}</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input type="date" placeholder={"----"} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -432,7 +432,7 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>{t("passportExpiryDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" placeholder={"----"} {...field} />
                 </FormControl>
 
                 {form.formState.errors.passportExpiryDate && (
@@ -453,7 +453,7 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>{t("entryDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" placeholder={"----"} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -467,7 +467,7 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>{t("exitDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" placeholder={"----"} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

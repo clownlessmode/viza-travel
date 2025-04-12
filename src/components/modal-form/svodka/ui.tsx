@@ -328,7 +328,12 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
                 <FormItem className="w-full">
                   <FormLabel>{t("birthDate")}</FormLabel>
                   <FormControl>
-                    <Input type="date" value={traveler.birthDate} disabled />
+                    <Input
+                      type="date"
+                      placeholder={"----"}
+                      value={traveler.birthDate}
+                      disabled
+                    />
                   </FormControl>
                 </FormItem>
 
@@ -366,14 +371,25 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
               <FormItem>
                 <FormLabel>{t("entryDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" value={traveler.entryDate} disabled />
+                  <Input
+                    type="date"
+                    placeholder={"----"}
+                    value={traveler.entryDate}
+                    disabled
+                  />
                 </FormControl>
               </FormItem>
 
               <FormItem>
                 <FormLabel>{t("exitDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" value={traveler.exitDate} disabled />
+                  <Input
+                    type="date"
+
+                    placeholder={"----"}
+                    value={traveler.exitDate}
+                    disabled
+                  />
                 </FormControl>
               </FormItem>
 
