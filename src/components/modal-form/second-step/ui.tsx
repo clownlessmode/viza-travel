@@ -255,7 +255,7 @@ const SecondStep: FC = () => {
 
       <Form {...form}>
         <form
-          className="space-y-2 mt-[12px] px-1"
+          className="space-y-6 mt-[12px] px-1"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
