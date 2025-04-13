@@ -61,17 +61,17 @@ export class RobokassaService {
     description: string;
     userParameters?: Record<string, string>;
     email?: string;
-    receipt?: {
-      items: Array<{
-        sum: number;
-        name: string;
-        quantity: number;
-        payment_method: string;
-        payment_object: string;
-        tax: string;
-      }>;
-      email?: string;
-    };
+    // receipt?: {
+    //   items: Array<{
+    //     sum: number;
+    //     name: string;
+    //     quantity: number;
+    //     payment_method: string;
+    //     payment_object: string;
+    //     tax: string;
+    //   }>;
+    //   email?: string;
+    // };
     isTest?: boolean;
   }): string {
     const {
@@ -79,7 +79,7 @@ export class RobokassaService {
       invId,
       description,
       userParameters = {},
-      receipt,
+      // receipt,
       email,
       isTest,
     } = params;
@@ -96,7 +96,7 @@ export class RobokassaService {
       );
 
     // Формируем параметры чека
-    const receiptParams = receipt ? this.formatReceipt(receipt) : {};
+    // const receiptParams = receipt ? this.formatReceipt(receipt) : {};
 
     // Формируем подпись
     const signatureBase = [
@@ -104,7 +104,7 @@ export class RobokassaService {
       outSum,
       invId,
       ...Object.entries(sortedUserParams).flat(),
-      ...Object.entries(receiptParams).flat(),
+      // ...Object.entries(receiptParams).flat(),
       this.password1,
     ];
 
@@ -120,7 +120,7 @@ export class RobokassaService {
       IsTest: isTest || this.isTest ? "1" : "0",
       ...(email && { Email: email }),
       ...sortedUserParams,
-      ...receiptParams,
+      // ...receiptParams,
     });
 
     return `https://auth.robokassa.ru/Merchant/Index.aspx?${urlParams.toString()}`;

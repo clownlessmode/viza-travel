@@ -22,19 +22,19 @@ export async function GET(request: Request) {
     description,
     email,
     isTest: true,
-    receipt: {
-      items: [
-        {
-          sum: amount,
-          name: "Услуги по оформлению визы",
-          quantity: 1,
-          payment_method: "full_payment",
-          payment_object: "service",
-          tax: "none",
-        },
-      ],
-      email,
-    },
+    // receipt: {
+    //   items: [
+    //     {
+    //       sum: amount,
+    //       name: "Услуги по оформлению визы",
+    //       quantity: 1,
+    //       payment_method: "full_payment",
+    //       payment_object: "service",
+    //       tax: "none",
+    //     },
+    //   ],
+    //   email,
+    // },
   });
 
   return NextResponse.json({ paymentUrl });
