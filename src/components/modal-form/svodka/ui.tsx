@@ -187,10 +187,10 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...datasss, // Все данные формы
-          invId, // Уникальный ID заказа
+          ...datasss,
+          invId, // Используйте тот же invId, который будет в callback
           status: "Не оплачено",
-          amount: sum, // Сумма к оплате
+          amount: sum,
         }),
       });
 

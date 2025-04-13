@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     const newOrder = await prisma.order.create({
       data: {
-        invId: generateInvId(), // Генерация уникального ID
+        invId: orderData.invId, // Используем переданный invId вместо генерации нового
         status: "Не оплачено",
         amount: orderData.amount, // Будет обновлено после оплаты
         citizenship: orderData.citizenship,
@@ -56,8 +56,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-}
-
-function generateInvId() {
-  return Math.floor(100000000 + Math.random() * 900000000).toString();
 }
