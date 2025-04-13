@@ -33,7 +33,7 @@ export async function GET(request: Request) {
           tax: "none",
         },
       ],
-      email: "customer@example.com",
+      email,
     },
   });
 
