@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // ui.tsx
+
 "use client";
+import { v4 as uuidv4 } from "uuid";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { Button } from "@/components/ui/button";
 import {
@@ -173,12 +175,12 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     // } catch (error) {
     //   console.error("Ошибка сети:", error);
     // }
-    function generateInvId() {
-      return Math.floor(100000000 + Math.random() * 900000000).toString();
-    }
+
     try {
       const amount = String(sum);
-      const invId = generateInvId();
+      const invId = Math.floor(
+        100000000 + Math.random() * 900000000
+      ).toString();
 
       // 1. Сначала создаем заказ в БД
       const orderResponse = await fetch("/api/orders/create", {
@@ -188,7 +190,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
         },
         body: JSON.stringify({
           ...datasss,
-          invId, // Используйте тот же invId, который будет в callback
+          invId,
           status: "Не оплачено",
           amount: sum,
         }),
@@ -204,9 +206,9 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       const params = new URLSearchParams({
         amount,
         description: "Оплата туристических услуг",
-        email: email,
-        userId: invId, // Используем invId как идентификатор пользователя
-        orderId: order.id, // ID заказа в БД
+        email: order.email,
+        userId: order.invId, // Используем invId как идентификатор пользователя
+        orderId: order.invId, // ID заказа в БД
       });
 
       const paymentResponse = await fetch(`/api/payment?${params}`);
