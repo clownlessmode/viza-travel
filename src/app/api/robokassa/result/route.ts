@@ -83,7 +83,7 @@ export async function POST(request: Request) {
 - Тип визы: ${updatedOrder.vizaType}
 - Доп. тип визы: ${updatedOrder.vizaTypeTwo || "Не указано"}
 - Количество человек: ${updatedOrder.peoples}
-- Гражданство: ${updatedOrder.citizenship}
+- Гражданство: ${getLabelByValues(updatedOrder.citizenship)?.country}
 - Цена первого этапа: ${updatedOrder.firstStepPrice} руб.
 - Контактный телефон: ${updatedOrder.phone}
 - Email: ${updatedOrder.email}

@@ -1,4 +1,4 @@
-// lib/robokassa.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createHash } from "crypto";
 import { URLSearchParams } from "url";
 
@@ -20,108 +20,54 @@ export class RobokassaService {
     this.isTest = config.isTest || false;
   }
 
-  private calculateSignature(...args: (string | number)[]): string {
-    const joined = args.map(String).join(":");
+  private calculateSignature(...args: string[]): string {
+    const joined = args.join(":");
     return createHash("md5").update(joined).digest("hex");
-  }
-
-  private formatReceipt(receipt: {
-    items: Array<{
-      sum: number;
-      name: string;
-      quantity: number;
-      payment_method: string;
-      payment_object: string;
-      tax: string;
-    }>;
-    email?: string;
-  }): Record<string, string> {
-    const receiptParams: Record<string, string> = {};
-
-    if (receipt.email) {
-      receiptParams["Receipt.Email"] = receipt.email;
-    }
-
-    receipt.items.forEach((item, index) => {
-      const prefix = `Receipt.Items[${index}]`;
-      receiptParams[`${prefix}.Name`] = item.name;
-      receiptParams[`${prefix}.Quantity`] = item.quantity.toString();
-      receiptParams[`${prefix}.Sum`] = item.sum.toString();
-      receiptParams[`${prefix}.PaymentMethod`] = item.payment_method;
-      receiptParams[`${prefix}.PaymentObject`] = item.payment_object;
-      receiptParams[`${prefix}.Tax`] = "none";
-    });
-
-    return receiptParams;
   }
 
   generatePaymentUrl(params: {
     outSum: number;
     invId: number;
     description: string;
-    userParameters?: Record<string, string>;
     email?: string;
-    // receipt?: {
-    //   items: Array<{
-    //     sum: number;
-    //     name: string;
-    //     quantity: number;
-    //     payment_method: string;
-    //     payment_object: string;
-    //     tax: string;
-    //   }>;
-    //   email?: string;
-    // };
+    receipt?: any;
     isTest?: boolean;
   }): string {
-    const {
-      outSum,
-      invId,
-      description,
-      userParameters = {},
-      // receipt,
-      email,
-      isTest,
-    } = params;
+    const { outSum, invId, description, email, receipt, isTest } = params;
+    const outSumFormatted = outSum.toFixed(2);
+    const invIdStr = invId.toString();
 
-    // Сортируем userParameters по алфавиту
-    const sortedUserParams = Object.keys(userParameters)
-      .sort()
-      .reduce(
-        (acc, key) => {
-          acc[key] = userParameters[key];
-          return acc;
-        },
-        {} as Record<string, string>
-      );
+    // Формируем части подписи
+    const signatureParts = [this.merchantLogin, outSumFormatted, invIdStr];
 
-    // Формируем параметры чека
-    // const receiptParams = receipt ? this.formatReceipt(receipt) : {};
+    // Если передается параметр Receipt, добавляем его в URL-кодированном виде
+    let encodedReceipt;
+    if (receipt) {
+      encodedReceipt = encodeURIComponent(JSON.stringify(receipt));
+      signatureParts.push(encodedReceipt);
+    }
 
-    // Формируем подпись
-    const signatureBase = [
-      this.merchantLogin,
-      outSum,
-      invId,
-      ...Object.entries(sortedUserParams).flat(),
-      // ...Object.entries(receiptParams).flat(),
-      this.password1,
-    ];
+    signatureParts.push(this.password1);
 
-    const signature = this.calculateSignature(...signatureBase);
+    const signature = this.calculateSignature(...signatureParts);
 
-    // Формируем URL
+    // Создаем параметры для URL
     const urlParams = new URLSearchParams({
       MerchantLogin: this.merchantLogin,
-      OutSum: outSum.toString(),
-      InvId: invId.toString(),
+      OutSum: outSumFormatted,
+      InvId: invIdStr,
       Description: description,
       SignatureValue: signature,
       IsTest: isTest || this.isTest ? "1" : "0",
-      ...(email && { Email: email }),
-      ...sortedUserParams,
-      // ...receiptParams,
     });
+
+    if (email) {
+      urlParams.append("Email", email);
+    }
+
+    if (receipt && encodedReceipt) {
+      urlParams.append("Receipt", encodedReceipt);
+    }
 
     return `https://auth.robokassa.ru/Merchant/Index.aspx?${urlParams.toString()}`;
   }
@@ -132,7 +78,7 @@ export class RobokassaService {
       if (!params[field]) return false;
     }
 
-    // Выделяем shp_ параметры и сортируем их
+    // Собираем SHP-параметры
     const shpParams = Object.keys(params)
       .filter((key) => key.toLowerCase().startsWith("shp_"))
       .sort()
@@ -144,14 +90,17 @@ export class RobokassaService {
         {} as Record<string, string>
       );
 
-    const signatureBase = [
-      params["OutSum"],
-      params["InvId"],
-      ...Object.entries(shpParams).flat(),
-      this.password2,
-    ];
+    // Формируем части подписи для проверки
+    const signatureParts = [params["OutSum"], params["InvId"], this.password2];
 
-    const expectedSignature = this.calculateSignature(...signatureBase);
+    // Добавляем SHP-параметры в порядке "ключ:значение"
+    Object.keys(shpParams)
+      .sort()
+      .forEach((key) => {
+        signatureParts.push(`${key}=${shpParams[key]}`);
+      });
+
+    const expectedSignature = this.calculateSignature(...signatureParts);
     return (
       params["SignatureValue"].toLowerCase() === expectedSignature.toLowerCase()
     );
@@ -162,5 +111,5 @@ export const robokassa = new RobokassaService({
   merchantLogin: process.env.ROBOKASSA_MERCHANT_LOGIN!,
   password1: process.env.ROBOKASSA_PASSWORD1!,
   password2: process.env.ROBOKASSA_PASSWORD2!,
-  isTest: true, // process.env.NODE_ENV === "development",
+  isTest: process.env.NODE_ENV === "development",
 });

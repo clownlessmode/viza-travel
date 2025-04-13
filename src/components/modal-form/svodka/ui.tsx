@@ -196,6 +196,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           invId,
           status: "Не оплачено",
           amount: sum,
+          
         }),
       });
 
