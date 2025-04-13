@@ -2,13 +2,16 @@
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Header from "@/components/blocks/header";
+import Footer from "@/components/blocks/footer";
 
 export default function SuccessPage() {
   const t = useTranslations("paymentPage");
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+    <div className="flex flex-col gap-[100px] md:gap-[150px] px-[10px] sm:px-[80px] pt-[14px] w-full h-full min-h-screen">
+      <Header />
+      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 mx-auto">
         <div className="flex justify-center mb-6">
           <div className="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center">
             <svg
@@ -72,6 +75,7 @@ export default function SuccessPage() {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
