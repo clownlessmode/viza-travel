@@ -25,12 +25,53 @@ export class RobokassaService {
     return createHash("md5").update(joined).digest("hex");
   }
 
+  private formatReceipt(receipt: {
+    items: Array<{
+      sum: number;
+      name: string;
+      quantity: number;
+      payment_method: string;
+      payment_object: string;
+      tax: string;
+    }>;
+    email?: string;
+  }): Record<string, string> {
+    const receiptParams: Record<string, string> = {};
+
+    if (receipt.email) {
+      receiptParams["Receipt.Email"] = receipt.email;
+    }
+
+    receipt.items.forEach((item, index) => {
+      const prefix = `Receipt.Items[${index}]`;
+      receiptParams[`${prefix}.Name`] = item.name;
+      receiptParams[`${prefix}.Quantity`] = item.quantity.toString();
+      receiptParams[`${prefix}.Sum`] = item.sum.toString();
+      receiptParams[`${prefix}.PaymentMethod`] = item.payment_method;
+      receiptParams[`${prefix}.PaymentObject`] = item.payment_object;
+      receiptParams[`${prefix}.Tax`] = "none";
+    });
+
+    return receiptParams;
+  }
+
   generatePaymentUrl(params: {
     outSum: number;
     invId: number;
     description: string;
     userParameters?: Record<string, string>;
     email?: string;
+    receipt?: {
+      items: Array<{
+        sum: number;
+        name: string;
+        quantity: number;
+        payment_method: string;
+        payment_object: string;
+        tax: string;
+      }>;
+      email?: string;
+    };
     isTest?: boolean;
   }): string {
     const {
@@ -38,6 +79,7 @@ export class RobokassaService {
       invId,
       description,
       userParameters = {},
+      receipt,
       email,
       isTest,
     } = params;
@@ -53,12 +95,16 @@ export class RobokassaService {
         {} as Record<string, string>
       );
 
+    // Формируем параметры чека
+    const receiptParams = receipt ? this.formatReceipt(receipt) : {};
+
     // Формируем подпись
     const signatureBase = [
       this.merchantLogin,
       outSum,
       invId,
       ...Object.entries(sortedUserParams).flat(),
+      ...Object.entries(receiptParams).flat(),
       this.password1,
     ];
 
@@ -74,6 +120,7 @@ export class RobokassaService {
       IsTest: isTest || this.isTest ? "1" : "0",
       ...(email && { Email: email }),
       ...sortedUserParams,
+      ...receiptParams,
     });
 
     return `https://auth.robokassa.ru/Merchant/Index.aspx?${urlParams.toString()}`;
