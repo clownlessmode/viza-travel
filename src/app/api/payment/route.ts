@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     invId,
     description,
     email,
-    // isTest: true,
+    isTest: true,
   });
 
   return NextResponse.json({ paymentUrl });

@@ -8,7 +8,7 @@ export const defaultValues: FormValues = {
   gender: "male",
   tourType: "Economy",
   passportNumber: "",
-  passportExpiryDate: "2000-01-01",
+  passportExpiryDate: "2030-01-01",
   entryDate: "2000-01-01",
   exitDate: "2000-01-01",
   citizenship: "",

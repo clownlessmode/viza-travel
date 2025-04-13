@@ -2,6 +2,7 @@
 // app/api/robokassa/result/route.ts
 import { robokassa } from "@/lib/robokassa";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -18,13 +19,33 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
     }
 
-    console.log("Payment successful:", {
-      invId: data.InvId,
-      amount: data.OutSum,
-      userId: data.shp_user_id,
+    const invId = data.InvId as string;
+    const amount = parseFloat(data.OutSum as string);
+
+    // Находим и обновляем заказ
+    const updatedOrder = await prisma.order.update({
+      where: { invId },
+      data: {
+        status: "Оплачено",
+        amount,
+        updatedAt: new Date(),
+      },
+      include: {
+        applicants: true,
+      },
     });
 
-    return new Response(`OK${data.InvId}`, {
+    console.log("Payment successful:", {
+      invId,
+      amount,
+      order: updatedOrder,
+    });
+
+    // Здесь можно добавить отправку уведомлений
+    // await sendNotification(updatedOrder);
+    // console.log()
+
+    return new Response(`OK${invId}`, {
       status: 200,
       headers: { "Content-Type": "text/plain" },
     });

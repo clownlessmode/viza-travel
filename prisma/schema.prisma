@@ -1,0 +1,51 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Order {
+  id             Int       @id @default(autoincrement())
+  invId          String    @unique
+  status         String    @default("Не оплачено")
+  amount         Float
+  citizenship    String
+  vizaType       String
+  peoples        String
+  firstStepPrice String
+  vizaTypeTwo    String
+  phone          String
+  email          String
+  preferredContact String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  applicants     Applicant[]
+}
+
+model Applicant {
+  id               Int      @id @default(autoincrement())
+  lastName         String
+  firstName        String
+  middleName       String?
+  birthDate        DateTime
+  gender           String
+  tourType         String
+  visaType         String
+  visaTypeTwo      String
+  passportNumber   String
+  passportExpiryDate DateTime
+  entryDate        DateTime
+  exitDate         DateTime
+  citizenship      String
+  tripPurpose      String
+  itinerary        String
+  additionalInfo   String?
+  visaTime         String
+  price            Float
+  orderId          Int
+  order            Order    @relation(fields: [orderId], references: [id])
+}

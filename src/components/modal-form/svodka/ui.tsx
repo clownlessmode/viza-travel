@@ -155,7 +155,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       email: thirdStepData.email,
       preferredContact: thirdStepData.preferredContact,
     };
-
+    console.log(datasss);
     // try {
     //   const response = await fetch("/api/send-form", {
     //     method: "POST",
@@ -173,27 +173,53 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     // } catch (error) {
     //   console.error("Ошибка сети:", error);
     // }
+    function generateInvId() {
+      return Math.floor(100000000 + Math.random() * 900000000).toString();
+    }
     try {
       const amount = String(sum);
+      const invId = generateInvId();
+
+      // 1. Сначала создаем заказ в БД
+      const orderResponse = await fetch("/api/orders/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...datasss, // Все данные формы
+          invId, // Уникальный ID заказа
+          status: "Не оплачено",
+          amount: sum, // Сумма к оплате
+        }),
+      });
+
+      if (!orderResponse.ok) {
+        throw new Error("Failed to create order");
+      }
+
+      const order = await orderResponse.json();
+
+      // 2. Только после успешного создания заказа инициируем платеж
       const params = new URLSearchParams({
         amount,
         description: "Оплата туристических услуг",
         email: email,
-        userId: "123", // Здесь должен быть реальный ID пользователя
+        userId: invId, // Используем invId как идентификатор пользователя
+        orderId: order.id, // ID заказа в БД
       });
 
-      const res = await fetch(`/api/payment?${params}`);
-      const data = await res.json();
+      const paymentResponse = await fetch(`/api/payment?${params}`);
+      const paymentData = await paymentResponse.json();
 
-      if (data.paymentUrl) {
-        window.location.href = data.paymentUrl;
+      if (paymentData.paymentUrl) {
+        window.location.href = paymentData.paymentUrl;
       } else {
         throw new Error("Payment URL not received");
       }
     } catch (error) {
       console.error("Payment error:", error);
       alert("Ошибка при создании платежа");
-    } finally {
     }
     onClose();
     form.reset();
