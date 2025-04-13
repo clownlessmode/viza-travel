@@ -10,7 +10,7 @@ datasource db {
 
 model Order {
   id             Int       @id @default(autoincrement())
-  invId          String    и@unique // Гарантируем уникальность
+  invId          String    @unique // Гарантируем уникальность
   status         String    @default("Не оплачено")
   amount         Float
   citizenship    String
