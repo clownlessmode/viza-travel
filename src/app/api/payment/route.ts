@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   }
 
   const paymentUrl = robokassa.generatePaymentUrl({
-    outSum: 2, //amount,
+    outSum: 1, //amount,
     invId,
     description,
     email,
