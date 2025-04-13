@@ -21,12 +21,11 @@ export async function GET(request: Request) {
     invId,
     description,
     email,
-    isTest: true,
     receipt: {
       items: [
         {
           sum: amount,
-          name: "Услуги по оформлению приглашения",
+          name: "Туристическая услуга",
           quantity: 1,
           payment_method: "full_payment",
           payment_object: "service",
