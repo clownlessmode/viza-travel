@@ -9,8 +9,8 @@ export async function GET(request: Request) {
 
   const description = searchParams.get("description") || "Payment";
   const email = searchParams.get("email") as string | undefined;
-  const invId = Number(searchParams.get("invId")) as number | 0;
-  // const userId = searchParams.get("userId") || "guest";
+  const invId = Number(searchParams.get("orderId"));
+  console.log(invId);
 
   if (!amount || isNaN(amount)) {
     return NextResponse.json({ error: "Invalid amount" }, { status: 400 });

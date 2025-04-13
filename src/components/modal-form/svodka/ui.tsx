@@ -201,6 +201,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
       }
 
       const order = await orderResponse.json();
+      console.log(order, "invId");
 
       // 2. Только после успешного создания заказа инициируем платеж
       const params = new URLSearchParams({
@@ -213,7 +214,7 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
 
       const paymentResponse = await fetch(`/api/payment?${params}`);
       const paymentData = await paymentResponse.json();
-
+      console.log(paymentData);
       if (paymentData.paymentUrl) {
         window.location.href = paymentData.paymentUrl;
       } else {
