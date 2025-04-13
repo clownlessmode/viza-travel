@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 
 import { cn } from "@/lib/utils";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
 import useIndexForm from "../indexStore";
 
@@ -46,6 +46,7 @@ import { toast } from "sonner";
 import { DATAVIZA } from "@/app/data";
 import { useVisitTypes } from "../second-step/ui";
 import { VisaApplicationEmailProps } from "@/components/blocks/templates";
+import Spinner from "@/components/ui/spinner";
 
 export interface VisaDataItem {
   id: number;
@@ -140,10 +141,12 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
   const getLabelByValue = (value: string) => {
     return tours.find((tour) => tour.value === value);
   };
+  const [isLoading, setIsLoading] = useState(false);
   const getLabelByValues = (value: string) => {
     return DATAVIZA.find((citizenship) => citizenship.id.toString() === value);
   };
   async function onSubmit(data: YGUYB) {
+    setIsLoading(true);
     // setThirdStepData({ ...values });
     const datasss: VisaApplicationEmailProps = {
       citizenship: firstStepData.citizenship,
@@ -223,10 +226,13 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
     } catch (error) {
       console.error("Payment error:", error);
       alert("Ошибка при создании платежа");
+    } finally {
+      setIsLoading(false);
     }
     onClose();
     form.reset();
     setIndex(0);
+    setIsLoading(false);
   }
 
   const form = useForm<YGUYB>({
@@ -563,9 +569,11 @@ const SVODKA: FC<{ onClose: () => void }> = ({ onClose }) => {
           <Button
             type="submit"
             className="mt-[48px] w-full"
-            disabled={!form.formState.isValid || !form.watch("checkbox1")}
+            disabled={
+              !form.formState.isValid || !form.watch("checkbox1") || isLoading
+            }
           >
-            {t("button")}
+            {isLoading ? <Spinner /> : t("button")}
           </Button>
         </form>
       </Form>
