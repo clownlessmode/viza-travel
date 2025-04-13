@@ -1,28 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// app/api/robokassa/result/route.ts
 import { robokassa } from "@/lib/robokassa";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+interface RobokassaCallbackData {
+  InvId: string;
+  OutSum: string;
+  SignatureValue?: string;
+  [key: string]: any;
+}
+
 export async function POST(request: Request) {
+  let callbackData: RobokassaCallbackData | null = null;
+
   try {
     const formData = await request.formData();
-    const data = Object.fromEntries(formData.entries());
+    callbackData = Object.fromEntries(
+      formData.entries()
+    ) as RobokassaCallbackData;
 
-    if (!robokassa.checkPayment(data as any)) {
+    // Валидация подписи
+    if (!robokassa.checkPayment(callbackData)) {
       console.error("Invalid signature received:", {
-        received: data.SignatureValue,
-        data: data,
+        received: callbackData.SignatureValue,
+        data: callbackData,
       });
       return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
     }
 
-    const invId = data.InvId as string;
-    const amount = parseFloat(data.OutSum as string);
+    const invId = callbackData.InvId;
+    const amount = parseFloat(callbackData.OutSum);
 
-    // Находим и обновляем заказ
+    // 1. Сначала проверяем существование заказа
+    const existingOrder = await prisma.order.findUnique({
+      where: { invId },
+    });
+
+    if (!existingOrder) {
+      console.error("Order not found for invId:", invId);
+      return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
+
+    // 2. Обновляем заказ
     const updatedOrder = await prisma.order.update({
       where: { invId },
       data: {
@@ -35,22 +56,24 @@ export async function POST(request: Request) {
       },
     });
 
-    console.log("Payment successful:", {
+    console.log("Payment successfully processed:", {
       invId,
       amount,
-      order: updatedOrder,
+      orderId: updatedOrder.id,
     });
 
     // Здесь можно добавить отправку уведомлений
-    // await sendNotification(updatedOrder);
-    // console.log()
+    // await sendPaymentNotification(updatedOrder);
 
     return new Response(`OK${invId}`, {
       status: 200,
       headers: { "Content-Type": "text/plain" },
     });
   } catch (error) {
-    console.error("Robokassa callback error:", error);
+    console.error("Robokassa callback processing failed:", {
+      error,
+      data: callbackData || {},
+    });
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
