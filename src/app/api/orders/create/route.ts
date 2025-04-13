@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       data: {
         invId: generateInvId(), // Генерация уникального ID
         status: "Не оплачено",
-        amount: 0, // Будет обновлено после оплаты
+        amount: orderData.amount, // Будет обновлено после оплаты
         citizenship: orderData.citizenship,
         vizaType: orderData.vizaType,
         peoples: orderData.peoples,
