@@ -159,6 +159,11 @@
     "adres": "العنوان القانوني: منطقة نيجني نوفغورود، M.O. Diveyevsky, v. Maevka, 14, Rodnikovaya str."
   },
   "tours": {
+    "noTour": {
+      "label": "بدون جولة",
+      "description": "الجولة غير مطلوبة",
+      "free": "مجانًا"
+    },
     "inc": "يشمل:",
     "msc": "موسكو",
     "Economy": {
@@ -247,6 +252,7 @@
     }
   },
   "touristForm": {
+    "required": "يجب اختيار جولة سياحية لبلدك",
     "noTour": {
       "label": "بدون جولة",
       "description": "الجولة غير مطلوبة"

@@ -4,7 +4,7 @@ import { addMonths, isBefore } from "date-fns";
 export const schema = z.object({
   lastName: z.string().min(1, "Обязательное поле"),
   firstName: z.string().min(1, "Обязательное поле"),
-  middleName: z.string().optional(),
+  middleName: z.string().min(1, "Обязательное поле"),
   birthDate: z.string().min(1, "Обязательное поле"),
   gender: z.enum(["male", "female"], {
     required_error: "Выберите пол",

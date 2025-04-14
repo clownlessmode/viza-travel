@@ -143,6 +143,80 @@ interface UseTotalVisaCostRubResult {
   isVip: boolean;
 }
 
+// export const useTotalVisaCostInRub = (
+//   data: VisaDataItem[],
+//   countryId: string | undefined,
+//   visaType: string | undefined,
+//   visaTime: string | undefined,
+//   peoples: string | undefined,
+//   selectedTourValue: string | undefined,
+//   tours: TourItem[],
+//   currencyRate: number = 1
+// ): UseTotalVisaCostRubResult => {
+//   return useMemo(() => {
+//     if (!countryId || !visaType || !visaTime) {
+//       return { total: null, isVip: false };
+//     }
+
+//     const visa = data.find(
+//       (item) =>
+//         item.id.toString() === countryId &&
+//         item.type === visaType &&
+//         item.time === visaTime
+//     );
+
+//     if (!visa) return { total: null, isVip: false };
+
+//     const numPeople = Number(peoples || 1);
+//     const visaCostUsd = parseFloat(visa.cost.replace("$", "").trim());
+//     if (isNaN(numPeople) || isNaN(visaCostUsd))
+//       return { total: null, isVip: false };
+
+//     const visaCostRubTotal = visaCostUsd * currencyRate * numPeople;
+
+//     let tourCostRub = 0;
+//     let isVip = false;
+
+//     const selectedTour = tours.find((t) => t.value === selectedTourValue);
+
+//     if (selectedTour?.value === "VIP") {
+//       isVip = true;
+//       const maxTour = tours
+//         .filter((t) => t.value !== "VIP")
+//         .map((t) => ({
+//           ...t,
+//           numPrice: parseFloat(t.price.replace("₽", "").replace(/\s/g, "")),
+//         }))
+//         .sort((a, b) => b.numPrice - a.numPrice)[0];
+
+//       if (maxTour) {
+//         tourCostRub = 0;
+//       }
+//     } else if (selectedTour && selectedTour.value !== "VIP") {
+//       tourCostRub = parseFloat(
+//         selectedTour.price.replace("₽", "").replace(/\s/g, "")
+//       );
+//     }
+
+//     const totalRub = visaCostRubTotal + tourCostRub * numPeople;
+
+//     const roundedTotal = totalRub; //Math.ceil(totalRub / 1000) * 1000;
+
+//     return {
+//       total: roundedTotal,
+//       isVip,
+//     };
+//   }, [
+//     data,
+//     countryId,
+//     visaType,
+//     visaTime,
+//     peoples,
+//     selectedTourValue,
+//     tours,
+//     currencyRate,
+//   ]);
+// };
 export const useTotalVisaCostInRub = (
   data: VisaDataItem[],
   countryId: string | undefined,
@@ -179,20 +253,11 @@ export const useTotalVisaCostInRub = (
 
     const selectedTour = tours.find((t) => t.value === selectedTourValue);
 
-    if (selectedTour?.value === "VIP") {
-      isVip = true;
-      const maxTour = tours
-        .filter((t) => t.value !== "VIP")
-        .map((t) => ({
-          ...t,
-          numPrice: parseFloat(t.price.replace("₽", "").replace(/\s/g, "")),
-        }))
-        .sort((a, b) => b.numPrice - a.numPrice)[0];
-
-      if (maxTour) {
-        tourCostRub = 0;
+    if (selectedTour) {
+      if (selectedTour.value === "VIP") {
+        isVip = true;
       }
-    } else if (selectedTour && selectedTour.value !== "VIP") {
+
       tourCostRub = parseFloat(
         selectedTour.price.replace("₽", "").replace(/\s/g, "")
       );
@@ -217,7 +282,6 @@ export const useTotalVisaCostInRub = (
     currencyRate,
   ]);
 };
-
 export const useTranslatedTours = () => {
   const t = useTranslations("tours");
 
@@ -263,7 +327,7 @@ export const useTranslatedTours = () => {
     {
       value: "VIP",
       label: t("VIP.label"),
-      price: t("VIP.price"),
+      price: "100 000 ₽",
       description: t("VIP.description"),
     },
   ];
@@ -340,30 +404,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             <div className="flex flex-row gap-1">
               <Button className="rounded-[8px]!" size={"sm"}>
                 {Number(total) - 0}
-                {/* (getLabelByValue(selectedTourValue)?.price ? Number(
-                getLabelByValue(selectedTourValue)?.price.replace( /\D/g, "" ) )
-                * Number(peoples) : 0) */}
-                {/* {isVip ? "₽ VIP" : "₽"} */}₽
-                {/* {selectedTourValue != "no-tour" && (
-                  <span className="opacity-50">
-                    +
-                    {getLabelByValue(selectedTourValue as string)?.price
-                      ? Number(
-                          getLabelByValue(
-                            selectedTourValue as string
-                          )?.price.replace(/\D/g, "")
-                        ) * Number(peoples)
-                      : 0}
-                    ₽
-                  </span>
-                )} */}
               </Button>
-              {/* {selectedTourValue != "no-tour" && (
-                <Button className="rounded-[8px]!">
-                  {t("firststep.st")}:{" "}
-                  {getLabelByValue(selectedTourValue)?.label}
-                </Button>
-              )} */}
             </div>
           </div>
         )}

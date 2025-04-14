@@ -11,6 +11,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -136,7 +137,7 @@ const SecondStep: FC = () => {
       behavior: "smooth",
     });
   };
-  const { total, isVip } = useTotalVisaCostInRub(
+  const { total } = useTotalVisaCostInRub(
     DATAVIZA,
     selectedCountryId,
     selectedVisaType,
@@ -229,7 +230,7 @@ const SecondStep: FC = () => {
                     )
                   : totalVisaPrice}
                 ₽{" "}
-                {selectedTour !== "no-tour" && isVip !== true && (
+                {selectedTour !== "no-tour" && (
                   <span className="opacity-50">
                     +
                     {getLabelByValue(selectedTour as string)?.price
@@ -339,9 +340,6 @@ const SecondStep: FC = () => {
             control={form.control}
             name="visaTypeTwo"
             render={({ field }) => (
-              // &&
-              //           selectedVisaType === x("15 дней - Однократная")) ||
-              //         selectedVisaType === x("30 дней - Однократная")
               <FormItem>
                 <FormLabel>*{y("firststep.form.visaTime")}</FormLabel>
                 <FormControl>
@@ -349,12 +347,6 @@ const SecondStep: FC = () => {
                     disabled={!form.watch("visaType")}
                     {...field}
                     issss
-                    // visaType={
-                    //   selectedVisaTime === x("15 дней - Однократная") ||
-                    //   selectedVisaTime === x("30 дней - Однократная")
-                    //     ? true
-                    //     : false
-                    // }
                     options={visaTimes}
                     placeholder={y("firststep.form.visaTimePlaceholder")}
                     searchPlaceholder={y("firststep.form.visaTimeSearch")}
@@ -444,7 +436,22 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>*{t("entryDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder={"----"} {...field} />
+                  <Input
+                    type="date"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      field.onChange(value);
+                      // Обновляем exitDate, если она меньше новой entryDate
+                      const currentExit = form.getValues("exitDate");
+                      if (
+                        !currentExit ||
+                        new Date(currentExit) < new Date(value)
+                      ) {
+                        form.setValue("exitDate", value);
+                      }
+                    }}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -457,7 +464,11 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>*{t("exitDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder={"----"} {...field} />
+                  <Input
+                    type="date"
+                    {...field}
+                    min={form.watch("entryDate") || ""}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -519,6 +530,28 @@ const SecondStep: FC = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>*{y("firststep.form.tourType")}</FormLabel>
+                {[
+                  "110",
+                  "112",
+                  "143",
+                  "145",
+                  "146",
+                  "187",
+                  "194",
+                  "53",
+                  "55",
+                  "57",
+                  "255",
+                  "191",
+                  "162",
+                  "75",
+                  "225",
+                  "158",
+                  "160",
+                  "236",
+                ].includes(selectedCountryId) && (
+                  <FormDescription>*{t("required")}</FormDescription>
+                )}
                 <FormControl>
                   <RadioCards
                     {...field}

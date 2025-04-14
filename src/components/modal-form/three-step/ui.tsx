@@ -7,6 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import {
   Form,
   FormControl,
@@ -29,7 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import useFirstStepStore from "../firstStepStore";
 import PolCards from "@/components/ui/pol-cards";
 import useThirdStepStore from "../thirdStepStore";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import useSecondStepStore from "../secondStepStore";
 
 export interface VisaDataItem {
@@ -56,7 +58,7 @@ const ThirdStep: FC = () => {
   console.log(data, "dataa");
   const t = useTranslations("contactForm");
   const sum = data.reduce((acc, num) => acc + num.price, 0);
-
+  const locale = useLocale();
   return (
     <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
       <DialogHeader>
@@ -106,13 +108,25 @@ const ThirdStep: FC = () => {
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-4">
                 <FormLabel>*{t("phone")}</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder={t("phonePlaceholder")}
-                    type="tel"
+                  <PhoneInput
+                    country={locale || "ru"}
+                    value={field.value}
+                    onChange={field.onChange}
+                    inputProps={{
+                      name: field.name,
+                      required: true,
+                      onBlur: field.onBlur,
+                    }}
+                    inputClass={cn(
+                      "file:text-foreground w-full! h-[52px]! sm: placeholder:text-black/30 text-[14px] selection:bg-primary selection:text-primary-foreground border-input flex w-full min-w-0 rounded-[8px] bg-[rgba(0,0,0,0.03)] px-[24px] py-[16px] sm:text-[18px] leading-[130%] text-base transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+                      "focus-visible:border-ring focus-visible:ring-primary/50 focus-visible:ring-[3px]",
+                      "aria-invalid:ring-destructive/20 aria-invalid:border-destructive"
+                    )}
+                    containerClass="w-full!"
+                    buttonClass="!bg-transparent" // чтобы убрать фон у флага
                   />
                 </FormControl>
               </FormItem>

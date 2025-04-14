@@ -161,6 +161,7 @@
   "tours": {
     "noTour": {
       "label": "No tour",
+      "free": "Free",
       "description": "Tour not needed"
     },
     "inc": "Included:",
@@ -251,6 +252,7 @@
     }
   },
   "touristForm": {
+    "required": "You must select a tour for your country",
     "trs": "Tourist",
     "st": "Tour",
     "back": "Back",

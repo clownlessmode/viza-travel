@@ -43,16 +43,16 @@ const RadioCards: FC<RadioCardsProps> = ({
     onValueChange?.(val); // вызвать родительскую смену значения
   };
   const finalOptions = [...options];
+
   if (!required) {
     finalOptions.unshift({
       value: "no-tour",
-      label: t("noTour.label") || "Без тура",
-      price: "Бесплатно",
-      description: t("noTour.description") || "Выберите, если не нужен тур",
+      label: t("noTour.label"),
+      price: t("noTour.free"),
+      description: t("noTour.description"),
     });
   }
 
-  
   return (
     <RadioGroup.Root
       disabled={disabled}

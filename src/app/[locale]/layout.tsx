@@ -79,8 +79,10 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={dir}>
       <body
         className={`${font.variable} ${subfont.variable} antialiased bg-[#F4F6FB]`}
       >

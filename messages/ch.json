@@ -161,7 +161,8 @@
   "tours": {
     "noTour": {
       "label": "无旅游团",
-      "description": "不需要旅游团"
+      "description": "不需要旅游团",
+      "free": "免费"
     },
     "inc": "包含：",
     "msc": "莫斯科",
@@ -252,6 +253,7 @@
   },
 
   "touristForm": {
+    "required": "您的国家必须选择一个旅游项目",
     "st": "遊覽",
     "trs": "觀光客",
     "back": "返回",
