@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-// ui.tsx
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
@@ -29,7 +28,6 @@ import H2FORM from "../h2";
 
 import { Separator } from "@/components/ui/separator";
 
-import useForm from "./hook";
 import useFirstStepStore from "../firstStepStore";
 import { Input } from "@/components/ui/input";
 import PolCards from "@/components/ui/pol-cards";
@@ -47,6 +45,7 @@ import useSecondStepStore from "../secondStepStore";
 import { useTranslations } from "next-intl";
 import RadioCards from "@/components/ui/radio-cards";
 import { NativeSelect } from "@/components/ui/native-select";
+import { useForm } from "react-hook-form";
 
 export const useVisitTypes = () => {
   const t = useTranslations("visitTypes");
@@ -61,61 +60,70 @@ export const useVisitTypes = () => {
     label: t(value) || value,
   }));
 };
+
 const SecondStep: FC = () => {
+  // Получаем текущую дату
+  const date = new Date();
+
+  // Функция для форматирования даты в YYYY-MM-DD
+  function formatDate(date: Date): string {
+    return date.toISOString().split("T")[0];
+  }
+
+  // Сегодняшняя дата
+  const today = formatDate(date);
+
+  // Дата через 6 месяцев
+  const newDate = new Date(date); // создаём копию оригинальной даты
+  newDate.setMonth(newDate.getMonth() + 6); // +6 месяцев
+  newDate.setDate(newDate.getDate() + 1); // +1 день
+  const sixMonthsLater = formatDate(newDate);
+
+  const { addSecondStepData, data } = useSecondStepStore();
+  const [peopleIndex, setPeopleIndex] = useState(0);
   const visitTypes = useVisitTypes();
 
-  const [peopleIndex, setPeopleIndex] = useState(0);
-  const form = useForm();
   const { index: currentIndex, setIndex } = useIndexForm();
   const countries = useUniqueCountries(DATAVIZA);
-  useEffect(() => {
-    form.setValue("citizenship", citizenship);
-    form.setValue("visaType", vizaType);
-    form.setValue("visaTypeTwo", vizaTypeTwo);
-  }, []);
-
   const { peoples, citizenship, vizaTypeTwo, vizaType } = useFirstStepStore();
-  const { addSecondStepData, data } = useSecondStepStore();
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
-  function onSubmit(values: FormValues) {
-    const isFinal = peopleIndex + 1 === Number(peoples);
+  // Create default values function to ensure consistent defaults
+  const getDefaultValues = () => ({
+    lastName: "",
+    firstName: "",
+    middleName: "",
+    birthDate: today,
+    gender: "male" as "male" | "female",
+    tourType: "Economy",
+    passportNumber: "",
+    passportExpiryDate: sixMonthsLater,
+    entryDate: today,
+    exitDate: today,
+    citizenship: citizenship,
+    tripPurpose: "",
+    itinerary: "",
+    additionalInfo: "",
+    visaType: vizaType,
+    visaTypeTwo: vizaTypeTwo,
+  });
 
-    if (!isFinal) {
-      addSecondStepData({
-        ...values,
+  // Initialize form with default values
+  const form = useForm<FormValues>({
+    defaultValues: getDefaultValues(),
+  });
 
-        visaType: selectedVisaType,
-        visaTime: selectedVisaTime,
-        price: Number(total),
-      });
-      form.reset();
-      setPeopleIndex((prev) => prev + 1);
-      form.setValue("citizenship", citizenship);
-      form.setValue("visaType", vizaType);
-      form.setValue("visaTypeTwo", vizaTypeTwo);
-      scrollToTop();
+  // Force a hard reset of the form when peopleIndex changes
+  useEffect(() => {
+    // Check if we have saved data for this traveler
+    if (data && data[peopleIndex]) {
+      // Use saved data
+      form.reset(data[peopleIndex]);
     } else {
-      addSecondStepData({
-        ...values,
-        visaType: selectedVisaType,
-        visaTime: selectedVisaTime,
-        price: Number(total),
-        // (getLabelByValue(selectedTour as string)?.price
-        //   ? Number(
-        //       getLabelByValue(selectedTour as string)?.price.replace(
-        //         /\D/g,
-        //         ""
-        //       )
-        //     )
-        //   : 0),
-      });
-      setIndex(currentIndex + 1);
-
-      scrollToTop();
+      // Use default values
+      form.reset(getDefaultValues());
     }
-  }
-  const y = useTranslations("extraform");
+  }, [peopleIndex]); // Only depend on peopleIndex to prevent unnecessary resets
 
   const tours = useTranslatedTours();
   const selectedCountryId = form.watch("citizenship");
@@ -129,7 +137,10 @@ const SecondStep: FC = () => {
   const getLabelByValue = (value: string) => {
     return tours.find((tour) => tour.value === value);
   };
+
   const t = useTranslations("touristForm");
+  const y = useTranslations("extraform");
+
   const scrollToTop = () => {
     const overlay = document.querySelector('[data-slot="dialog-overlay"]');
     overlay?.scrollTo({
@@ -137,6 +148,7 @@ const SecondStep: FC = () => {
       behavior: "smooth",
     });
   };
+
   const { total } = useTotalVisaCostInRub(
     DATAVIZA,
     selectedCountryId,
@@ -164,6 +176,39 @@ const SecondStep: FC = () => {
   );
   const totalVisaPrice = Number(peoples) * (pricePerPerson ?? 0);
 
+  function onSubmit(values: FormValues) {
+    const isFinal = peopleIndex + 1 === Number(peoples);
+
+    // Save data for current traveler
+    addSecondStepData(
+      {
+        ...values,
+        visaType: selectedVisaType,
+        visaTime: selectedVisaTime,
+        price: Number(total),
+      },
+      peopleIndex // Передаем текущий индекс для обновления
+    );
+
+    if (!isFinal) {
+      // Move to next traveler form
+      setPeopleIndex((prev) => prev + 1);
+      scrollToTop();
+
+      // Form reset will be handled by useEffect
+    } else {
+      // All travelers are done, move to next step
+      setIndex(currentIndex + 1);
+      scrollToTop();
+    }
+  }
+  const handleBack = () => {
+    if (peopleIndex > 0) {
+      setPeopleIndex((prev) => prev - 1);
+    } else {
+      setIndex(currentIndex - 1);
+    }
+  };
   return (
     <DialogContent
       className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]"
@@ -175,7 +220,7 @@ const SecondStep: FC = () => {
             className={cn(
               "sm:text-[24px] text-primary underline underline-offset-4 text-[18px]"
             )}
-            onClick={() => setIndex(0)}
+            onClick={() => handleBack()}
           >
             {t("back")}
           </button>
@@ -223,10 +268,10 @@ const SecondStep: FC = () => {
                         0
                       ) ?? 0) -
                     Number(
-                      getLabelByValue(selectedTour as string)?.price.replace(
+                      getLabelByValue(selectedTour as string)?.price?.replace(
                         /\D/g,
                         ""
-                      )
+                      ) || 0
                     )
                   : totalVisaPrice}
                 ₽{" "}
@@ -346,7 +391,6 @@ const SecondStep: FC = () => {
                   <Combobox
                     disabled={!form.watch("visaType")}
                     {...field}
-                    issss
                     options={visaTimes}
                     placeholder={y("firststep.form.visaTimePlaceholder")}
                     searchPlaceholder={y("firststep.form.visaTimeSearch")}
@@ -357,7 +401,7 @@ const SecondStep: FC = () => {
             )}
           />
 
-          <div className="flex sm:flex-row gap-2 w-full sm:justify-between sm:items-start">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between sm:items-start">
             <FormField
               control={form.control}
               name="birthDate"

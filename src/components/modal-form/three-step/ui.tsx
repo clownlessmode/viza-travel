@@ -19,7 +19,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import React, { FC } from "react";
-import useForm from "./hook";
+
 import { FormValues } from "./types";
 import useIndexForm from "../indexStore";
 
@@ -33,6 +33,7 @@ import PolCards from "@/components/ui/pol-cards";
 import useThirdStepStore from "../thirdStepStore";
 import { useLocale, useTranslations } from "next-intl";
 import useSecondStepStore from "../secondStepStore";
+import { useForm } from "react-hook-form";
 
 export interface VisaDataItem {
   id: number;
@@ -43,10 +44,17 @@ export interface VisaDataItem {
 }
 
 const ThirdStep: FC = () => {
-  const form = useForm();
+  const { setThirdStepData, ...third } = useThirdStepStore();
+
+  const form = useForm({
+    defaultValues: {
+      phone: third.phone || "",
+      email: third.email || "",
+      preferredContact: third.preferredContact || "telegram",
+    },
+  });
   const { index: currentIndex, setIndex } = useIndexForm();
   const { data } = useSecondStepStore();
-  const { setThirdStepData } = useThirdStepStore();
   const { firstStepPrice } = useFirstStepStore();
 
   function onSubmit(values: FormValues) {

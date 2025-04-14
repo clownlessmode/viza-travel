@@ -18,7 +18,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import React, { FC, useMemo } from "react";
-import useForm from "./hook";
+
 import { FormValues } from "./types";
 import useIndexForm from "../indexStore";
 
@@ -31,6 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import useFirstStepStore from "../firstStepStore";
 import { useTranslations } from "next-intl";
 import { NumberInputWithButtons } from "./Numeric";
+import { useForm } from "react-hook-form";
 
 export interface VisaDataItem {
   id: number;
@@ -333,11 +334,20 @@ export const useTranslatedTours = () => {
   ];
 };
 const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
-  const form = useForm();
+  const { setFirstStepData, ...firstStepDataaa } = useFirstStepStore();
+
+  const form = useForm({
+    defaultValues: {
+      citizenship: firstStepDataaa.citizenship || "",
+      vizaType: firstStepDataaa.vizaType || "",
+      vizaTypeTwo: firstStepDataaa.vizaTypeTwo || "",
+      peoples: firstStepDataaa.peoples || "1",
+      // tourType: "Standard",
+    },
+  });
   const tours = useTranslatedTours();
   const { index: currentIndex, setIndex } = useIndexForm();
   const countries = useUniqueCountries(DATAVIZA);
-  const { setFirstStepData } = useFirstStepStore();
 
   const selectedCountryId = form.watch("citizenship");
   const visaTypes = useVisaTypesByCountryId(DATAVIZA, selectedCountryId);

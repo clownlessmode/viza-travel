@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 
 // Типизация значений второго шага
@@ -24,7 +25,7 @@ export interface SecondStepData {
 // Типизация Zustand стора
 interface SecondStepStore {
   data: SecondStepData[];
-  addSecondStepData: (entry: SecondStepData) => void;
+  addSecondStepData: (entry: any, index: any) => void;
   updateSecondStepData: (
     index: number,
     updatedEntry: Partial<SecondStepData>
@@ -37,10 +38,17 @@ interface SecondStepStore {
 const useSecondStepStore = create<SecondStepStore>()((set) => ({
   data: [],
   // Добавить новый элемент
-  addSecondStepData: (entry) =>
-    set((state) => ({
-      data: [...state.data, entry],
-    })),
+  addSecondStepData: (entry, index) =>
+    set((state) => {
+      const newData = [...state.data];
+      // Проверяем, существует ли запись с текущим индексом
+      if (typeof index === "number" && newData[index]) {
+        newData[index] = entry; // Обновляем существующую запись
+      } else {
+        newData.push(entry); // Добавляем новую, если индекс не указан или не существует
+      }
+      return { data: newData };
+    }),
 
   // Обновить существующий элемент по индексу
   updateSecondStepData: (index, updatedEntry) =>
