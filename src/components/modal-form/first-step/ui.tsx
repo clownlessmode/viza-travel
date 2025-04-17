@@ -378,8 +378,6 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
     setIndex(1);
   }
   const t = useTranslations("extraform");
-  const x = useTranslations("visa.times");
-  const s = useTranslations("visa.types");
 
   return (
     <DialogContent className="max-w-[650px]! sm:px-[60px] sm:py-[44px] px-[28px]! py-[20px]! rounded-[24px] lg:rounded-[48px]">
@@ -413,7 +411,7 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
             </H2FORM>
             <div className="flex flex-row gap-1">
               <Button className="rounded-[8px]!" size={"sm"}>
-                {Number(total) - 0}
+                {Number(total) - 0} ₽
               </Button>
             </div>
           </div>
@@ -562,7 +560,12 @@ const FirstStep: FC<{ onClose: () => void }> = ({ onClose }) => {
           <Button
             type="submit"
             className="mt-[48px] w-full"
-            disabled={!form.formState.isValid}
+            disabled={
+              !form.formState.isValid ||
+              !form.getValues("citizenship") ||
+              !form.getValues("vizaType") ||
+              !form.getValues("vizaTypeTwo")
+            }
           >
             {t("firststep.form.next")}
           </Button>

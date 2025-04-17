@@ -89,6 +89,11 @@
   }
 }
 
+input[type="date"],
+input[type="time"] {
+  -webkit-appearance: none;
+}
+
 @layer utilities {
   .popover-content-width-full {
     width: var(--radix-popover-trigger-width);
