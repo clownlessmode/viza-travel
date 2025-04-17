@@ -99,7 +99,12 @@ const SecondStep: FC = () => {
     visaType: vizaType,
     visaTypeTwo: vizaTypeTwo,
   });
+  function formatDate(date: Date): string {
+    return date.toISOString().split("T")[0];
+  }
 
+  // Сегодняшняя дата
+  const today = formatDate(date);
   // Initialize form with default values
   const form = useForm<FormValues>({
     defaultValues: getDefaultValues(),
@@ -403,7 +408,7 @@ const SecondStep: FC = () => {
                   <FormControl>
                     <div className="flex flex-row gap-1 items-center">
                       <CalendarIcon className="size-6" />
-                      <Input type="date" placeholder={"----"} {...field} />
+                      <Input type="date" placeholder={today} {...field} />
                     </div>
                   </FormControl>
                 </FormItem>
@@ -456,7 +461,7 @@ const SecondStep: FC = () => {
                 <FormControl>
                   <div className="flex flex-row gap-1 items-center">
                     <CalendarIcon className="size-6" />
-                    <Input type="date" placeholder={"----"} {...field} />
+                    <Input type="date" placeholder={today} {...field} />
                   </div>
                 </FormControl>
 
@@ -482,6 +487,7 @@ const SecondStep: FC = () => {
                     <CalendarIcon className="size-6 " />
                     <Input
                       type="date"
+                      placeholder={today}
                       {...field}
                       onChange={(e) => {
                         const value = e.target.value;
@@ -513,6 +519,7 @@ const SecondStep: FC = () => {
                     <CalendarIcon className="size-6" />
                     <Input
                       type="date"
+                      placeholder={today}
                       {...field}
                       min={form.watch("entryDate") || ""}
                     />
