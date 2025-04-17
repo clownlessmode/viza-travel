@@ -63,9 +63,9 @@ export default function SuccessPage() {
             <span className="font-medium">{t("common.whatsapp")}</span> +7 (968)
             01 000-24
           </Link>
-          <Link href={"mailto:visarussia24@mail.ru"} className="text-sm">
+          <Link href={"mailto:support@visarussia24.ru"} className="text-sm">
             <br /> <span className="font-medium">{t("common.email")}</span>{" "}
-            visarussia24@mail.ru
+            support@visarussia24.ru
           </Link>
         </div>
 

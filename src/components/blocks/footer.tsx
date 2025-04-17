@@ -60,12 +60,12 @@ const Footer: FC = () => {
           </NavigationText>
           {/* <NavigationText>
             <Link href={"mailto:support@visarussia24.ru"}>
-              visarussia24@mail.ru - {t("supp")}
+              support@visarussia24.ru - {t("supp")}
             </Link>
           </NavigationText> */}
           <NavigationText>
-            <Link href={"mailto:visarussia24@mail.ru"}>
-              visarussia24@mail.ru - {t("appl")}, {t("supp")}
+            <Link href={"mailto:support@visarussia24.ru"}>
+              support@visarussia24.ru - {t("appl")}, {t("supp")}
             </Link>
           </NavigationText>
         </nav>
