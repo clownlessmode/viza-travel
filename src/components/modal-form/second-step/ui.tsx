@@ -642,7 +642,7 @@ const SecondStep: FC = () => {
           <Button
             type="submit"
             className="mt-[48px] w-full"
-            disabled={!form.formState.isValid || !form.formState.isDirty}
+            disabled={!form.formState.isValid}
           >
             {t("next")}
           </Button>

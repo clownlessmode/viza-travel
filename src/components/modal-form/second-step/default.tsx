@@ -16,7 +16,7 @@ const newDate = new Date(date); // создаём копию оригиналь�
 newDate.setMonth(newDate.getMonth() + 6); // +6 месяцев
 newDate.setDate(newDate.getDate() + 1); // +1 день
 
-const sixMonthsLater = formatDate(newDate);
+// const sixMonthsLater = formatDate(newDate);
 export const defaultValues: FormValues = {
   lastName: "",
   firstName: "",
@@ -25,9 +25,9 @@ export const defaultValues: FormValues = {
   gender: "male",
   tourType: "Economy",
   passportNumber: "",
-  passportExpiryDate: sixMonthsLater,
-  entryDate: today,
-  exitDate: today,
+  passportExpiryDate: "",
+  entryDate: "",
+  exitDate: "",
   citizenship: "",
   tripPurpose: "",
   itinerary: "",
