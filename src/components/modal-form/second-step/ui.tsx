@@ -46,6 +46,7 @@ import { useTranslations } from "next-intl";
 import RadioCards from "@/components/ui/radio-cards";
 import { NativeSelect } from "@/components/ui/native-select";
 import { useForm } from "react-hook-form";
+import { CalendarIcon } from "lucide-react";
 
 export const useVisitTypes = () => {
   const t = useTranslations("visitTypes");
@@ -229,7 +230,7 @@ const SecondStep: FC = () => {
               <div
                 key={index}
                 className={cn(
-                  "size-3 sm:size-4 rounded-full",
+                  "size-4 sm:size-4 rounded-full",
                   currentIndex === index ? "bg-primary" : "bg-black/10"
                 )}
               />
@@ -409,7 +410,10 @@ const SecondStep: FC = () => {
                 <FormItem className="w-full">
                   <FormLabel>*{t("birthDate")}</FormLabel>
                   <FormControl>
-                    <Input type="date" placeholder={"----"} {...field} />
+                    <div className="flex flex-row gap-1 items-center">
+                      <CalendarIcon className="size-6" />
+                      <Input type="date" placeholder={"----"} {...field} />
+                    </div>
                   </FormControl>
                 </FormItem>
               )}
@@ -459,7 +463,10 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>*{t("passportExpiryDate")}</FormLabel>
                 <FormControl>
-                  <Input type="date" placeholder={"----"} {...field} />
+                  <div className="flex flex-row gap-1 items-center">
+                    <CalendarIcon className="size-6" />
+                    <Input type="date" placeholder={"----"} {...field} />
+                  </div>
                 </FormControl>
 
                 {form.formState.errors.passportExpiryDate && (
@@ -480,22 +487,25 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>*{t("entryDate")}</FormLabel>
                 <FormControl>
-                  <Input
-                    type="date"
-                    {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      field.onChange(value);
-                      // Обновляем exitDate, если она меньше новой entryDate
-                      const currentExit = form.getValues("exitDate");
-                      if (
-                        !currentExit ||
-                        new Date(currentExit) < new Date(value)
-                      ) {
-                        form.setValue("exitDate", value);
-                      }
-                    }}
-                  />
+                  <div className="flex flex-row gap-1 items-center justify-between">
+                    <CalendarIcon className="size-6 " />
+                    <Input
+                      type="date"
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        field.onChange(value);
+                        // Обновляем exitDate, если она меньше новой entryDate
+                        const currentExit = form.getValues("exitDate");
+                        if (
+                          !currentExit ||
+                          new Date(currentExit) < new Date(value)
+                        ) {
+                          form.setValue("exitDate", value);
+                        }
+                      }}
+                    />
+                  </div>
                 </FormControl>
               </FormItem>
             )}
@@ -508,11 +518,14 @@ const SecondStep: FC = () => {
               <FormItem>
                 <FormLabel>*{t("exitDate")}</FormLabel>
                 <FormControl>
-                  <Input
-                    type="date"
-                    {...field}
-                    min={form.watch("entryDate") || ""}
-                  />
+                  <div className="flex flex-row gap-1">
+                    <CalendarIcon className="size-6" />
+                    <Input
+                      type="date"
+                      {...field}
+                      min={form.watch("entryDate") || ""}
+                    />
+                  </div>
                 </FormControl>
               </FormItem>
             )}
