@@ -66,19 +66,10 @@ const SecondStep: FC = () => {
   // Получаем текущую дату
   const date = new Date();
 
-  // Функция для форматирования даты в YYYY-MM-DD
-  function formatDate(date: Date): string {
-    return date.toISOString().split("T")[0];
-  }
-
-  // Сегодняшняя дата
-  const today = formatDate(date);
-
   // Дата через 6 месяцев
   const newDate = new Date(date); // создаём копию оригинальной даты
   newDate.setMonth(newDate.getMonth() + 6); // +6 месяцев
   newDate.setDate(newDate.getDate() + 1); // +1 день
-  const sixMonthsLater = formatDate(newDate);
 
   const { addSecondStepData, data } = useSecondStepStore();
   const [peopleIndex, setPeopleIndex] = useState(0);
@@ -94,13 +85,13 @@ const SecondStep: FC = () => {
     lastName: "",
     firstName: "",
     middleName: "",
-    birthDate: today,
+    birthDate: "",
     gender: "male" as "male" | "female",
     tourType: "Economy",
     passportNumber: "",
-    passportExpiryDate: sixMonthsLater,
-    entryDate: today,
-    exitDate: today,
+    passportExpiryDate: "",
+    entryDate: "",
+    exitDate: "",
     citizenship: citizenship,
     tripPurpose: "",
     itinerary: "",
