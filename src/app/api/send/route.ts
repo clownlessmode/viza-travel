@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     const { error } = await resend.emails.send({
       from: "applicans@visarussia24.ru",
-      to: "visarussia24@mail.ru",
+      to: "applicans@visarussia24.ru",
       subject: `Новая заявка на связь от ${name}`,
       react: ReadyTemplate({
         email,

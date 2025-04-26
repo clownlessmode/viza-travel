@@ -121,7 +121,7 @@ ${applicant.additionalInfo ? `- Доп. информация: ${applicant.additi
     // Отправляем текстовое письмо
     const { error } = await resend.emails.send({
       from: "applicans@visarussia24.ru",
-      to: "visarussia24@mail.ru",
+      to: "applicans@visarussia24.ru",
       subject: `Оплата заявки #${updatedOrder.id}`,
       text: emailText,
     });
