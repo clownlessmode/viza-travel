@@ -132,12 +132,58 @@ ${applicant.additionalInfo ? `- Доп. информация: ${applicant.additi
       console.log("Payment notification sent successfully");
     }
 
-    if (error) {
-      return NextResponse.json({ error }, { status: 400 });
-    }
+    // После отправки письма, перед финальным return
+    const url =
+      "https://visa24.bitrix24.ru/rest/11/zaodw2acnj0fiouv/crm.lead.add.json";
 
-    // Здесь можно добавить отправку уведомлений
-    // await sendPaymentNotification(updatedOrder);
+    for (const applicant of updatedOrder.applicants) {
+      // Собираем поля для одного лида
+      const data = {
+        FIELDS: {
+          NAME: applicant.firstName,
+          LAST_NAME: applicant.lastName,
+          SECOND_NAME: applicant.middleName || "",
+          PHONE: [{ VALUE: updatedOrder.phone }],
+          EMAIL: [{ VALUE: updatedOrder.email }],
+          UF_CRM_1746344772:
+            getLabelByValues(applicant.citizenship)?.country || "",
+          UF_CRM_1746344788: applicant.visaType,
+          UF_CRM_1746345055: applicant.visaTypeTwo || "",
+          BIRTHDATE: applicant.birthDate.toISOString().split("T")[0], // ГГГГ-ММ-ДД
+          UF_CRM_1746345277:
+            applicant.gender === "male" ? "Мужской" : "Женский",
+          UF_CRM_1746345319: applicant.passportNumber,
+          UF_CRM_1746345388: applicant.passportExpiryDate
+            .toISOString()
+            .split("T")[0],
+          UF_CRM_1746345449: applicant.entryDate.toISOString().split("T")[0],
+          UF_CRM_1746345510: applicant.exitDate.toISOString().split("T")[0],
+          UF_CRM_1746345542: applicant.tripPurpose,
+          UF_CRM_1746345609: applicant.itinerary,
+          COMMENTS: applicant.additionalInfo || "",
+          UF_CRM_1746345691: applicant.tourType,
+          F_CRM_1746345814: updatedOrder.preferredContact,
+        },
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        console.log(
+          `Bitrix24 lead created for applicant ${applicant.lastName}:`,
+          result
+        );
+      } catch (err) {
+        console.error(
+          `Error creating lead for applicant ${applicant.lastName}:`,
+          err
+        );
+      }
+    }
 
     return new Response(`OK${invId}`, {
       status: 200,
