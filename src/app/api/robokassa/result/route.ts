@@ -149,7 +149,7 @@ ${applicant.additionalInfo ? `- Доп. информация: ${applicant.additi
             getLabelByValues(applicant.citizenship)?.country || "",
           UF_CRM_1746344788: applicant.visaType,
           UF_CRM_1746345055: applicant.visaTypeTwo || "",
-          BIRTHDATE: applicant.birthDate.toISOString().split("T")[0], 
+          BIRTHDATE: applicant.birthDate.toISOString().split("T")[0],
           UF_CRM_1746345277:
             applicant.gender === "male" ? "Мужской" : "Женский",
           UF_CRM_1746345319: applicant.passportNumber,
@@ -162,7 +162,7 @@ ${applicant.additionalInfo ? `- Доп. информация: ${applicant.additi
           UF_CRM_1746345609: applicant.itinerary,
           COMMENTS: applicant.additionalInfo || "",
           UF_CRM_1746345691: applicant.tourType,
-          F_CRM_1746345814: updatedOrder.preferredContact,
+          UF_CRM_1746345814: updatedOrder.preferredContact,
         },
       };
 
