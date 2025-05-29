@@ -52,9 +52,18 @@ export function Combobox({
   issss = false,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
+  const [search, setSearch] = React.useState("");
+  const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const t = useTranslations("visa.types");
   const x = useTranslations("visa.times");
   const selectedLabel = options.find((option) => option.value === value)?.label;
+
+  // Скроллим к началу при изменении поиска
+  React.useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = 0;
+    }
+  }, [search]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -82,9 +91,14 @@ export function Combobox({
 
       <PopoverContent className="p-0 popover-content-width-full" align="start">
         <Command className="w-full">
-          <CommandInput className="w-full" placeholder={searchPlaceholder} />
-          <CommandList className="w-full">
-            <ScrollArea className="h-[300px]" type="auto">
+          <CommandInput
+            className="w-full"
+            placeholder={searchPlaceholder}
+            value={search}
+            onValueChange={setSearch}
+          />
+          <ScrollArea ref={scrollAreaRef} className="h-[300px]" type="auto">
+            <CommandList className="w-full">
               <CommandEmpty className="w-full">{emptyText}</CommandEmpty>
               <CommandGroup className="w-full">
                 {options.map((option) => (
@@ -141,8 +155,8 @@ export function Combobox({
                   </CommandItem>
                 ))}
               </CommandGroup>
-            </ScrollArea>
-          </CommandList>
+            </CommandList>
+          </ScrollArea>
         </Command>
       </PopoverContent>
     </Popover>
