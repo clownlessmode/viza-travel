@@ -75,6 +75,7 @@ const Footer: FC = () => {
           </NavigationText>
           <NavigationText>
             <Link href={"#"}>
+              ООО «ВИЗА24» <br />
               {t("ogrn")}: 1255200003145 <br /> {t("inn")}: 5254498269
               <br /> {t("reestr")}: <br />
               B031-00161-77/01942487

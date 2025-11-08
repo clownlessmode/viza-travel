@@ -7095,7 +7095,7 @@ export const DATAVIZA = [
     country: "Iraq",
     type: "Туристическая виза",
     time: "15 дней - Однократная",
-    cost: "5700$",
+    cost: "71000$", //"5700$",
   },
   {
     id: 146,
@@ -7109,7 +7109,7 @@ export const DATAVIZA = [
     country: "Iraq",
     type: "Туристическая виза",
     time: "30 дней - Однократная",
-    cost: "6300$",
+    cost: "79000$",
   },
   {
     id: 23,
